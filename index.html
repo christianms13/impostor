@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPOSTOR: PROTOCOL</title>
+    <title>🎀 Impostor Coquette</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
+        /* --- ESTÉTICA COQUETTE DARK --- */
         :root {
-            --bg-color: #0a0a0a;
-            --card-bg: #111;
-            --neon-green: #0f0;
-            --neon-red: #f00;
-            --neon-blue: #00f3ff;
-            --text-main: #eee;
-            --dim-text: #666;
-            --border-color: #333;
+            --bg-color: #16080d; /* Negro rojizo muy oscuro */
+            --card-bg: #241218;
+            --pink-soft: #ffc2d1;
+            --pink-hot: #ff8fab;
+            --pearl: #fff0f3;
+            --text-main: #ffe5ec;
+            --danger: #ff4d6d;
+            --font-main: 'Georgia', 'Times New Roman', serif;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: var(--font-main);
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -30,84 +31,102 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* EFECTO CRT / SCANLINES */
-        body::after {
-            content: " ";
-            display: block;
+        /* FONDO DE EMOJIS SUTIL */
+        body::before {
+            content: "🎀 🦢 🩰 💄 🕯️ 🍒 🧸 🧁";
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
+            top: 0; left: 0; right: 0; bottom: 0;
+            font-size: 2rem;
+            opacity: 0.03; /* Muy sutil */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 40px;
+            z-index: -1;
             pointer-events: none;
+            letter-spacing: 30px;
+            line-height: 3;
         }
 
         h1 {
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            border-bottom: 2px solid var(--neon-red);
-            padding-bottom: 10px;
-            text-shadow: 2px 2px 0px var(--neon-red);
+            color: var(--pink-soft);
+            font-style: italic;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 194, 209, 0.3);
         }
+        
+        .tagline { font-size: 0.8rem; color: var(--pink-hot); opacity: 0.8; margin-bottom: 20px; }
 
         .container {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
+            border: 1px solid rgba(255, 194, 209, 0.2);
+            padding: 2.5rem;
+            border-radius: 25px; /* Bordes muy redondos */
             max-width: 500px;
             width: 100%;
-            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            z-index: 1;
+            backdrop-filter: blur(5px);
         }
 
-        /* Decoración esquinas */
-        .container::before {
-            content: ''; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
-            border-top: 2px solid var(--neon-green); border-left: 2px solid var(--neon-green);
-        }
+        /* Decoración lazo */
         .container::after {
-            content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px;
-            border-bottom: 2px solid var(--neon-green); border-right: 2px solid var(--neon-green);
+            content: '🎀';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            text-shadow: 0 5px 10px rgba(0,0,0,0.5);
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #000;
-            border: 1px solid var(--dim-text);
-            color: var(--neon-green);
+            padding: 15px;
+            margin: 12px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--pink-hot);
+            border-radius: 15px;
+            color: var(--pearl);
             font-family: inherit;
             font-size: 1rem;
             outline: none;
+            text-align: center;
+            transition: 0.3s;
         }
-        input:focus { border-color: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
+        input:focus { border-color: var(--pearl); box-shadow: 0 0 15px rgba(255, 143, 171, 0.3); }
 
         button {
             width: 100%;
             padding: 15px;
             margin-top: 15px;
-            background: transparent;
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
+            background: linear-gradient(45deg, var(--pink-hot), #ffb3c6);
+            border: none;
+            border-radius: 20px;
+            color: #4a0a1d;
             font-weight: bold;
             cursor: pointer;
             font-family: inherit;
-            text-transform: uppercase;
-            transition: 0.2s;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 143, 171, 0.3);
         }
-        button:hover { background: var(--neon-green); color: black; box-shadow: 0 0 15px var(--neon-green); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 143, 171, 0.5); filter: brightness(1.1); }
         
-        button.secondary { border-color: var(--dim-text); color: var(--dim-text); }
-        button.secondary:hover { background: var(--dim-text); color: white; box-shadow: none; }
+        button.secondary { 
+            background: transparent; 
+            border: 1px solid var(--pink-soft); 
+            color: var(--pink-soft); 
+            box-shadow: none;
+        }
+        button.secondary:hover { background: rgba(255, 194, 209, 0.1); color: white; }
 
-        button.danger { border-color: var(--neon-red); color: var(--neon-red); }
-        button.danger:hover { background: var(--neon-red); color: white; box-shadow: 0 0 15px var(--neon-red); }
+        button.danger { background: linear-gradient(45deg, #d90429, #ff4d6d); color: white; }
 
         .hidden { display: none !important; }
 
@@ -115,139 +134,163 @@
         .player-list, .turn-order-list { list-style: none; padding: 0; text-align: left; }
         
         .player-list li {
-            border-bottom: 1px solid #222; padding: 8px 0;
-            display: flex; justify-content: space-between;
+            border-bottom: 1px dashed var(--pink-hot); 
+            padding: 12px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            color: var(--pearl);
         }
 
-        .turn-order-list { margin-top: 10px; border: 1px solid #222; padding: 10px; }
-        .turn-order-list li { padding: 5px; font-size: 0.9rem; color: #888; }
+        .turn-order-list { margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
+        .turn-order-list li { padding: 8px; font-size: 0.95rem; color: #ccaadd; border-bottom: 1px dotted #444; }
+        .turn-order-list li:last-child { border-bottom: none; }
         .turn-order-list li:first-child { 
-            color: var(--neon-green); 
+            color: var(--pink-soft); 
             font-weight: bold; 
-            font-size: 1.1rem;
-            text-shadow: 0 0 5px var(--neon-green);
+            font-style: italic;
         }
-        .turn-order-list li:first-child::after { content: " < ESTE EMPIEZA"; font-size: 0.7rem; }
+        .turn-order-list li:first-child::after { content: " ✨ (Empieza)"; font-size: 0.8rem; }
 
-        /* ELEMENTOS DE JUEGO */
-        .role-reveal { font-size: 1.5rem; margin: 10px 0; font-weight: bold; }
+        /* JUEGO */
+        .role-title { font-size: 1.2rem; color: var(--pink-soft); margin-bottom: 5px; }
+        
         .secret-word {
-            font-size: 2rem; color: var(--neon-blue); text-transform: uppercase;
-            border: 1px dashed var(--neon-blue); padding: 15px; margin: 15px 0;
-            text-shadow: 0 0 10px var(--neon-blue);
+            font-size: 2.2rem; color: var(--pearl); 
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--pink-hot);
+            border-radius: 15px;
+            padding: 20px; margin: 15px 0;
+            text-shadow: 0 0 15px var(--pink-hot);
             word-break: break-word;
         }
-        
-        .impostor-text { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); animation: pulse 1.5s infinite; }
-        
-        @keyframes pulse { 0% {opacity: 0.7;} 50% {opacity: 1;} 100% {opacity: 0.7;} }
 
-        .tag { font-size: 0.6rem; background: #222; padding: 2px 4px; margin-left: 5px; color: #aaa; }
-        
-        .status-bar {
-            font-size: 0.8rem; color: var(--dim-text); margin-bottom: 10px; 
-            display: flex; align-items: center; gap: 5px;
+        .word-description {
+            font-size: 0.9rem;
+            color: #e0c3fc;
+            font-style: italic;
+            line-height: 1.4;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
         }
-        .status-dot { width: 8px; height: 8px; background: #333; border-radius: 50%; }
-        .status-dot.active { background: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
+        
+        .impostor-text { 
+            color: var(--danger); 
+            font-size: 2.5rem; 
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.6); 
+            letter-spacing: 5px;
+            margin: 20px 0;
+        }
+        
+        .kick-btn {
+            width: auto; padding: 5px 12px; margin: 0 0 0 10px;
+            font-size: 0.7rem; background: transparent; border: 1px solid var(--danger); color: var(--danger);
+            border-radius: 10px;
+        }
+        .kick-btn:hover { background: var(--danger); color: white; }
+
+        #roomIdDisplay { 
+            font-family: monospace; letter-spacing: 2px; font-weight: bold; color: var(--pink-soft);
+            cursor: pointer; border-style: dashed;
+        }
 
     </style>
 </head>
 <body>
 
-    <h1>IMPOSTOR_PRO</h1>
-    <div class="status-bar">
-        <div id="statusDot" class="status-dot"></div>
-        <span id="statusMsg">OFFLINE</span>
-    </div>
+    <h1>The Impostor</h1>
+    <div class="tagline">✨ Coquette Edition ✨</div>
+    <div id="statusMsg" style="font-size: 0.8rem; color: #aaa; min-height: 1rem; margin-bottom: 10px;"></div>
 
     <div id="screen-menu" class="container">
-        <p style="font-size: 0.8rem; color: var(--neon-green);">>> LOGIN REQUIRED</p>
-        <input type="text" id="myUsername" placeholder="USER_ID (NOMBRE)" maxlength="12">
-        <button onclick="createGame()">INITIALIZE SERVER (CREAR)</button>
-        <div style="margin: 10px 0; border-top: 1px solid #222;"></div>
-        <input type="text" id="joinInput" placeholder="SERVER_CODE (CÓDIGO)">
-        <button class="secondary" onclick="joinGame()">CONNECT (UNIRSE)</button>
+        <p style="text-align: center; color: var(--pearl);">¿Quién eres hoy?</p>
+        <input type="text" id="myUsername" placeholder="Tu nombre lindo..." maxlength="12">
+        <button onclick="createGame()">Crear Sala ✨</button>
+        <div style="margin: 20px 0; display: flex; align-items: center; color: #555;">
+            <hr style="flex:1; border-color: #442;"> <span style="padding:0 10px;">o</span> <hr style="flex:1; border-color: #442;">
+        </div>
+        <input type="text" id="joinInput" placeholder="Pegar código de sala">
+        <button class="secondary" onclick="joinGame()">Unirse a una sala 🦢</button>
     </div>
 
     <div id="screen-lobby" class="container hidden">
-        <p style="color: var(--dim-text); font-size: 0.8rem;">>> WAITING ROOM</p>
+        <h2>Sala de Espera 🧸</h2>
+        <p style="font-size: 0.8rem; color: #bbb;">Toca el código para copiarlo:</p>
         
-        <div style="background: #000; padding: 10px; border: 1px solid #333; margin-bottom: 15px;">
-            <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()" 
-                   style="border:none; margin:0; padding:0; text-align:center; font-weight:bold; letter-spacing: 2px; cursor: pointer;">
-            <div style="text-align:center; font-size:0.6rem; color:#555; margin-top:5px;">CLICK TO COPY PROTOCOL ID</div>
-        </div>
+        <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()">
 
-        <h3>CONNECTED UNITS (<span id="playerCount">0</span>)</h3>
+        <h3 style="margin-top: 20px; border-bottom: 1px solid #442; padding-bottom: 5px;">Amigas conectadas (<span id="playerCount">0</span>)</h3>
         <ul id="lobbyList" class="player-list"></ul>
 
-        <div id="hostControls" class="hidden" style="margin-top: 20px;">
-            <div style="margin-bottom: 15px; font-size: 0.75rem; color: #666; border-left: 2px solid var(--neon-blue); padding-left: 10px;">
-                INFO: Se descargarán datos de la Red Global (Wikipedia).
-                <br>Filtro inteligente activado: Solo conceptos reconocibles.
+        <div id="hostControls" class="hidden" style="margin-top: 25px;">
+            <div style="background: rgba(255, 194, 209, 0.05); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #d8bfd8; margin-bottom: 15px;">
+                ℹ️ <b>Modo Infinito:</b> Las palabras vendrán de Wikipedia con una pequeña descripción para ayudar.
             </div>
-            <button onclick="startGame()" id="btnStart">>> EXECUTE GAME</button>
+            <button onclick="startGame()" id="btnStart">✨ Empezar Partida ✨</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--neon-green); animation: blink 1s infinite;">WAITING FOR HOST COMMAND...</p>
+            <p style="color: var(--pink-soft); animation: pulse 2s infinite;">Esperando a la anfitriona... 🎀</p>
         </div>
     </div>
 
     <div id="screen-game" class="container hidden">
         <div class="role-card">
-            <p style="color:#666; font-size: 0.8rem;">>> IDENTITY ASSIGNED</p>
-            <div id="roleDisplay" class="role-reveal">...</div>
+            <p class="role-title">Tu identidad secreta es:</p>
+            <h3 id="roleDisplay" style="font-size: 1.5rem; margin: 5px 0;">...</h3>
             
             <div id="wordContainer">
-                <hr style="border-color: #222; margin: 15px 0;">
-                <p style="font-size:0.8rem; color: var(--dim-text);">TARGET DATA:</p>
+                <hr style="border-color: #442; margin: 20px 0; opacity: 0.5;">
+                <p style="font-size:0.8rem; color: #bbb;">LA PALABRA ES:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                <p style="font-size:0.6rem; color: #444;">SOURCE: GLOBAL WIKI NETWORK</p>
+                
+                <div id="secretDescDisplay" class="word-description">Cargando definición...</div>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <hr style="border-color: #222; margin: 15px 0;">
-                <p class="impostor-text" style="font-size: 2rem; font-weight: bold;">IMPOSTOR</p>
-                <p style="color: #888; font-size: 0.9rem;">NO DATA AVAILABLE.<br>BLEND IN. DECEIVE.</p>
+                <hr style="border-color: #442; margin: 20px 0; opacity: 0.5;">
+                <div class="impostor-text">IMPOSTOR</div>
+                <p style="color: var(--pearl);">Shhh... 🤫<br>No sabes la palabra.<br>Finge hasta el final.</p>
             </div>
 
-            <hr style="border-color: #222; margin: 20px 0;">
-            
-            <p style="font-size: 0.8rem; color: var(--neon-green);">>> EXECUTION ORDER:</p>
-            <ol id="turnOrderList" class="turn-order-list">
-                </ol>
+            <div style="margin-top: 30px;">
+                <p style="font-size: 0.9rem; color: var(--pink-soft); text-align: left;">🩰 Orden de turnos:</p>
+                <ol id="turnOrderList" class="turn-order-list"></ol>
+            </div>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">TERMINATE ROUND</button>
+            <button class="danger" onclick="revealGame()">💔 Terminar y Revelar</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#444; font-size: 0.8rem;">SESSION IN PROGRESS...</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#888; font-size: 0.8rem;">La partida está en curso...</p>
     </div>
 
     <div id="screen-result" class="container hidden">
-        <h2 style="color: var(--text-main);">SESSION REPORT</h2>
+        <h2 style="color: var(--pearl);">Resultados</h2>
         
-        <p style="color:#666; font-size: 0.8rem;">TARGET WAS:</p>
-        <div id="finalWord" style="font-size: 1.5rem; color: var(--neon-blue); margin-bottom: 20px;"></div>
+        <p style="color:#aaa; font-size: 0.9rem;">La palabra era:</p>
+        <div id="finalWord" style="font-size: 1.8rem; color: var(--pink-hot); margin-bottom: 5px; font-weight: bold;"></div>
+        <p id="finalDesc" style="font-size: 0.8rem; color: #aaa; font-style: italic; margin-bottom: 20px;"></p>
         
-        <p style="color:#666; font-size: 0.8rem;">IMPOSTOR IDENTITY:</p>
-        <h3 id="finalImpostor" class="impostor-text" style="font-size: 1.8rem;"></h3>
+        <hr style="border-color: #333;">
+
+        <p style="color:#aaa; font-size: 0.9rem;">El impostor era:</p>
+        <h3 id="finalImpostor" style="font-size: 2rem; color: var(--danger); margin-top: 5px;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">RETURN TO LOBBY</button>
+            <button onclick="returnToLobby()">🔄 Volver al Lobby</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color:#444;">AWAITING HOST RESET...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color:#666;">Esperando al Host...</p>
     </div>
 
     <script>
-        // --- LOGICA DE CONEXIÓN ---
+        // --- LÓGICA DE CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
         let myName = "";
-        let players = []; // {id, name, isHost}
-        let gameState = {}; // {word, impostorName, order}
+        let players = []; 
+        let gameState = {}; 
         
         const screens = ['menu', 'lobby', 'game', 'result'];
 
@@ -256,59 +299,59 @@
             document.getElementById(`screen-${name}`).classList.remove('hidden');
         }
 
-        function updateStatus(msg, active = false) { 
-            document.getElementById('statusMsg').innerText = msg; 
-            const dot = document.getElementById('statusDot');
-            if(active) dot.classList.add('active'); else dot.classList.remove('active');
-        }
+        function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
 
-        // --- CEREBRO: FILTRO WIKIPEDIA INTELIGENTE ---
+        // --- CEREBRO MEJORADO: WIKIPEDIA + DESCRIPCIONES ---
         async function fetchSmartWord() {
-            // Pedimos el máximo (50) para tener donde elegir
-            const url = "https://es.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=50&format=json&origin=*";
+            // Usamos generator=random para obtener páginas Y prop=extracts para sacar el resumen
+            // limit=10 para no saturar, pero pedimos intros
+            const url = "https://es.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnlimit=15&prop=extracts&exintro&explaintext&exchars=200&format=json&origin=*";
             
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                const rawPages = data.query.random;
+                const pages = data.query.pages;
+                const pageValues = Object.values(pages);
 
-                // FILTRO "ANTI-RAROS"
-                let validPages = rawPages.filter(p => {
+                // FILTRO AVANZADO:
+                // 1. Debe tener extracto (descripción).
+                // 2. El título no debe ser "raro" (sin paréntesis, dos puntos, números solos).
+                // 3. La descripción no debe ser vacía ni decir "se refiere a".
+                
+                let validPages = pageValues.filter(p => {
                     const t = p.title;
-                    
-                    // 1. Rechazar paréntesis (desambiguaciones raras)
-                    if (t.includes("(") || t.includes(")")) return false;
-                    
-                    // 2. Rechazar estructuras de sistema
-                    if (t.includes(":") || t.includes("Anexo")) return false;
+                    const desc = p.extract;
 
-                    // 3. Rechazar títulos numéricos (años, coordenadas)
-                    if (/^\d+$/.test(t)) return false;
+                    if (!desc || desc.length < 15) return false; // Sin descripción útil
+                    if (t.includes("(") || t.includes(":")) return false; // Títulos técnicos
+                    if (/^\d+$/.test(t)) return false; // Años
+                    if (t.startsWith("Anexo")) return false; 
+                    if (desc.includes("puede referirse a")) return false; // Desambiguación
 
                     return true;
                 });
 
-                if (validPages.length === 0) validPages = rawPages; // Fallback
+                if (validPages.length === 0) validPages = pageValues; // Fallback pánico
 
-                // HEURÍSTICA: Títulos cortos = Conceptos más comunes
-                // Ordenamos por longitud.
-                // Ej: "Cuchara" (7 letras) vs "Tratado de Viena de 1812" (20+ letras)
+                // ORDENAR POR LONGITUD DE TÍTULO (Más corto = Más común generalmente)
                 validPages.sort((a, b) => a.title.length - b.title.length);
 
-                // Cogemos uno de los 5 más cortos al azar para mantener variedad
-                const topPicks = validPages.slice(0, 8); 
+                // Elegir uno de los mejores 5
+                const topPicks = validPages.slice(0, 5); 
                 const winner = topPicks[Math.floor(Math.random() * topPicks.length)];
 
-                return winner.title;
+                // Limpiar la descripción un poco (quitar saltos de línea)
+                let cleanDesc = winner.extract.replace(/\n/g, " ").substring(0, 180);
+                if(winner.extract.length > 180) cleanDesc += "...";
+
+                return { title: winner.title, desc: cleanDesc };
 
             } catch (e) {
-                console.error("Error Wikipedia:", e);
-                const fallback = ["Internet", "Error 404", "Inteligencia Artificial", "Matrix", "El Sistema"];
-                return fallback[Math.floor(Math.random() * fallback.length)];
+                console.error("Wiki Error:", e);
+                return { title: "Amor", desc: "Sentimiento de vivo afecto e inclinación hacia una persona o cosa." };
             }
         }
 
-        // --- UTILIDADES ---
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -319,14 +362,14 @@
 
         // --- FUNCIONES PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Unknown_User";
+            myName = document.getElementById('myUsername').value.trim() || "Cinnamon Roll";
             isHost = true;
-            updateStatus("INITIALIZING...", true);
+            updateStatus("Creando salita... 🎀");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
                 document.getElementById('roomIdDisplay').value = id;
-                updateStatus("HOST ONLINE", true);
+                updateStatus("");
                 players = [{ id: id, name: myName, isHost: true }];
                 updateLobbyUI();
                 showScreen('lobby');
@@ -334,9 +377,7 @@
             });
 
             peer.on('connection', (c) => {
-                c.on('open', () => {
-                    c.on('data', (d) => handleDataHost(d, c));
-                });
+                c.on('open', () => { c.on('data', (d) => handleDataHost(d, c)); });
                 c.on('close', () => {
                     players = players.filter(p => p.id !== c.peer);
                     connections = connections.filter(con => con.peer !== c.peer);
@@ -346,28 +387,28 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Unknown_User";
+            myName = document.getElementById('myUsername').value.trim() || "Baby Angel";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("NO CODE PROVIDED");
+            if (!roomId) return alert("¡Ups! Falta el código 🥺");
             
             isHost = false;
-            updateStatus("CONNECTING...", true);
+            updateStatus("Buscando... 🦢");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("CONNECTED TO HOST", true);
+                    updateStatus("¡Conectada! ✨");
                     conn.send({ type: 'JOIN', name: myName, id: id });
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("CONNECTION LOST"); location.reload(); });
+                conn.on('close', () => { alert("La sala se cerró 💔"); location.reload(); });
             });
-            peer.on('error', () => alert("CONNECTION FAILED. CHECK CODE."));
+            peer.on('error', () => alert("No encuentro esa sala 🥺"));
         }
 
-        // --- MANEJO DATOS ---
+        // --- DATA HANDLING ---
         function handleDataHost(data, connSource) {
             if (data.type === 'JOIN') {
                 if (!players.find(p => p.id === data.id)) {
@@ -387,8 +428,8 @@
                 document.getElementById('hostControls').classList.add('hidden');
                 document.getElementById('clientWaiting').classList.remove('hidden');
             }
-            if (data.type === 'START') setupGame(data.word, data.impostor, data.order);
-            if (data.type === 'REVEAL') showResult(data.word, data.impostorName);
+            if (data.type === 'START') setupGame(data.wordData, data.impostor, data.order);
+            if (data.type === 'REVEAL') showResult(data.wordData, data.impostorName);
             if (data.type === 'RESET') showScreen('lobby');
         }
 
@@ -400,61 +441,59 @@
             connections.forEach(c => c.send(msg));
         }
 
-        // --- LÓGICA JUEGO ---
+        // --- GAME LOGIC ---
         async function startGame() {
-            if (players.length < 3 && !confirm("Low player count. Continue?")) return;
+            if (players.length < 3 && !confirm("Son poquitos (menos de 3). ¿Jugamos igual? 🥺")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "FETCHING DATA...";
+            btn.innerText = "Eligiendo palabra mágica... ✨";
             btn.disabled = true;
 
-            // 1. Obtener palabra filtrada
-            const word = await fetchSmartWord();
+            // 1. Obtener palabra + descripción
+            const wordData = await fetchSmartWord(); // Retorna {title, desc}
             
-            // 2. Elegir impostor
             const impostor = players[Math.floor(Math.random() * players.length)];
             
-            // 3. CREAR ORDEN DE TURNOS (Barajar copia de jugadores)
-            let turnOrder = [...players]; // Copia
-            turnOrder = shuffleArray(turnOrder).map(p => p.name); // Barajamos y solo nos quedamos nombres
+            // Orden aleatorio
+            let turnOrder = [...players];
+            turnOrder = shuffleArray(turnOrder).map(p => p.name);
 
-            // Guardar estado Host
-            gameState = { word: word, impostorName: impostor.name, order: turnOrder };
+            gameState = { wordData: wordData, impostorName: impostor.name };
             
             const msg = { 
                 type: 'START', 
-                word: word, 
+                wordData: wordData, 
                 impostor: impostor.id,
                 order: turnOrder
             };
             
             connections.forEach(c => c.send(msg));
-            setupGame(word, impostor.id, turnOrder);
+            setupGame(wordData, impostor.id, turnOrder);
 
-            btn.innerText = ">> EXECUTE GAME";
+            btn.innerText = "✨ Empezar Partida ✨";
             btn.disabled = false;
         }
 
-        function setupGame(word, impostorId, orderList) {
+        function setupGame(wordData, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
             
-            // Rol
             const roleTxt = document.getElementById('roleDisplay');
             if (amIImpostor) {
-                roleTxt.innerText = "🕵️ IMPOSTOR";
-                roleTxt.style.color = "var(--neon-red)";
+                roleTxt.innerText = "💔 Eres la IMPOSTORA";
+                roleTxt.style.color = "var(--danger)";
                 document.getElementById('wordContainer').classList.add('hidden');
                 document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
-                roleTxt.innerText = "👤 CIUDADANO";
-                roleTxt.style.color = "var(--neon-green)";
+                roleTxt.innerText = "💖 Eres CIUDADANA";
+                roleTxt.style.color = "var(--pink-hot)";
                 document.getElementById('wordContainer').classList.remove('hidden');
                 document.getElementById('impostorMessage').classList.add('hidden');
-                document.getElementById('secretWordDisplay').innerText = word;
+                
+                document.getElementById('secretWordDisplay').innerText = wordData.title;
+                document.getElementById('secretDescDisplay').innerText = wordData.desc;
             }
 
-            // Renderizar Orden
             const ul = document.getElementById('turnOrderList');
             ul.innerHTML = '';
             orderList.forEach((name, index) => {
@@ -463,7 +502,6 @@
                 ul.appendChild(li);
             });
 
-            // Controles
             if (isHost) {
                 document.getElementById('hostGameControls').classList.remove('hidden');
                 document.getElementById('waitingReveal').classList.add('hidden');
@@ -474,14 +512,15 @@
         }
 
         function revealGame() {
-            const msg = { type: 'REVEAL', word: gameState.word, impostorName: gameState.impostorName };
+            const msg = { type: 'REVEAL', wordData: gameState.wordData, impostorName: gameState.impostorName };
             connections.forEach(c => c.send(msg));
-            showResult(msg.word, msg.impostorName);
+            showResult(msg.wordData, msg.impostorName);
         }
 
-        function showResult(word, impostorName) {
+        function showResult(wordData, impostorName) {
             showScreen('result');
-            document.getElementById('finalWord').innerText = word;
+            document.getElementById('finalWord').innerText = wordData.title;
+            document.getElementById('finalDesc').innerText = wordData.desc;
             document.getElementById('finalImpostor').innerText = impostorName;
             
             if(isHost) {
@@ -499,9 +538,8 @@
             showScreen('lobby');
         }
 
-        // --- UI ---
         function kickPlayer(id) {
-            if(!confirm("KICK USER?")) return;
+            if(!confirm("¿Sacar a esta persona de la sala? 💔")) return;
             const conn = connections.find(c => c.peer === id);
             if (conn) conn.close();
             players = players.filter(p => p.id !== id);
@@ -514,9 +552,9 @@
             list.innerHTML = '';
             players.forEach(p => {
                 const li = document.createElement('li');
-                let html = `<span style="color:${p.isHost ? 'var(--neon-blue)' : '#eee'}">${p.name} ${p.isHost ? '<span class="tag">HOST</span>':''}</span>`;
+                let html = `<span>${p.name} ${p.isHost ? '👑' : ''}</span>`;
                 if(isHost && p.id !== peer.id) {
-                    html += `<button class="danger" style="width:auto; padding:2px 5px; margin:0; font-size:0.6rem;" onclick="kickPlayer('${p.id}')">KICK</button>`;
+                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">Bye</button>`;
                 }
                 li.innerHTML = html;
                 list.appendChild(li);
@@ -527,9 +565,8 @@
             const el = document.getElementById('roomIdDisplay');
             el.select();
             navigator.clipboard.writeText(el.value);
-            // Feedback visual sutil
-            el.style.color = "var(--neon-green)";
-            setTimeout(() => el.style.color = "var(--text-main)", 500);
+            el.style.color = "white";
+            setTimeout(() => el.style.color = "var(--pink-soft)", 300);
         }
     </script>
 </body>
