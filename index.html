@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego del Impostor - Versión Online</title>
+    <title>IMPOSTOR: UNLIMITED</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         :root {
-            --bg-color: #1a1a2e;
-            --card-color: #16213e;
-            --accent-color: #e94560;
-            --text-color: #ecf0f1;
-            --input-bg: #0f3460;
+            --bg-color: #050505;
+            --card-color: #141414;
+            --accent-color: #00ff88; /* Verde Hacker */
+            --danger-color: #ff0055; /* Rojo Neón */
+            --text-color: #eeeeee;
+            --input-bg: #222;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* Fuente más técnica */
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -27,217 +28,251 @@
             text-align: center;
         }
 
-        h1 { color: var(--accent-color); margin-bottom: 10px; }
-        h2 { margin-top: 0; }
+        h1 { 
+            color: var(--danger-color); 
+            margin-bottom: 5px; 
+            text-transform: uppercase; 
+            letter-spacing: 4px; 
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+        }
+        
+        h2 { font-size: 1rem; color: #666; font-weight: normal; }
 
         .container {
             background-color: var(--card-color);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-radius: 0px; /* Bordes rectos más agresivos */
+            border: 1px solid #333;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
             max-width: 500px;
             width: 100%;
-            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
         }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background-color: var(--input-bg);
-            color: white;
-            font-size: 1rem;
-            box-sizing: border-box;
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--danger-color), var(--accent-color));
         }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            background-color: var(--input-bg);
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--accent-color); }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            background-color: var(--accent-color);
-            color: white;
+            border: 1px solid var(--accent-color);
+            background-color: transparent;
+            color: var(--accent-color);
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: transform 0.1s;
+            font-family: 'Courier New', monospace;
+            transition: 0.2s;
+            text-transform: uppercase;
         }
 
-        button:hover { transform: scale(1.02); filter: brightness(1.1); }
-        button:active { transform: scale(0.98); }
-        button.secondary { background-color: #4a5568; }
-        button.copy-btn { background-color: #2ecc71; margin-bottom: 15px; }
+        button:hover { background-color: var(--accent-color); color: black; box-shadow: 0 0 15px var(--accent-color); }
+        button.secondary { border-color: #666; color: #999; }
+        button.secondary:hover { background-color: #666; color: white; box-shadow: none;}
+        
+        button.danger { border-color: var(--danger-color); color: var(--danger-color); }
+        button.danger:hover { background-color: var(--danger-color); color: white; box-shadow: 0 0 15px var(--danger-color); }
+
+        .kick-btn {
+            width: auto; padding: 4px 8px; margin: 0 0 0 10px;
+            font-size: 0.7rem; border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+        .kick-btn:hover { background-color: var(--danger-color); color: white; }
 
         .hidden { display: none !important; }
         
-        .player-list {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-            margin-top: 20px;
-        }
-
+        .player-list { list-style: none; padding: 0; text-align: left; margin-top: 20px; }
         .player-list li {
-            background: rgba(255,255,255,0.05);
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .role-card {
-            background: linear-gradient(135deg, #0f3460, #16213e);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid var(--accent-color);
-            margin-top: 20px;
+            border-bottom: 1px solid #333; padding: 10px;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
         .secret-word {
             font-size: 2rem;
             font-weight: bold;
-            color: #f1c40f;
-            margin: 15px 0;
+            color: var(--accent-color);
+            margin: 20px 0;
             text-transform: uppercase;
+            word-wrap: break-word;
+            border: 1px dashed #333;
+            padding: 10px;
         }
 
         .impostor-reveal {
-            color: var(--accent-color);
-            font-size: 1.5rem;
+            color: var(--danger-color);
+            font-size: 2.5rem;
             font-weight: bold;
+            text-transform: uppercase;
+            animation: blink 1s infinite;
         }
+        
+        .fetching-anim { color: var(--accent-color); font-weight: bold; animation: blink 0.5s infinite; }
 
-        #statusMsg { color: #f39c12; font-size: 0.9rem; margin-bottom: 10px; }
-        .loader { font-size: 0.8rem; color: #aaa; }
+        @keyframes blink { 50% { opacity: 0; } }
 
+        #roomIdDisplay { letter-spacing: 2px; text-align: center; font-weight: bold; color: white;}
+        .tag { font-size: 0.6rem; background: #333; color: #aaa; padding: 2px 4px; margin-left: 5px; }
     </style>
 </head>
 <body>
 
-    <h1>🕵️ El Impostor Online</h1>
-    <div id="statusMsg"></div>
+    <h1>∞ UNLIMITED</h1>
+    <div id="statusMsg" style="color: #666; font-size: 0.8rem; min-height:1.2em;"></div>
 
     <div id="screen-menu" class="container">
-        <h2>Bienvenido</h2>
-        <input type="text" id="myUsername" placeholder="Tu nombre (Ej: Pepe)" maxlength="12">
-        <div style="display: flex; gap: 10px;">
-            <button onclick="createGame()">Crear Sala</button>
-        </div>
-        <hr style="border-color: #333; margin: 20px 0;">
-        <input type="text" id="joinInput" placeholder="Pega el código de sala aquí">
-        <button class="secondary" onclick="joinGame()">Unirse a Sala</button>
+        <input type="text" id="myUsername" placeholder="NOMBRE DE USUARIO" maxlength="12">
+        <button onclick="createGame()">CREAR NUEVA SALA</button>
+        <div style="height: 10px;"></div>
+        <input type="text" id="joinInput" placeholder="CÓDIGO DE SALA">
+        <button class="secondary" onclick="joinGame()">UNIRSE</button>
     </div>
 
     <div id="screen-lobby" class="container hidden">
-        <h2>Sala de Espera</h2>
-        <p class="loader">Comparte este código con tus amigos:</p>
-        
-        <div style="display:flex; gap:5px;">
-            <input type="text" id="roomIdDisplay" readonly style="text-align:center; font-weight:bold; letter-spacing:1px;">
-            <button class="copy-btn" style="width: 80px;" onclick="copyRoomCode()">Copiar</button>
-        </div>
+        <h2>SALA DE ESPERA</h2>
+        <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()" style="cursor: pointer; border-style: dashed;">
+        <div style="font-size: 0.7rem; color: #666; margin-top: -5px;">CLICK PARA COPIAR CÓDIGO</div>
 
-        <h3>Jugadores (<span id="playerCount">1</span>):</h3>
-        <ul id="lobbyList" class="player-list">
-            </ul>
+        <h3>JUGADORES (<span id="playerCount">0</span>)</h3>
+        <ul id="lobbyList" class="player-list"></ul>
 
-        <div id="hostControls" class="hidden">
-            <h3>Configuración</h3>
-            <select id="categorySelect">
-                <option value="random">🎲 Aleatorio</option>
-                <option value="lugares">🌍 Lugares</option>
-                <option value="comida">🍕 Comida</option>
-                <option value="animales">🦁 Animales</option>
-                <option value="profesiones">👷 Profesiones</option>
-                <option value="objetos">✂️ Objetos</option>
-            </select>
-            <button onclick="startGame()">¡Empezar Partida!</button>
+        <div id="hostControls" class="hidden" style="margin-top: 20px;">
+            <div style="margin-bottom: 15px; font-size: 0.8rem; color: #aaa;">
+                ⚠️ MODO INFINITO ACTIVADO <br>
+                Las palabras se extraen de la "nube" (Wikipedia).<br>
+                Pueden ser personas, lugares, conceptos o barbaridades.
+            </div>
+            <button onclick="startGame()" id="btnStart">INICIAR BÚSQUEDA Y JUEGO</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p>Esperando a que el anfitrión inicie...</p>
+            <p class="fetching-anim">ESPERANDO AL HOST...</p>
         </div>
     </div>
 
     <div id="screen-game" class="container hidden">
-        <h2>¡Partida en curso!</h2>
         <div class="role-card">
-            <p>Tu rol es:</p>
-            <h3 id="roleDisplay" style="font-size: 1.5rem;">...</h3>
+            <p style="color:#666;">TU IDENTIDAD:</p>
+            <h3 id="roleDisplay" style="font-size: 1.5rem; margin: 0;">...</h3>
             
             <div id="wordContainer">
-                <p>La palabra secreta es:</p>
+                <hr style="border-color: #333; margin: 15px 0;">
+                <p style="font-size:0.8rem;">OBJETIVO:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                <p id="categoryDisplay" style="font-size:0.8rem; opacity:0.7;"></p>
+                <p style="font-size:0.7rem; color: #555;">FUENTE: INTERNET (WIKI)</p>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <p class="impostor-reveal">ERES EL IMPOSTOR</p>
-                <p>Debes fingir que sabes la palabra.</p>
+                <hr style="border-color: #333; margin: 15px 0;">
+                <p class="impostor-reveal">IMPOSTOR</p>
+                <p style="color: #aaa; font-size: 0.9rem;">NO SABES NADA.<br>IMPROVISA.</p>
             </div>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="secondary" onclick="revealGame()">Revelar / Terminar</button>
+            <button class="danger" onclick="revealGame()">FINALIZAR RONDA</button>
         </div>
-         <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#aaa;">Jugando...</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#444;">LA PARTIDA ESTÁ EN CURSO...</p>
     </div>
 
     <div id="screen-result" class="container hidden">
-        <h2>Fin de la Ronda</h2>
-        <p>La palabra era: <span id="finalWord" class="secret-word" style="font-size: 1.5rem;"></span></p>
-        <p>El Impostor era:</p>
+        <h2>RESULTADO</h2>
+        <p style="color:#666;">LA PALABRA ERA:</p>
+        <div id="finalWord" class="secret-word" style="color: white; border-color: white;"></div>
+        
+        <p style="color:#666;">EL IMPOSTOR ERA:</p>
         <h3 id="finalImpostor" class="impostor-reveal"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">Volver al Lobby</button>
+            <button onclick="returnToLobby()">VOLVER AL LOBBY</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden">Esperando al anfitrión...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color:#444;">ESPERANDO AL HOST...</p>
     </div>
 
     <script>
-        // --- DATOS DEL JUEGO ---
-        const WORDS = {
-            lugares: ["Playa", "Hospital", "Escuela", "Submarino", "Iglesia", "Circo", "Casino", "Avión", "Banco", "Supermercado", "Gimnasio", "Cine", "Zoológico", "Base Militar", "Pirámide", "Estación Espacial"],
-            comida: ["Pizza", "Sushi", "Hamburguesa", "Paella", "Tacos", "Helado", "Ensalada", "Chocolate", "Ceviche", "Espaguetis", "Pancakes", "Fruta", "Barbacoa"],
-            animales: ["León", "Pingüino", "Elefante", "Murciélago", "Delfín", "Canguro", "Águila", "Serpiente", "Jirafa", "Oso Polar", "Tiburón", "Hormiga"],
-            profesiones: ["Médico", "Profesor", "Policía", "Astronauta", "Bombero", "Abogado", "Cocinero", "Mecánico", "Programador", "Actor", "Fontanero", "Mago"],
-            objetos: ["Teléfono", "Espejo", "Reloj", "Paraguas", "Llaves", "Zapatos", "Silla", "Cuchillo", "Libro", "Gafas", "Guitarra", "Cámara"]
-        };
-
-        // --- LÓGICA DE CONEXIÓN (P2P) ---
+        // --- LÓGICA DE CONEXIÓN ---
         let peer = null;
-        let conn = null; // Para clientes
-        let connections = []; // Para host
+        let connections = [];
         let isHost = false;
         let myName = "";
-        let players = []; // [{id, name, role, isImpostor}]
+        let players = [];
         
-        // Elementos DOM
         const screens = ['menu', 'lobby', 'game', 'result'];
-        
+
         function showScreen(name) {
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
             document.getElementById(`screen-${name}`).classList.remove('hidden');
         }
 
-        function updateStatus(msg) {
-            document.getElementById('statusMsg').innerText = msg;
+        function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
+
+        // --- API DE WIKIPEDIA (EL CEREBRO INFINITO) ---
+        async function fetchInfiniteWord() {
+            // Pedimos 20 artículos aleatorios para poder filtrar basura
+            const url = "https://es.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=20&format=json&origin=*";
+            
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const rawPages = data.query.random;
+
+                // FILTRO DE CALIDAD:
+                // 1. Quitamos desambiguaciones (contienen ":")
+                // 2. Preferimos títulos cortos (1-3 palabras) para que sean conceptos fuertes
+                // 3. Quitamos fechas puras (solo números)
+                
+                let validPages = rawPages.filter(p => {
+                    const t = p.title;
+                    if (t.includes(":")) return false; // Fuera "Anexo:" o "Categoría:"
+                    if (/^\d+$/.test(t)) return false; // Fuera años sueltos "1992"
+                    return true;
+                });
+
+                if (validPages.length === 0) validPages = rawPages; // Fallback si filtramos todo
+
+                // Priorizamos los títulos más cortos (suelen ser mejores conceptos: "Mesa", "Hitler", "Amor")
+                // Ordenamos por longitud y cogemos uno de los top 5 al azar para dar variedad
+                validPages.sort((a, b) => a.title.length - b.title.length);
+                
+                const topPicks = validPages.slice(0, 6); 
+                const winner = topPicks[Math.floor(Math.random() * topPicks.length)];
+
+                return winner.title;
+
+            } catch (e) {
+                console.error("Error Wikipedia:", e);
+                // Fallback de emergencia si no hay internet o falla la API
+                const fallback = ["Error de Red", "El Sistema", "Apocalipsis", "Tu conexión", "La Nada"];
+                return fallback[Math.floor(Math.random() * fallback.length)];
+            }
         }
 
-        // 1. CREAR SALA (HOST)
+        // --- FUNCIONES PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim();
-            if (!myName) return alert("Ponte un nombre, chiquillo.");
-
+            myName = document.getElementById('myUsername').value.trim() || "Anonimo";
             isHost = true;
-            updateStatus("Iniciando servidor...");
-            
-            peer = new Peer(null, { debug: 2 });
-
+            updateStatus("INICIANDO SERVIDOR...");
+            peer = new Peer(null, { debug: 1 });
             peer.on('open', (id) => {
                 document.getElementById('roomIdDisplay').value = id;
                 updateStatus("");
@@ -246,202 +281,118 @@
                 showScreen('lobby');
                 document.getElementById('hostControls').classList.remove('hidden');
             });
-
             peer.on('connection', (c) => {
-                // Cuando alguien se conecta a mí (Host)
                 c.on('open', () => {
-                    connections.push(c);
-                    
-                    c.on('data', (data) => handleDataHost(data, c));
-
-                    // Enviar estado actual al nuevo
-                    // Esperamos su nombre primero
+                    c.on('data', (d) => handleDataHost(d, c));
                 });
-                
                 c.on('close', () => {
-                    connections = connections.filter(con => con !== c);
-                    // Quien se fue? (Simplificado: reiniciamos lista en update si hace falta, pero por ahora solo borramos si desconecta bien)
+                    players = players.filter(p => p.id !== c.peer);
+                    connections = connections.filter(con => con.peer !== c.peer);
+                    broadcastLobby();
                 });
             });
-
-            peer.on('error', (err) => alert("Error de conexión: " + err));
         }
 
-        // 2. UNIRSE (CLIENTE)
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim();
+            myName = document.getElementById('myUsername').value.trim() || "Anonimo";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!myName || !roomId) return alert("Nombre y código necesarios.");
-
+            if (!roomId) return alert("Falta el código");
             isHost = false;
-            updateStatus("Conectando con la sala...");
-
-            peer = new Peer(null, { debug: 2 });
-
+            updateStatus("CONECTANDO...");
+            peer = new Peer(null, { debug: 1 });
             peer.on('open', (id) => {
-                conn = peer.connect(roomId);
-
+                const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("Conectado. Entrando...");
-                    // Enviar mi nombre al host
+                    updateStatus("CONECTADO");
                     conn.send({ type: 'JOIN', name: myName, id: id });
+                    connections = [conn]; // Cliente solo tiene 1 conexión (al host)
                 });
-
-                conn.on('data', (data) => handleDataClient(data));
-                
-                conn.on('close', () => {
-                    alert("El anfitrión cerró la sala.");
-                    location.reload();
-                });
+                conn.on('data', (d) => handleDataClient(d));
+                conn.on('close', () => { alert("Sala cerrada o te han echado."); location.reload(); });
             });
-
-            peer.on('error', (err) => alert("No se encuentra la sala. Revisa el código."));
+            peer.on('error', () => alert("Error al conectar. Código inválido."));
         }
 
-        // --- MANEJO DE DATOS ---
-
-        // HOST RECIBE DATOS
+        // --- MANEJO DATOS ---
         function handleDataHost(data, connSource) {
             if (data.type === 'JOIN') {
-                // Nuevo jugador
-                const exists = players.find(p => p.id === data.id);
-                if (!exists) {
-                    players.push({ id: data.id, name: data.name, conn: connSource });
+                if (!players.find(p => p.id === data.id)) {
+                    connections.push(connSource);
+                    players.push({ id: data.id, name: data.name });
                     broadcastLobby();
                 }
             }
         }
 
-        // CLIENTE RECIBE DATOS
         function handleDataClient(data) {
-            if (data.type === 'LOBBY_UPDATE') {
+            if (data.type === 'LOBBY') {
                 players = data.players;
                 showScreen('lobby');
+                document.getElementById('playerCount').innerText = players.length;
+                updateLobbyUI();
                 document.getElementById('hostControls').classList.add('hidden');
                 document.getElementById('clientWaiting').classList.remove('hidden');
-                document.getElementById('roomIdDisplay').value = data.roomId; // Mostrar ID aunque sea cliente
-                updateLobbyUI();
             }
-            else if (data.type === 'GAME_START') {
-                setupGameUI(data.word, data.category, data.impostorId);
-            }
-            else if (data.type === 'GAME_REVEAL') {
-                showResultScreen(data.word, data.impostorName);
-            }
-            else if (data.type === 'BACK_LOBBY') {
-                showScreen('lobby');
-                document.getElementById('clientWaiting').classList.remove('hidden');
-                document.getElementById('roomIdDisplay').value = data.roomId;
-            }
+            if (data.type === 'START') setupGame(data.word, data.impostor);
+            if (data.type === 'REVEAL') showResult(data.word, data.impostorName);
+            if (data.type === 'RESET') showScreen('lobby');
         }
-
-        // --- FUNCIONES DEL JUEGO (HOST) ---
 
         function broadcastLobby() {
-            // Enviar lista limpia (sin objetos de conexión que rompen JSON)
-            const cleanPlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
-            const payload = { type: 'LOBBY_UPDATE', players: cleanPlayers, roomId: peer.id };
+            const safePlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
+            const msg = { type: 'LOBBY', players: safePlayers };
+            if (!isHost) return;
+            updateLobbyUI();
+            connections.forEach(c => c.send(msg));
+        }
+
+        // --- LOGICA JUEGO ---
+        function kickPlayer(id) {
+            if(!confirm("¿Echar a este jugador?")) return;
+            const conn = connections.find(c => c.peer === id);
+            if (conn) conn.close();
+            players = players.filter(p => p.id !== id);
+            connections = connections.filter(c => c.peer !== id);
+            broadcastLobby();
+        }
+
+        async function startGame() {
+            if (players.length < 3 && !confirm("Sois menos de 3. ¿Seguir?")) return;
             
-            updateLobbyUI(); // Actualizar mi UI
-            connections.forEach(c => c.send(payload));
-        }
+            const btn = document.getElementById('btnStart');
+            btn.innerText = "BUSCANDO EN LA RED...";
+            btn.disabled = true;
 
-        function startGame() {
-            if (players.length < 3) {
-                if(!confirm("¿Sois muy pocos (menos de 3)? El juego será aburrido. ¿Seguir?")) return;
-            }
-
-            // 1. Elegir categoría y palabra
-            let catKey = document.getElementById('categorySelect').value;
-            if (catKey === 'random') {
-                const keys = Object.keys(WORDS);
-                catKey = keys[Math.floor(Math.random() * keys.length)];
-            }
-            const wordsList = WORDS[catKey];
-            const secretWord = wordsList[Math.floor(Math.random() * wordsList.length)];
-
-            // 2. Elegir impostor
-            const impostorIndex = Math.floor(Math.random() * players.length);
-            const impostorId = players[impostorIndex].id;
-            const impostorName = players[impostorIndex].name;
-
-            // 3. Guardar estado actual para el reveal
-            window.currentGameState = { word: secretWord, impostorName: impostorName };
-
-            // 4. Enviar info a todos
-            const payload = { 
-                type: 'GAME_START', 
-                category: catKey.toUpperCase(), 
-                word: secretWord, 
-                impostorId: impostorId 
-            };
-
-            // Actualizar UI Host
-            setupGameUI(secretWord, catKey.toUpperCase(), impostorId);
+            // FETCH INFINITO
+            const word = await fetchInfiniteWord();
             
-            // Enviar a clientes
-            connections.forEach(c => c.send(payload));
-        }
-
-        function revealGame() {
-            const payload = { 
-                type: 'GAME_REVEAL', 
-                word: window.currentGameState.word, 
-                impostorName: window.currentGameState.impostorName 
-            };
-            showResultScreen(payload.word, payload.impostorName);
-            connections.forEach(c => c.send(payload));
-        }
-
-        function returnToLobby() {
-            const cleanPlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
-            const payload = { type: 'BACK_LOBBY', players: cleanPlayers, roomId: peer.id };
+            // Seleccionar impostor
+            const impostor = players[Math.floor(Math.random() * players.length)];
             
-            showScreen('lobby');
-            document.getElementById('hostControls').classList.remove('hidden');
-            document.getElementById('clientWaiting').classList.add('hidden');
-            connections.forEach(c => c.send(payload));
+            window.gameState = { word: word, impostorName: impostor.name }; // Guardar localmente en host
+            
+            const msg = { type: 'START', word: word, impostor: impostor.id };
+            connections.forEach(c => c.send(msg));
+            setupGame(word, impostor.id);
+
+            btn.innerText = "INICIAR BÚSQUEDA Y JUEGO";
+            btn.disabled = false;
         }
 
-        // --- UI UPDATES ---
-
-        function updateLobbyUI() {
-            const list = document.getElementById('lobbyList');
-            document.getElementById('playerCount').innerText = players.length;
-            list.innerHTML = '';
-            players.forEach(p => {
-                const li = document.createElement('li');
-                li.innerHTML = `<span>${p.name}</span> ${p.isHost ? '👑' : ''}`;
-                list.appendChild(li);
-            });
-        }
-
-        function setupGameUI(word, category, impostorId) {
+        function setupGame(word, impostorId) {
             showScreen('game');
+            const amIImpostor = (peer.id === impostorId);
             
-            // ¿Soy yo el impostor?
-            // peer.id es mi ID si soy host, pero si soy cliente mi ID real se gestiona internamente,
-            // pero para simplificar en PeerJS client-side:
-            // El ID que generamos al principio en new Peer() es el nuestro.
-            
-            const myId = peer.id;
-            const isImpostor = (myId === impostorId);
+            document.getElementById('roleDisplay').innerText = amIImpostor ? "😈 ERES EL IMPOSTOR" : "😇 ERES CIUDADANO";
+            document.getElementById('roleDisplay').style.color = amIImpostor ? "var(--danger-color)" : "var(--accent-color)";
 
-            document.getElementById('categoryDisplay').innerText = "Categoría: " + category;
-
-            if (isImpostor) {
-                document.getElementById('roleDisplay').innerText = "🕵️ IMPOSTOR";
-                document.getElementById('roleDisplay').style.color = "#e94560";
-                document.getElementById('secretWordDisplay').classList.add('hidden');
-                document.getElementById('impostorMessage').classList.remove('hidden');
+            if (amIImpostor) {
                 document.getElementById('wordContainer').classList.add('hidden');
+                document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
-                document.getElementById('roleDisplay').innerText = "🙂 CIUDADANO";
-                document.getElementById('roleDisplay').style.color = "#2ecc71";
-                document.getElementById('secretWordDisplay').classList.remove('hidden');
-                document.getElementById('secretWordDisplay').innerText = word;
-                document.getElementById('impostorMessage').classList.add('hidden');
                 document.getElementById('wordContainer').classList.remove('hidden');
+                document.getElementById('impostorMessage').classList.add('hidden');
+                document.getElementById('secretWordDisplay').innerText = word;
             }
 
             if (isHost) {
@@ -453,12 +404,18 @@
             }
         }
 
-        function showResultScreen(word, impostorName) {
+        function revealGame() {
+            const msg = { type: 'REVEAL', word: window.gameState.word, impostorName: window.gameState.impostorName };
+            connections.forEach(c => c.send(msg));
+            showResult(msg.word, msg.impostorName);
+        }
+
+        function showResult(word, impostorName) {
             showScreen('result');
             document.getElementById('finalWord').innerText = word;
             document.getElementById('finalImpostor').innerText = impostorName;
-
-            if (isHost) {
+            
+            if(isHost) {
                 document.getElementById('hostRestartControls').classList.remove('hidden');
                 document.getElementById('clientRestartWaiting').classList.add('hidden');
             } else {
@@ -467,14 +424,34 @@
             }
         }
 
-        function copyRoomCode() {
-            const copyText = document.getElementById("roomIdDisplay");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); 
-            navigator.clipboard.writeText(copyText.value);
-            alert("Código copiado: " + copyText.value);
+        function returnToLobby() {
+            broadcastLobby(); // Re-envia estado lobby
+            connections.forEach(c => c.send({ type: 'RESET' }));
+            showScreen('lobby');
         }
 
+        // --- UI AUXILIARES ---
+        function updateLobbyUI() {
+            const list = document.getElementById('lobbyList');
+            list.innerHTML = '';
+            document.getElementById('playerCount').innerText = players.length;
+            players.forEach(p => {
+                const li = document.createElement('li');
+                let html = `<span>${p.name} ${p.isHost ? '<span class="tag">HOST</span>':''}</span>`;
+                if(isHost && p.id !== peer.id) {
+                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">KICK</button>`;
+                }
+                li.innerHTML = html;
+                list.appendChild(li);
+            });
+        }
+
+        function copyRoomCode() {
+            const el = document.getElementById('roomIdDisplay');
+            el.select();
+            navigator.clipboard.writeText(el.value);
+            alert("Código copiado");
+        }
     </script>
 </body>
 </html>
