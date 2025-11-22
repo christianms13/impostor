@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Impostor - Versión Online</title>
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --card-color: #16213e;
+            --accent-color: #e94560;
+            --text-color: #ecf0f1;
+            --input-bg: #0f3460;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        h1 { color: var(--accent-color); margin-bottom: 10px; }
+        h2 { margin-top: 0; }
+
+        .container {
+            background-color: var(--card-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-width: 500px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background-color: var(--input-bg);
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+        button:active { transform: scale(0.98); }
+        button.secondary { background-color: #4a5568; }
+        button.copy-btn { background-color: #2ecc71; margin-bottom: 15px; }
+
+        .hidden { display: none !important; }
+        
+        .player-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .player-list li {
+            background: rgba(255,255,255,0.05);
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .role-card {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+            margin-top: 20px;
+        }
+
+        .secret-word {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 15px 0;
+            text-transform: uppercase;
+        }
+
+        .impostor-reveal {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        #statusMsg { color: #f39c12; font-size: 0.9rem; margin-bottom: 10px; }
+        .loader { font-size: 0.8rem; color: #aaa; }
+
+    </style>
+</head>
+<body>
+
+    <h1>🕵️ El Impostor Online</h1>
+    <div id="statusMsg"></div>
+
+    <div id="screen-menu" class="container">
+        <h2>Bienvenido</h2>
+        <input type="text" id="myUsername" placeholder="Tu nombre (Ej: Pepe)" maxlength="12">
+        <div style="display: flex; gap: 10px;">
+            <button onclick="createGame()">Crear Sala</button>
+        </div>
+        <hr style="border-color: #333; margin: 20px 0;">
+        <input type="text" id="joinInput" placeholder="Pega el código de sala aquí">
+        <button class="secondary" onclick="joinGame()">Unirse a Sala</button>
+    </div>
+
+    <div id="screen-lobby" class="container hidden">
+        <h2>Sala de Espera</h2>
+        <p class="loader">Comparte este código con tus amigos:</p>
+        
+        <div style="display:flex; gap:5px;">
+            <input type="text" id="roomIdDisplay" readonly style="text-align:center; font-weight:bold; letter-spacing:1px;">
+            <button class="copy-btn" style="width: 80px;" onclick="copyRoomCode()">Copiar</button>
+        </div>
+
+        <h3>Jugadores (<span id="playerCount">1</span>):</h3>
+        <ul id="lobbyList" class="player-list">
+            </ul>
+
+        <div id="hostControls" class="hidden">
+            <h3>Configuración</h3>
+            <select id="categorySelect">
+                <option value="random">🎲 Aleatorio</option>
+                <option value="lugares">🌍 Lugares</option>
+                <option value="comida">🍕 Comida</option>
+                <option value="animales">🦁 Animales</option>
+                <option value="profesiones">👷 Profesiones</option>
+                <option value="objetos">✂️ Objetos</option>
+            </select>
+            <button onclick="startGame()">¡Empezar Partida!</button>
+        </div>
+        <div id="clientWaiting" class="hidden">
+            <p>Esperando a que el anfitrión inicie...</p>
+        </div>
+    </div>
+
+    <div id="screen-game" class="container hidden">
+        <h2>¡Partida en curso!</h2>
+        <div class="role-card">
+            <p>Tu rol es:</p>
+            <h3 id="roleDisplay" style="font-size: 1.5rem;">...</h3>
+            
+            <div id="wordContainer">
+                <p>La palabra secreta es:</p>
+                <div id="secretWordDisplay" class="secret-word">???</div>
+                <p id="categoryDisplay" style="font-size:0.8rem; opacity:0.7;"></p>
+            </div>
+            
+            <div id="impostorMessage" class="hidden">
+                <p class="impostor-reveal">ERES EL IMPOSTOR</p>
+                <p>Debes fingir que sabes la palabra.</p>
+            </div>
+        </div>
+        
+        <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
+            <button class="secondary" onclick="revealGame()">Revelar / Terminar</button>
+        </div>
+         <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#aaa;">Jugando...</p>
+    </div>
+
+    <div id="screen-result" class="container hidden">
+        <h2>Fin de la Ronda</h2>
+        <p>La palabra era: <span id="finalWord" class="secret-word" style="font-size: 1.5rem;"></span></p>
+        <p>El Impostor era:</p>
+        <h3 id="finalImpostor" class="impostor-reveal"></h3>
+        
+        <div id="hostRestartControls" class="hidden">
+            <button onclick="returnToLobby()">Volver al Lobby</button>
+        </div>
+        <p id="clientRestartWaiting" class="hidden">Esperando al anfitrión...</p>
+    </div>
+
+    <script>
+        // --- DATOS DEL JUEGO ---
+        const WORDS = {
+            lugares: ["Playa", "Hospital", "Escuela", "Submarino", "Iglesia", "Circo", "Casino", "Avión", "Banco", "Supermercado", "Gimnasio", "Cine", "Zoológico", "Base Militar", "Pirámide", "Estación Espacial"],
+            comida: ["Pizza", "Sushi", "Hamburguesa", "Paella", "Tacos", "Helado", "Ensalada", "Chocolate", "Ceviche", "Espaguetis", "Pancakes", "Fruta", "Barbacoa"],
+            animales: ["León", "Pingüino", "Elefante", "Murciélago", "Delfín", "Canguro", "Águila", "Serpiente", "Jirafa", "Oso Polar", "Tiburón", "Hormiga"],
+            profesiones: ["Médico", "Profesor", "Policía", "Astronauta", "Bombero", "Abogado", "Cocinero", "Mecánico", "Programador", "Actor", "Fontanero", "Mago"],
+            objetos: ["Teléfono", "Espejo", "Reloj", "Paraguas", "Llaves", "Zapatos", "Silla", "Cuchillo", "Libro", "Gafas", "Guitarra", "Cámara"]
+        };
+
+        // --- LÓGICA DE CONEXIÓN (P2P) ---
+        let peer = null;
+        let conn = null; // Para clientes
+        let connections = []; // Para host
+        let isHost = false;
+        let myName = "";
+        let players = []; // [{id, name, role, isImpostor}]
+        
+        // Elementos DOM
+        const screens = ['menu', 'lobby', 'game', 'result'];
+        
+        function showScreen(name) {
+            screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
+            document.getElementById(`screen-${name}`).classList.remove('hidden');
+        }
+
+        function updateStatus(msg) {
+            document.getElementById('statusMsg').innerText = msg;
+        }
+
+        // 1. CREAR SALA (HOST)
+        function createGame() {
+            myName = document.getElementById('myUsername').value.trim();
+            if (!myName) return alert("Ponte un nombre, chiquillo.");
+
+            isHost = true;
+            updateStatus("Iniciando servidor...");
+            
+            peer = new Peer(null, { debug: 2 });
+
+            peer.on('open', (id) => {
+                document.getElementById('roomIdDisplay').value = id;
+                updateStatus("");
+                players = [{ id: id, name: myName, isHost: true }];
+                updateLobbyUI();
+                showScreen('lobby');
+                document.getElementById('hostControls').classList.remove('hidden');
+            });
+
+            peer.on('connection', (c) => {
+                // Cuando alguien se conecta a mí (Host)
+                c.on('open', () => {
+                    connections.push(c);
+                    
+                    c.on('data', (data) => handleDataHost(data, c));
+
+                    // Enviar estado actual al nuevo
+                    // Esperamos su nombre primero
+                });
+                
+                c.on('close', () => {
+                    connections = connections.filter(con => con !== c);
+                    // Quien se fue? (Simplificado: reiniciamos lista en update si hace falta, pero por ahora solo borramos si desconecta bien)
+                });
+            });
+
+            peer.on('error', (err) => alert("Error de conexión: " + err));
+        }
+
+        // 2. UNIRSE (CLIENTE)
+        function joinGame() {
+            myName = document.getElementById('myUsername').value.trim();
+            const roomId = document.getElementById('joinInput').value.trim();
+            if (!myName || !roomId) return alert("Nombre y código necesarios.");
+
+            isHost = false;
+            updateStatus("Conectando con la sala...");
+
+            peer = new Peer(null, { debug: 2 });
+
+            peer.on('open', (id) => {
+                conn = peer.connect(roomId);
+
+                conn.on('open', () => {
+                    updateStatus("Conectado. Entrando...");
+                    // Enviar mi nombre al host
+                    conn.send({ type: 'JOIN', name: myName, id: id });
+                });
+
+                conn.on('data', (data) => handleDataClient(data));
+                
+                conn.on('close', () => {
+                    alert("El anfitrión cerró la sala.");
+                    location.reload();
+                });
+            });
+
+            peer.on('error', (err) => alert("No se encuentra la sala. Revisa el código."));
+        }
+
+        // --- MANEJO DE DATOS ---
+
+        // HOST RECIBE DATOS
+        function handleDataHost(data, connSource) {
+            if (data.type === 'JOIN') {
+                // Nuevo jugador
+                const exists = players.find(p => p.id === data.id);
+                if (!exists) {
+                    players.push({ id: data.id, name: data.name, conn: connSource });
+                    broadcastLobby();
+                }
+            }
+        }
+
+        // CLIENTE RECIBE DATOS
+        function handleDataClient(data) {
+            if (data.type === 'LOBBY_UPDATE') {
+                players = data.players;
+                showScreen('lobby');
+                document.getElementById('hostControls').classList.add('hidden');
+                document.getElementById('clientWaiting').classList.remove('hidden');
+                document.getElementById('roomIdDisplay').value = data.roomId; // Mostrar ID aunque sea cliente
+                updateLobbyUI();
+            }
+            else if (data.type === 'GAME_START') {
+                setupGameUI(data.word, data.category, data.impostorId);
+            }
+            else if (data.type === 'GAME_REVEAL') {
+                showResultScreen(data.word, data.impostorName);
+            }
+            else if (data.type === 'BACK_LOBBY') {
+                showScreen('lobby');
+                document.getElementById('clientWaiting').classList.remove('hidden');
+                document.getElementById('roomIdDisplay').value = data.roomId;
+            }
+        }
+
+        // --- FUNCIONES DEL JUEGO (HOST) ---
+
+        function broadcastLobby() {
+            // Enviar lista limpia (sin objetos de conexión que rompen JSON)
+            const cleanPlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
+            const payload = { type: 'LOBBY_UPDATE', players: cleanPlayers, roomId: peer.id };
+            
+            updateLobbyUI(); // Actualizar mi UI
+            connections.forEach(c => c.send(payload));
+        }
+
+        function startGame() {
+            if (players.length < 3) {
+                if(!confirm("¿Sois muy pocos (menos de 3)? El juego será aburrido. ¿Seguir?")) return;
+            }
+
+            // 1. Elegir categoría y palabra
+            let catKey = document.getElementById('categorySelect').value;
+            if (catKey === 'random') {
+                const keys = Object.keys(WORDS);
+                catKey = keys[Math.floor(Math.random() * keys.length)];
+            }
+            const wordsList = WORDS[catKey];
+            const secretWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+
+            // 2. Elegir impostor
+            const impostorIndex = Math.floor(Math.random() * players.length);
+            const impostorId = players[impostorIndex].id;
+            const impostorName = players[impostorIndex].name;
+
+            // 3. Guardar estado actual para el reveal
+            window.currentGameState = { word: secretWord, impostorName: impostorName };
+
+            // 4. Enviar info a todos
+            const payload = { 
+                type: 'GAME_START', 
+                category: catKey.toUpperCase(), 
+                word: secretWord, 
+                impostorId: impostorId 
+            };
+
+            // Actualizar UI Host
+            setupGameUI(secretWord, catKey.toUpperCase(), impostorId);
+            
+            // Enviar a clientes
+            connections.forEach(c => c.send(payload));
+        }
+
+        function revealGame() {
+            const payload = { 
+                type: 'GAME_REVEAL', 
+                word: window.currentGameState.word, 
+                impostorName: window.currentGameState.impostorName 
+            };
+            showResultScreen(payload.word, payload.impostorName);
+            connections.forEach(c => c.send(payload));
+        }
+
+        function returnToLobby() {
+            const cleanPlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
+            const payload = { type: 'BACK_LOBBY', players: cleanPlayers, roomId: peer.id };
+            
+            showScreen('lobby');
+            document.getElementById('hostControls').classList.remove('hidden');
+            document.getElementById('clientWaiting').classList.add('hidden');
+            connections.forEach(c => c.send(payload));
+        }
+
+        // --- UI UPDATES ---
+
+        function updateLobbyUI() {
+            const list = document.getElementById('lobbyList');
+            document.getElementById('playerCount').innerText = players.length;
+            list.innerHTML = '';
+            players.forEach(p => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${p.name}</span> ${p.isHost ? '👑' : ''}`;
+                list.appendChild(li);
+            });
+        }
+
+        function setupGameUI(word, category, impostorId) {
+            showScreen('game');
+            
+            // ¿Soy yo el impostor?
+            // peer.id es mi ID si soy host, pero si soy cliente mi ID real se gestiona internamente,
+            // pero para simplificar en PeerJS client-side:
+            // El ID que generamos al principio en new Peer() es el nuestro.
+            
+            const myId = peer.id;
+            const isImpostor = (myId === impostorId);
+
+            document.getElementById('categoryDisplay').innerText = "Categoría: " + category;
+
+            if (isImpostor) {
+                document.getElementById('roleDisplay').innerText = "🕵️ IMPOSTOR";
+                document.getElementById('roleDisplay').style.color = "#e94560";
+                document.getElementById('secretWordDisplay').classList.add('hidden');
+                document.getElementById('impostorMessage').classList.remove('hidden');
+                document.getElementById('wordContainer').classList.add('hidden');
+            } else {
+                document.getElementById('roleDisplay').innerText = "🙂 CIUDADANO";
+                document.getElementById('roleDisplay').style.color = "#2ecc71";
+                document.getElementById('secretWordDisplay').classList.remove('hidden');
+                document.getElementById('secretWordDisplay').innerText = word;
+                document.getElementById('impostorMessage').classList.add('hidden');
+                document.getElementById('wordContainer').classList.remove('hidden');
+            }
+
+            if (isHost) {
+                document.getElementById('hostGameControls').classList.remove('hidden');
+                document.getElementById('waitingReveal').classList.add('hidden');
+            } else {
+                document.getElementById('hostGameControls').classList.add('hidden');
+                document.getElementById('waitingReveal').classList.remove('hidden');
+            }
+        }
+
+        function showResultScreen(word, impostorName) {
+            showScreen('result');
+            document.getElementById('finalWord').innerText = word;
+            document.getElementById('finalImpostor').innerText = impostorName;
+
+            if (isHost) {
+                document.getElementById('hostRestartControls').classList.remove('hidden');
+                document.getElementById('clientRestartWaiting').classList.add('hidden');
+            } else {
+                document.getElementById('hostRestartControls').classList.add('hidden');
+                document.getElementById('clientRestartWaiting').classList.remove('hidden');
+            }
+        }
+
+        function copyRoomCode() {
+            const copyText = document.getElementById("roomIdDisplay");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(copyText.value);
+            alert("Código copiado: " + copyText.value);
+        }
+
+    </script>
+</body>
+</html>
