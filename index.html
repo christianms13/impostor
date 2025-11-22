@@ -3,219 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPOSTOR: UNLIMITED</title>
+    <title>IMPOSTOR: PROTOCOL</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         :root {
-            --bg-color: #050505;
-            --card-color: #141414;
-            --accent-color: #00ff88; /* Verde Hacker */
-            --danger-color: #ff0055; /* Rojo Neón */
-            --text-color: #eeeeee;
-            --input-bg: #222;
+            --bg-color: #0a0a0a;
+            --card-bg: #111;
+            --neon-green: #0f0;
+            --neon-red: #f00;
+            --neon-blue: #00f3ff;
+            --text-main: #eee;
+            --dim-text: #666;
+            --border-color: #333;
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Courier New', Courier, monospace; /* Fuente más técnica */
+            font-family: 'Courier New', Courier, monospace;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            text-align: center;
+            overflow-x: hidden;
         }
 
-        h1 { 
-            color: var(--danger-color); 
-            margin-bottom: 5px; 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+        /* EFECTO CRT / SCANLINES */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
-        
-        h2 { font-size: 1rem; color: #666; font-weight: normal; }
+
+        h1 {
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            border-bottom: 2px solid var(--neon-red);
+            padding-bottom: 10px;
+            text-shadow: 2px 2px 0px var(--neon-red);
+        }
 
         .container {
-            background-color: var(--card-color);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 2rem;
-            border-radius: 0px; /* Bordes rectos más agresivos */
-            border: 1px solid #333;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
             max-width: 500px;
             width: 100%;
             margin-top: 20px;
             position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            z-index: 1;
         }
 
+        /* Decoración esquinas */
         .container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--danger-color), var(--accent-color));
+            content: ''; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
+            border-top: 2px solid var(--neon-green); border-left: 2px solid var(--neon-green);
+        }
+        .container::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--neon-green); border-right: 2px solid var(--neon-green);
         }
 
         input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             margin: 10px 0;
-            border: 1px solid #444;
-            background-color: var(--input-bg);
-            color: var(--accent-color);
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            box-sizing: border-box;
+            background: #000;
+            border: 1px solid var(--dim-text);
+            color: var(--neon-green);
+            font-family: inherit;
+            font-size: 1rem;
             outline: none;
         }
-
-        input:focus { border-color: var(--accent-color); }
+        input:focus { border-color: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
 
         button {
             width: 100%;
             padding: 15px;
-            margin-top: 10px;
-            border: 1px solid var(--accent-color);
-            background-color: transparent;
-            color: var(--accent-color);
+            margin-top: 15px;
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
             font-weight: bold;
-            font-size: 1.1rem;
             cursor: pointer;
-            font-family: 'Courier New', monospace;
-            transition: 0.2s;
+            font-family: inherit;
             text-transform: uppercase;
+            transition: 0.2s;
         }
-
-        button:hover { background-color: var(--accent-color); color: black; box-shadow: 0 0 15px var(--accent-color); }
-        button.secondary { border-color: #666; color: #999; }
-        button.secondary:hover { background-color: #666; color: white; box-shadow: none;}
+        button:hover { background: var(--neon-green); color: black; box-shadow: 0 0 15px var(--neon-green); }
         
-        button.danger { border-color: var(--danger-color); color: var(--danger-color); }
-        button.danger:hover { background-color: var(--danger-color); color: white; box-shadow: 0 0 15px var(--danger-color); }
+        button.secondary { border-color: var(--dim-text); color: var(--dim-text); }
+        button.secondary:hover { background: var(--dim-text); color: white; box-shadow: none; }
 
-        .kick-btn {
-            width: auto; padding: 4px 8px; margin: 0 0 0 10px;
-            font-size: 0.7rem; border: 1px solid var(--danger-color);
-            color: var(--danger-color);
-        }
-        .kick-btn:hover { background-color: var(--danger-color); color: white; }
+        button.danger { border-color: var(--neon-red); color: var(--neon-red); }
+        button.danger:hover { background: var(--neon-red); color: white; box-shadow: 0 0 15px var(--neon-red); }
 
         .hidden { display: none !important; }
+
+        /* LISTAS */
+        .player-list, .turn-order-list { list-style: none; padding: 0; text-align: left; }
         
-        .player-list { list-style: none; padding: 0; text-align: left; margin-top: 20px; }
         .player-list li {
-            border-bottom: 1px solid #333; padding: 10px;
-            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222; padding: 8px 0;
+            display: flex; justify-content: space-between;
         }
 
+        .turn-order-list { margin-top: 10px; border: 1px solid #222; padding: 10px; }
+        .turn-order-list li { padding: 5px; font-size: 0.9rem; color: #888; }
+        .turn-order-list li:first-child { 
+            color: var(--neon-green); 
+            font-weight: bold; 
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+        .turn-order-list li:first-child::after { content: " < ESTE EMPIEZA"; font-size: 0.7rem; }
+
+        /* ELEMENTOS DE JUEGO */
+        .role-reveal { font-size: 1.5rem; margin: 10px 0; font-weight: bold; }
         .secret-word {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            margin: 20px 0;
-            text-transform: uppercase;
-            word-wrap: break-word;
-            border: 1px dashed #333;
-            padding: 10px;
-        }
-
-        .impostor-reveal {
-            color: var(--danger-color);
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: blink 1s infinite;
+            font-size: 2rem; color: var(--neon-blue); text-transform: uppercase;
+            border: 1px dashed var(--neon-blue); padding: 15px; margin: 15px 0;
+            text-shadow: 0 0 10px var(--neon-blue);
+            word-break: break-word;
         }
         
-        .fetching-anim { color: var(--accent-color); font-weight: bold; animation: blink 0.5s infinite; }
+        .impostor-text { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); animation: pulse 1.5s infinite; }
+        
+        @keyframes pulse { 0% {opacity: 0.7;} 50% {opacity: 1;} 100% {opacity: 0.7;} }
 
-        @keyframes blink { 50% { opacity: 0; } }
+        .tag { font-size: 0.6rem; background: #222; padding: 2px 4px; margin-left: 5px; color: #aaa; }
+        
+        .status-bar {
+            font-size: 0.8rem; color: var(--dim-text); margin-bottom: 10px; 
+            display: flex; align-items: center; gap: 5px;
+        }
+        .status-dot { width: 8px; height: 8px; background: #333; border-radius: 50%; }
+        .status-dot.active { background: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
 
-        #roomIdDisplay { letter-spacing: 2px; text-align: center; font-weight: bold; color: white;}
-        .tag { font-size: 0.6rem; background: #333; color: #aaa; padding: 2px 4px; margin-left: 5px; }
     </style>
 </head>
 <body>
 
-    <h1>∞ UNLIMITED</h1>
-    <div id="statusMsg" style="color: #666; font-size: 0.8rem; min-height:1.2em;"></div>
+    <h1>IMPOSTOR_PRO</h1>
+    <div class="status-bar">
+        <div id="statusDot" class="status-dot"></div>
+        <span id="statusMsg">OFFLINE</span>
+    </div>
 
     <div id="screen-menu" class="container">
-        <input type="text" id="myUsername" placeholder="NOMBRE DE USUARIO" maxlength="12">
-        <button onclick="createGame()">CREAR NUEVA SALA</button>
-        <div style="height: 10px;"></div>
-        <input type="text" id="joinInput" placeholder="CÓDIGO DE SALA">
-        <button class="secondary" onclick="joinGame()">UNIRSE</button>
+        <p style="font-size: 0.8rem; color: var(--neon-green);">>> LOGIN REQUIRED</p>
+        <input type="text" id="myUsername" placeholder="USER_ID (NOMBRE)" maxlength="12">
+        <button onclick="createGame()">INITIALIZE SERVER (CREAR)</button>
+        <div style="margin: 10px 0; border-top: 1px solid #222;"></div>
+        <input type="text" id="joinInput" placeholder="SERVER_CODE (CÓDIGO)">
+        <button class="secondary" onclick="joinGame()">CONNECT (UNIRSE)</button>
     </div>
 
     <div id="screen-lobby" class="container hidden">
-        <h2>SALA DE ESPERA</h2>
-        <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()" style="cursor: pointer; border-style: dashed;">
-        <div style="font-size: 0.7rem; color: #666; margin-top: -5px;">CLICK PARA COPIAR CÓDIGO</div>
+        <p style="color: var(--dim-text); font-size: 0.8rem;">>> WAITING ROOM</p>
+        
+        <div style="background: #000; padding: 10px; border: 1px solid #333; margin-bottom: 15px;">
+            <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()" 
+                   style="border:none; margin:0; padding:0; text-align:center; font-weight:bold; letter-spacing: 2px; cursor: pointer;">
+            <div style="text-align:center; font-size:0.6rem; color:#555; margin-top:5px;">CLICK TO COPY PROTOCOL ID</div>
+        </div>
 
-        <h3>JUGADORES (<span id="playerCount">0</span>)</h3>
+        <h3>CONNECTED UNITS (<span id="playerCount">0</span>)</h3>
         <ul id="lobbyList" class="player-list"></ul>
 
         <div id="hostControls" class="hidden" style="margin-top: 20px;">
-            <div style="margin-bottom: 15px; font-size: 0.8rem; color: #aaa;">
-                ⚠️ MODO INFINITO ACTIVADO <br>
-                Las palabras se extraen de la "nube" (Wikipedia).<br>
-                Pueden ser personas, lugares, conceptos o barbaridades.
+            <div style="margin-bottom: 15px; font-size: 0.75rem; color: #666; border-left: 2px solid var(--neon-blue); padding-left: 10px;">
+                INFO: Se descargarán datos de la Red Global (Wikipedia).
+                <br>Filtro inteligente activado: Solo conceptos reconocibles.
             </div>
-            <button onclick="startGame()" id="btnStart">INICIAR BÚSQUEDA Y JUEGO</button>
+            <button onclick="startGame()" id="btnStart">>> EXECUTE GAME</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p class="fetching-anim">ESPERANDO AL HOST...</p>
+            <p style="color: var(--neon-green); animation: blink 1s infinite;">WAITING FOR HOST COMMAND...</p>
         </div>
     </div>
 
     <div id="screen-game" class="container hidden">
         <div class="role-card">
-            <p style="color:#666;">TU IDENTIDAD:</p>
-            <h3 id="roleDisplay" style="font-size: 1.5rem; margin: 0;">...</h3>
+            <p style="color:#666; font-size: 0.8rem;">>> IDENTITY ASSIGNED</p>
+            <div id="roleDisplay" class="role-reveal">...</div>
             
             <div id="wordContainer">
-                <hr style="border-color: #333; margin: 15px 0;">
-                <p style="font-size:0.8rem;">OBJETIVO:</p>
+                <hr style="border-color: #222; margin: 15px 0;">
+                <p style="font-size:0.8rem; color: var(--dim-text);">TARGET DATA:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                <p style="font-size:0.7rem; color: #555;">FUENTE: INTERNET (WIKI)</p>
+                <p style="font-size:0.6rem; color: #444;">SOURCE: GLOBAL WIKI NETWORK</p>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <hr style="border-color: #333; margin: 15px 0;">
-                <p class="impostor-reveal">IMPOSTOR</p>
-                <p style="color: #aaa; font-size: 0.9rem;">NO SABES NADA.<br>IMPROVISA.</p>
+                <hr style="border-color: #222; margin: 15px 0;">
+                <p class="impostor-text" style="font-size: 2rem; font-weight: bold;">IMPOSTOR</p>
+                <p style="color: #888; font-size: 0.9rem;">NO DATA AVAILABLE.<br>BLEND IN. DECEIVE.</p>
             </div>
+
+            <hr style="border-color: #222; margin: 20px 0;">
+            
+            <p style="font-size: 0.8rem; color: var(--neon-green);">>> EXECUTION ORDER:</p>
+            <ol id="turnOrderList" class="turn-order-list">
+                </ol>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">FINALIZAR RONDA</button>
+            <button class="danger" onclick="revealGame()">TERMINATE ROUND</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#444;">LA PARTIDA ESTÁ EN CURSO...</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#444; font-size: 0.8rem;">SESSION IN PROGRESS...</p>
     </div>
 
     <div id="screen-result" class="container hidden">
-        <h2>RESULTADO</h2>
-        <p style="color:#666;">LA PALABRA ERA:</p>
-        <div id="finalWord" class="secret-word" style="color: white; border-color: white;"></div>
+        <h2 style="color: var(--text-main);">SESSION REPORT</h2>
         
-        <p style="color:#666;">EL IMPOSTOR ERA:</p>
-        <h3 id="finalImpostor" class="impostor-reveal"></h3>
+        <p style="color:#666; font-size: 0.8rem;">TARGET WAS:</p>
+        <div id="finalWord" style="font-size: 1.5rem; color: var(--neon-blue); margin-bottom: 20px;"></div>
+        
+        <p style="color:#666; font-size: 0.8rem;">IMPOSTOR IDENTITY:</p>
+        <h3 id="finalImpostor" class="impostor-text" style="font-size: 1.8rem;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">VOLVER AL LOBBY</button>
+            <button onclick="returnToLobby()">RETURN TO LOBBY</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color:#444;">ESPERANDO AL HOST...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color:#444;">AWAITING HOST RESET...</p>
     </div>
 
     <script>
-        // --- LÓGICA DE CONEXIÓN ---
+        // --- LOGICA DE CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
         let myName = "";
-        let players = [];
+        let players = []; // {id, name, isHost}
+        let gameState = {}; // {word, impostorName, order}
         
         const screens = ['menu', 'lobby', 'game', 'result'];
 
@@ -224,63 +256,83 @@
             document.getElementById(`screen-${name}`).classList.remove('hidden');
         }
 
-        function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
+        function updateStatus(msg, active = false) { 
+            document.getElementById('statusMsg').innerText = msg; 
+            const dot = document.getElementById('statusDot');
+            if(active) dot.classList.add('active'); else dot.classList.remove('active');
+        }
 
-        // --- API DE WIKIPEDIA (EL CEREBRO INFINITO) ---
-        async function fetchInfiniteWord() {
-            // Pedimos 20 artículos aleatorios para poder filtrar basura
-            const url = "https://es.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=20&format=json&origin=*";
+        // --- CEREBRO: FILTRO WIKIPEDIA INTELIGENTE ---
+        async function fetchSmartWord() {
+            // Pedimos el máximo (50) para tener donde elegir
+            const url = "https://es.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=50&format=json&origin=*";
             
             try {
                 const res = await fetch(url);
                 const data = await res.json();
                 const rawPages = data.query.random;
 
-                // FILTRO DE CALIDAD:
-                // 1. Quitamos desambiguaciones (contienen ":")
-                // 2. Preferimos títulos cortos (1-3 palabras) para que sean conceptos fuertes
-                // 3. Quitamos fechas puras (solo números)
-                
+                // FILTRO "ANTI-RAROS"
                 let validPages = rawPages.filter(p => {
                     const t = p.title;
-                    if (t.includes(":")) return false; // Fuera "Anexo:" o "Categoría:"
-                    if (/^\d+$/.test(t)) return false; // Fuera años sueltos "1992"
+                    
+                    // 1. Rechazar paréntesis (desambiguaciones raras)
+                    if (t.includes("(") || t.includes(")")) return false;
+                    
+                    // 2. Rechazar estructuras de sistema
+                    if (t.includes(":") || t.includes("Anexo")) return false;
+
+                    // 3. Rechazar títulos numéricos (años, coordenadas)
+                    if (/^\d+$/.test(t)) return false;
+
                     return true;
                 });
 
-                if (validPages.length === 0) validPages = rawPages; // Fallback si filtramos todo
+                if (validPages.length === 0) validPages = rawPages; // Fallback
 
-                // Priorizamos los títulos más cortos (suelen ser mejores conceptos: "Mesa", "Hitler", "Amor")
-                // Ordenamos por longitud y cogemos uno de los top 5 al azar para dar variedad
+                // HEURÍSTICA: Títulos cortos = Conceptos más comunes
+                // Ordenamos por longitud.
+                // Ej: "Cuchara" (7 letras) vs "Tratado de Viena de 1812" (20+ letras)
                 validPages.sort((a, b) => a.title.length - b.title.length);
-                
-                const topPicks = validPages.slice(0, 6); 
+
+                // Cogemos uno de los 5 más cortos al azar para mantener variedad
+                const topPicks = validPages.slice(0, 8); 
                 const winner = topPicks[Math.floor(Math.random() * topPicks.length)];
 
                 return winner.title;
 
             } catch (e) {
                 console.error("Error Wikipedia:", e);
-                // Fallback de emergencia si no hay internet o falla la API
-                const fallback = ["Error de Red", "El Sistema", "Apocalipsis", "Tu conexión", "La Nada"];
+                const fallback = ["Internet", "Error 404", "Inteligencia Artificial", "Matrix", "El Sistema"];
                 return fallback[Math.floor(Math.random() * fallback.length)];
             }
         }
 
+        // --- UTILIDADES ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         // --- FUNCIONES PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Anonimo";
+            myName = document.getElementById('myUsername').value.trim() || "Unknown_User";
             isHost = true;
-            updateStatus("INICIANDO SERVIDOR...");
+            updateStatus("INITIALIZING...", true);
             peer = new Peer(null, { debug: 1 });
+            
             peer.on('open', (id) => {
                 document.getElementById('roomIdDisplay').value = id;
-                updateStatus("");
+                updateStatus("HOST ONLINE", true);
                 players = [{ id: id, name: myName, isHost: true }];
                 updateLobbyUI();
                 showScreen('lobby');
                 document.getElementById('hostControls').classList.remove('hidden');
             });
+
             peer.on('connection', (c) => {
                 c.on('open', () => {
                     c.on('data', (d) => handleDataHost(d, c));
@@ -294,23 +346,25 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Anonimo";
+            myName = document.getElementById('myUsername').value.trim() || "Unknown_User";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("Falta el código");
+            if (!roomId) return alert("NO CODE PROVIDED");
+            
             isHost = false;
-            updateStatus("CONECTANDO...");
+            updateStatus("CONNECTING...", true);
             peer = new Peer(null, { debug: 1 });
+            
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("CONECTADO");
+                    updateStatus("CONNECTED TO HOST", true);
                     conn.send({ type: 'JOIN', name: myName, id: id });
-                    connections = [conn]; // Cliente solo tiene 1 conexión (al host)
+                    connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("Sala cerrada o te han echado."); location.reload(); });
+                conn.on('close', () => { alert("CONNECTION LOST"); location.reload(); });
             });
-            peer.on('error', () => alert("Error al conectar. Código inválido."));
+            peer.on('error', () => alert("CONNECTION FAILED. CHECK CODE."));
         }
 
         // --- MANEJO DATOS ---
@@ -333,7 +387,7 @@
                 document.getElementById('hostControls').classList.add('hidden');
                 document.getElementById('clientWaiting').classList.remove('hidden');
             }
-            if (data.type === 'START') setupGame(data.word, data.impostor);
+            if (data.type === 'START') setupGame(data.word, data.impostor, data.order);
             if (data.type === 'REVEAL') showResult(data.word, data.impostorName);
             if (data.type === 'RESET') showScreen('lobby');
         }
@@ -346,55 +400,70 @@
             connections.forEach(c => c.send(msg));
         }
 
-        // --- LOGICA JUEGO ---
-        function kickPlayer(id) {
-            if(!confirm("¿Echar a este jugador?")) return;
-            const conn = connections.find(c => c.peer === id);
-            if (conn) conn.close();
-            players = players.filter(p => p.id !== id);
-            connections = connections.filter(c => c.peer !== id);
-            broadcastLobby();
-        }
-
+        // --- LÓGICA JUEGO ---
         async function startGame() {
-            if (players.length < 3 && !confirm("Sois menos de 3. ¿Seguir?")) return;
+            if (players.length < 3 && !confirm("Low player count. Continue?")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "BUSCANDO EN LA RED...";
+            btn.innerText = "FETCHING DATA...";
             btn.disabled = true;
 
-            // FETCH INFINITO
-            const word = await fetchInfiniteWord();
+            // 1. Obtener palabra filtrada
+            const word = await fetchSmartWord();
             
-            // Seleccionar impostor
+            // 2. Elegir impostor
             const impostor = players[Math.floor(Math.random() * players.length)];
             
-            window.gameState = { word: word, impostorName: impostor.name }; // Guardar localmente en host
-            
-            const msg = { type: 'START', word: word, impostor: impostor.id };
-            connections.forEach(c => c.send(msg));
-            setupGame(word, impostor.id);
+            // 3. CREAR ORDEN DE TURNOS (Barajar copia de jugadores)
+            let turnOrder = [...players]; // Copia
+            turnOrder = shuffleArray(turnOrder).map(p => p.name); // Barajamos y solo nos quedamos nombres
 
-            btn.innerText = "INICIAR BÚSQUEDA Y JUEGO";
+            // Guardar estado Host
+            gameState = { word: word, impostorName: impostor.name, order: turnOrder };
+            
+            const msg = { 
+                type: 'START', 
+                word: word, 
+                impostor: impostor.id,
+                order: turnOrder
+            };
+            
+            connections.forEach(c => c.send(msg));
+            setupGame(word, impostor.id, turnOrder);
+
+            btn.innerText = ">> EXECUTE GAME";
             btn.disabled = false;
         }
 
-        function setupGame(word, impostorId) {
+        function setupGame(word, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
             
-            document.getElementById('roleDisplay').innerText = amIImpostor ? "😈 ERES EL IMPOSTOR" : "😇 ERES CIUDADANO";
-            document.getElementById('roleDisplay').style.color = amIImpostor ? "var(--danger-color)" : "var(--accent-color)";
-
+            // Rol
+            const roleTxt = document.getElementById('roleDisplay');
             if (amIImpostor) {
+                roleTxt.innerText = "🕵️ IMPOSTOR";
+                roleTxt.style.color = "var(--neon-red)";
                 document.getElementById('wordContainer').classList.add('hidden');
                 document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
+                roleTxt.innerText = "👤 CIUDADANO";
+                roleTxt.style.color = "var(--neon-green)";
                 document.getElementById('wordContainer').classList.remove('hidden');
                 document.getElementById('impostorMessage').classList.add('hidden');
                 document.getElementById('secretWordDisplay').innerText = word;
             }
 
+            // Renderizar Orden
+            const ul = document.getElementById('turnOrderList');
+            ul.innerHTML = '';
+            orderList.forEach((name, index) => {
+                const li = document.createElement('li');
+                li.innerText = `${index + 1}. ${name}`;
+                ul.appendChild(li);
+            });
+
+            // Controles
             if (isHost) {
                 document.getElementById('hostGameControls').classList.remove('hidden');
                 document.getElementById('waitingReveal').classList.add('hidden');
@@ -405,7 +474,7 @@
         }
 
         function revealGame() {
-            const msg = { type: 'REVEAL', word: window.gameState.word, impostorName: window.gameState.impostorName };
+            const msg = { type: 'REVEAL', word: gameState.word, impostorName: gameState.impostorName };
             connections.forEach(c => c.send(msg));
             showResult(msg.word, msg.impostorName);
         }
@@ -425,21 +494,29 @@
         }
 
         function returnToLobby() {
-            broadcastLobby(); // Re-envia estado lobby
+            broadcastLobby();
             connections.forEach(c => c.send({ type: 'RESET' }));
             showScreen('lobby');
         }
 
-        // --- UI AUXILIARES ---
+        // --- UI ---
+        function kickPlayer(id) {
+            if(!confirm("KICK USER?")) return;
+            const conn = connections.find(c => c.peer === id);
+            if (conn) conn.close();
+            players = players.filter(p => p.id !== id);
+            connections = connections.filter(c => c.peer !== id);
+            broadcastLobby();
+        }
+
         function updateLobbyUI() {
             const list = document.getElementById('lobbyList');
             list.innerHTML = '';
-            document.getElementById('playerCount').innerText = players.length;
             players.forEach(p => {
                 const li = document.createElement('li');
-                let html = `<span>${p.name} ${p.isHost ? '<span class="tag">HOST</span>':''}</span>`;
+                let html = `<span style="color:${p.isHost ? 'var(--neon-blue)' : '#eee'}">${p.name} ${p.isHost ? '<span class="tag">HOST</span>':''}</span>`;
                 if(isHost && p.id !== peer.id) {
-                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">KICK</button>`;
+                    html += `<button class="danger" style="width:auto; padding:2px 5px; margin:0; font-size:0.6rem;" onclick="kickPlayer('${p.id}')">KICK</button>`;
                 }
                 li.innerHTML = html;
                 list.appendChild(li);
@@ -450,7 +527,9 @@
             const el = document.getElementById('roomIdDisplay');
             el.select();
             navigator.clipboard.writeText(el.value);
-            alert("Código copiado");
+            // Feedback visual sutil
+            el.style.color = "var(--neon-green)";
+            setTimeout(() => el.style.color = "var(--text-main)", 500);
         }
     </script>
 </body>
