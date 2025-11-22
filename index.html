@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎀 Impostor Coquette</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- ESTÉTICA COQUETTE DARK --- */
         :root {
-            --bg-color: #16080d; /* Negro rojizo muy oscuro */
-            --card-bg: #241218;
-            --pink-soft: #ffc2d1;
-            --pink-hot: #ff8fab;
-            --pearl: #fff0f3;
-            --text-main: #ffe5ec;
-            --danger: #ff4d6d;
-            --font-main: 'Georgia', 'Times New Roman', serif;
+            --bg-color: #fff0f5; /* Lavender Blush */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary: #ffb7c5; /* Cherry Blossom Pink */
+            --accent: #ff69b4; /* Hot Pink */
+            --text-main: #6d4c41; /* Marrón suave */
+            --gold: #d4af37;
+            --shadow: rgba(255, 105, 180, 0.2);
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: var(--font-main);
+            font-family: 'Quicksand', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -31,266 +31,347 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 183, 197, 0.4) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 224, 0.6) 0%, transparent 20%);
         }
 
-        /* FONDO DE EMOJIS SUTIL */
-        body::before {
-            content: "🎀 🦢 🩰 💄 🕯️ 🍒 🧸 🧁";
+        /* FONDO ANIMADO COQUETTE */
+        .bg-emojis {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            font-size: 2rem;
-            opacity: 0.03; /* Muy sutil */
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: center;
-            gap: 40px;
-            z-index: -1;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            letter-spacing: 30px;
-            line-height: 3;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .bg-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp 15s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         h1 {
-            color: var(--pink-soft);
-            font-style: italic;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255, 194, 209, 0.3);
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px white, 4px 4px 0px rgba(255, 182, 193, 0.5);
+            position: relative;
         }
-        
-        .tagline { font-size: 0.8rem; color: var(--pink-hot); opacity: 0.8; margin-bottom: 20px; }
+        h1::after {
+            content: "🎀";
+            font-size: 1.5rem;
+            position: absolute;
+            top: 0; right: -20px;
+            transform: rotate(15deg);
+        }
 
         .container {
             background-color: var(--card-bg);
-            border: 1px solid rgba(255, 194, 209, 0.2);
+            backdrop-filter: blur(10px);
             padding: 2.5rem;
-            border-radius: 25px; /* Bordes muy redondos */
+            border-radius: 30px;
+            border: 2px solid white;
+            box-shadow: 
+                0 10px 30px var(--shadow),
+                inset 0 0 20px rgba(255,255,255,0.8);
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
             position: relative;
-            backdrop-filter: blur(5px);
+            margin-top: 20px;
         }
 
-        /* Decoración lazo */
-        .container::after {
-            content: '🎀';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            text-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        /* Decoración de Lazo CSS puro en la caja */
+        .container::before {
+            content: "✨";
+            position: absolute; top: 10px; left: 15px; font-size: 1.2rem;
         }
+        .container::after {
+            content: "✨";
+            position: absolute; bottom: 10px; right: 15px; font-size: 1.2rem;
+        }
+
+        h2 { font-family: 'Dancing Script', cursive; color: var(--text-main); font-size: 2rem; margin-top: 0;}
 
         input {
             width: 100%;
             padding: 15px;
-            margin: 12px 0;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--pink-hot);
-            border-radius: 15px;
-            color: var(--pearl);
-            font-family: inherit;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            color: var(--text-main);
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
             font-size: 1rem;
-            outline: none;
             text-align: center;
+            outline: none;
             transition: 0.3s;
         }
-        input:focus { border-color: var(--pearl); box-shadow: 0 0 15px rgba(255, 143, 171, 0.3); }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--primary); }
+        input::placeholder { color: #ccb0b0; }
 
         button {
             width: 100%;
             padding: 15px;
             margin-top: 15px;
-            background: linear-gradient(45deg, var(--pink-hot), #ffb3c6);
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
             border: none;
-            border-radius: 20px;
-            color: #4a0a1d;
-            font-weight: bold;
+            border-radius: 25px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 143, 171, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            transition: transform 0.2s;
+            font-family: 'Quicksand', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 143, 171, 0.5); filter: brightness(1.1); }
+        button:hover { transform: scale(1.03); filter: brightness(1.05); }
         
-        button.secondary { 
-            background: transparent; 
-            border: 1px solid var(--pink-soft); 
-            color: var(--pink-soft); 
+        button.secondary {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--accent);
             box-shadow: none;
         }
-        button.secondary:hover { background: rgba(255, 194, 209, 0.1); color: white; }
+        button.secondary:hover { background: var(--bg-color); }
 
-        button.danger { background: linear-gradient(45deg, #d90429, #ff4d6d); color: white; }
+        button.danger {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        }
 
         .hidden { display: none !important; }
-
-        /* LISTAS */
-        .player-list, .turn-order-list { list-style: none; padding: 0; text-align: left; }
         
+        /* Listas bonitas */
+        .player-list { list-style: none; padding: 0; text-align: left; }
         .player-list li {
-            border-bottom: 1px dashed var(--pink-hot); 
-            padding: 12px 0;
-            display: flex; justify-content: space-between; align-items: center;
-            color: var(--pearl);
-        }
-
-        .turn-order-list { margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
-        .turn-order-list li { padding: 8px; font-size: 0.95rem; color: #ccaadd; border-bottom: 1px dotted #444; }
-        .turn-order-list li:last-child { border-bottom: none; }
-        .turn-order-list li:first-child { 
-            color: var(--pink-soft); 
-            font-weight: bold; 
-            font-style: italic;
-        }
-        .turn-order-list li:first-child::after { content: " ✨ (Empieza)"; font-size: 0.8rem; }
-
-        /* JUEGO */
-        .role-title { font-size: 1.2rem; color: var(--pink-soft); margin-bottom: 5px; }
-        
-        .secret-word {
-            font-size: 2.2rem; color: var(--pearl); 
-            text-transform: uppercase;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--pink-hot);
+            background: white;
+            margin: 8px 0;
+            padding: 10px 15px;
             border-radius: 15px;
-            padding: 20px; margin: 15px 0;
-            text-shadow: 0 0 15px var(--pink-hot);
-            word-break: break-word;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            color: var(--text-main);
+            border: 1px solid var(--primary);
         }
 
-        .word-description {
-            font-size: 0.9rem;
-            color: #e0c3fc;
-            font-style: italic;
-            line-height: 1.4;
+        .role-card {
+            border: 2px dashed var(--accent);
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.5);
             margin-top: 10px;
+        }
+
+        .secret-word {
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent);
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px white;
+            word-wrap: break-word;
+        }
+
+        .description-box {
+            font-size: 0.9rem;
+            color: #886;
+            background: #fff;
             padding: 10px;
-            background: rgba(0,0,0,0.3);
             border-radius: 10px;
+            font-style: italic;
+            border: 1px solid #eee;
+            margin-top: 5px;
         }
-        
-        .impostor-text { 
-            color: var(--danger); 
-            font-size: 2.5rem; 
-            text-shadow: 0 0 20px rgba(255, 77, 109, 0.6); 
-            letter-spacing: 5px;
-            margin: 20px 0;
+
+        .impostor-title {
+            color: #ff4d6d;
+            font-size: 2.2rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            animation: heartbeat 1.5s infinite;
         }
-        
-        .kick-btn {
-            width: auto; padding: 5px 12px; margin: 0 0 0 10px;
-            font-size: 0.7rem; background: transparent; border: 1px solid var(--danger); color: var(--danger);
-            border-radius: 10px;
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .kick-btn:hover { background: var(--danger); color: white; }
+
+        .turn-list { margin-top: 15px; text-align: left; font-size: 0.9rem; }
+        .turn-list li { padding: 5px 0; border-bottom: 1px dotted var(--primary); color: var(--text-main); }
+        .turn-list li:first-child { color: var(--accent); font-weight: bold; }
+        .turn-list li:first-child::after { content: " 🎤 (Empieza)"; }
 
         #roomIdDisplay { 
-            font-family: monospace; letter-spacing: 2px; font-weight: bold; color: var(--pink-soft);
-            cursor: pointer; border-style: dashed;
+            font-family: 'Quicksand', monospace; 
+            letter-spacing: 1px; 
+            color: var(--accent);
+            cursor: pointer;
+            border: 2px dashed var(--primary);
         }
+
+        .kick-btn {
+            background: transparent; border: 1px solid #ff4d6d; color: #ff4d6d;
+            width: auto; padding: 4px 10px; margin: 0; font-size: 0.7rem; box-shadow: none;
+        }
+        .kick-btn:hover { background: #ff4d6d; color: white; transform: none; }
 
     </style>
 </head>
 <body>
 
+    <div id="emoji-bg" class="bg-emojis"></div>
+
     <h1>The Impostor</h1>
-    <div class="tagline">✨ Coquette Edition ✨</div>
-    <div id="statusMsg" style="font-size: 0.8rem; color: #aaa; min-height: 1rem; margin-bottom: 10px;"></div>
+    <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; background: white; padding: 5px 15px; border-radius: 50px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        ✨ Coquette Edition ✨
+    </div>
+    
+    <div id="statusMsg" style="color: #997; font-size: 0.8rem; height: 20px;"></div>
 
     <div id="screen-menu" class="container">
-        <p style="text-align: center; color: var(--pearl);">¿Quién eres hoy?</p>
-        <input type="text" id="myUsername" placeholder="Tu nombre lindo..." maxlength="12">
-        <button onclick="createGame()">Crear Sala ✨</button>
-        <div style="margin: 20px 0; display: flex; align-items: center; color: #555;">
-            <hr style="flex:1; border-color: #442;"> <span style="padding:0 10px;">o</span> <hr style="flex:1; border-color: #442;">
-        </div>
-        <input type="text" id="joinInput" placeholder="Pegar código de sala">
-        <button class="secondary" onclick="joinGame()">Unirse a una sala 🦢</button>
+        <h2>Bienvenida, linda 🦢</h2>
+        <input type="text" id="myUsername" placeholder="Tu nombre..." maxlength="12">
+        <button onclick="createGame()">Crear Salita 🎀</button>
+        <div style="margin: 15px 0; color: #bca; font-size: 0.8rem;">— o únete a una amiga —</div>
+        <input type="text" id="joinInput" placeholder="Código de la sala">
+        <button class="secondary" onclick="joinGame()">Unirse ✨</button>
     </div>
 
     <div id="screen-lobby" class="container hidden">
         <h2>Sala de Espera 🧸</h2>
-        <p style="font-size: 0.8rem; color: #bbb;">Toca el código para copiarlo:</p>
+        <p style="font-size: 0.8rem; color: #886;">Comparte este código (toca para copiar):</p>
         
         <input type="text" id="roomIdDisplay" readonly onclick="copyRoomCode()">
 
-        <h3 style="margin-top: 20px; border-bottom: 1px solid #442; padding-bottom: 5px;">Amigas conectadas (<span id="playerCount">0</span>)</h3>
+        <div style="margin-top: 20px; text-align: left;">
+            <h3 style="font-family: 'Dancing Script'; color: var(--text-main); font-size: 1.5rem;">
+                Jugadoras (<span id="playerCount">0</span>) 🩰
+            </h3>
+        </div>
         <ul id="lobbyList" class="player-list"></ul>
 
         <div id="hostControls" class="hidden" style="margin-top: 25px;">
-            <div style="background: rgba(255, 194, 209, 0.05); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #d8bfd8; margin-bottom: 15px;">
-                ℹ️ <b>Modo Infinito:</b> Las palabras vendrán de Wikipedia con una pequeña descripción para ayudar.
+            <div style="background: #fff; padding: 10px; border-radius: 15px; border: 1px solid var(--primary); margin-bottom: 15px;">
+                <p style="font-size: 0.8rem; margin: 0; color: #665;">
+                    💡 <b>Modo Smart:</b> Buscando palabras famosas, celebridades y cosas comunes en España.
+                </p>
             </div>
-            <button onclick="startGame()" id="btnStart">✨ Empezar Partida ✨</button>
+            <button onclick="startGame()" id="btnStart">💖 Empezar Partida 💖</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--pink-soft); animation: pulse 2s infinite;">Esperando a la anfitriona... 🎀</p>
+            <p style="color: var(--accent); animation: heartbeat 2s infinite;">Esperando a la Host... 💅</p>
         </div>
     </div>
 
     <div id="screen-game" class="container hidden">
         <div class="role-card">
-            <p class="role-title">Tu identidad secreta es:</p>
-            <h3 id="roleDisplay" style="font-size: 1.5rem; margin: 5px 0;">...</h3>
+            <p style="color: #886; font-size: 0.9rem;">TU IDENTIDAD SECRETA:</p>
+            <h3 id="roleDisplay" style="font-family: 'Dancing Script'; font-size: 2rem; margin: 5px 0;">...</h3>
             
             <div id="wordContainer">
-                <hr style="border-color: #442; margin: 20px 0; opacity: 0.5;">
-                <p style="font-size:0.8rem; color: #bbb;">LA PALABRA ES:</p>
+                <hr style="border: 0; border-top: 2px dotted var(--primary); margin: 15px 0;">
+                <p style="font-size:0.8rem; color: #886; letter-spacing: 1px;">LA PALABRA ES:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                
-                <div id="secretDescDisplay" class="word-description">Cargando definición...</div>
+                <div id="secretDescDisplay" class="description-box">Cargando info...</div>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <hr style="border-color: #442; margin: 20px 0; opacity: 0.5;">
-                <div class="impostor-text">IMPOSTOR</div>
-                <p style="color: var(--pearl);">Shhh... 🤫<br>No sabes la palabra.<br>Finge hasta el final.</p>
+                <hr style="border: 0; border-top: 2px dotted var(--primary); margin: 15px 0;">
+                <div class="impostor-title">IMPOSTORA</div>
+                <p style="color: var(--text-main);">🤫 Shhh... no sabes nada.<br>¡Miente con estilo!</p>
             </div>
+        </div>
 
-            <div style="margin-top: 30px;">
-                <p style="font-size: 0.9rem; color: var(--pink-soft); text-align: left;">🩰 Orden de turnos:</p>
-                <ol id="turnOrderList" class="turn-order-list"></ol>
-            </div>
+        <div style="margin-top: 20px; background: rgba(255,255,255,0.6); padding: 15px; border-radius: 15px;">
+            <p style="font-size: 0.9rem; color: var(--accent); font-weight: bold; margin:0 0 10px 0;">🎀 Orden de Turnos:</p>
+            <ol id="turnOrderList" class="turn-list"></ol>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">💔 Terminar y Revelar</button>
+            <button class="danger" onclick="revealGame()">💔 Terminar Ronda</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#888; font-size: 0.8rem;">La partida está en curso...</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color:#998; font-size: 0.8rem;">Jugando... 🦢</p>
     </div>
 
     <div id="screen-result" class="container hidden">
-        <h2 style="color: var(--pearl);">Resultados</h2>
+        <h2>Resultados ✨</h2>
         
-        <p style="color:#aaa; font-size: 0.9rem;">La palabra era:</p>
-        <div id="finalWord" style="font-size: 1.8rem; color: var(--pink-hot); margin-bottom: 5px; font-weight: bold;"></div>
-        <p id="finalDesc" style="font-size: 0.8rem; color: #aaa; font-style: italic; margin-bottom: 20px;"></p>
-        
-        <hr style="border-color: #333;">
+        <div style="background: white; padding: 15px; border-radius: 20px; border: 1px solid var(--primary); margin-bottom: 20px;">
+            <p style="color:#886; font-size: 0.8rem; margin:0;">La palabra era:</p>
+            <div id="finalWord" style="font-size: 1.8rem; color: var(--accent); font-family: 'Dancing Script'; font-weight: bold;"></div>
+            <p id="finalDesc" style="font-size: 0.75rem; color: #998; font-style: italic;"></p>
+        </div>
 
-        <p style="color:#aaa; font-size: 0.9rem;">El impostor era:</p>
-        <h3 id="finalImpostor" style="font-size: 2rem; color: var(--danger); margin-top: 5px;"></h3>
+        <p style="color:#886; font-size: 0.9rem;">La Impostora era:</p>
+        <h3 id="finalImpostor" style="font-family: 'Dancing Script'; font-size: 2.5rem; color: #ff4d6d; margin: 0;"></h3>
         
         <div id="hostRestartControls" class="hidden">
             <button onclick="returnToLobby()">🔄 Volver al Lobby</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color:#666;">Esperando al Host...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color:#886;">Esperando a la Host...</p>
     </div>
 
     <script>
-        // --- LÓGICA DE CONEXIÓN ---
+        // --- GENERADOR DE FONDO COQUETTE ---
+        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "💖", "🦪", "🍒", "✨", "🍰", "💌"];
+        const bgContainer = document.getElementById('emoji-bg');
+        
+        for(let i=0; i<20; i++) {
+            const el = document.createElement('div');
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.className = 'bg-emoji';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            el.style.animationDelay = Math.random() * 5 + 's';
+            el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+            bgContainer.appendChild(el);
+        }
+
+        // --- LISTA DE "SEMILLAS" DE BÚSQUEDA INTELIGENTE ---
+        // Estas semillas garantizan que Wikipedia devuelva cosas FAMOSAS y COMUNES en España.
+        const SEARCH_SEEDS = [
+            // Celebridades & Famosos
+            "Cantantes de pop famosos", "Futbolistas famosos de la historia", "Actores de Hollywood famosos", "Celebridades de internet",
+            "Directores de cine famosos", "Cantantes de reguetón", "Presentadores de televisión de España", "Famosos de España",
+            "Personajes de Harry Potter", "Superhéroes de Marvel", "Princesas Disney", "Jugadores del Real Madrid", "Jugadores del FC Barcelona",
+            "Artistas famosos de la historia", "Escritores famosos universales", "Personajes de Star Wars", "Personajes de Los Simpson",
+            
+            // Objetos & Vida Diaria
+            "Muebles de casa", "Electrodomésticos de cocina", "Frutas comunes", "Verduras comunes", 
+            "Ropa de mujer", "Accesorios de moda", "Instrumentos musicales populares", "Material escolar",
+            "Juguetes famosos", "Herramientas de bricolaje", "Medios de transporte", "Partes del cuerpo humano",
+            "Maquillaje", "Dulces y postres", "Bebidas alcohólicas famosas", "Platos típicos de España",
+            
+            // Lugares
+            "Ciudades de España", "Capitales de Europa", "Monumentos famosos del mundo", "Tiendas de ropa famosas",
+            "Cadenas de comida rápida", "Lugares de la casa", "Países de América Latina", "Destinos turísticos populares",
+            
+            // Animales & Naturaleza
+            "Animales de la selva", "Animales de granja", "Razas de perros populares", "Flores comunes", "Animales marinos",
+            
+            // Conceptos Random pero Comunes
+            "Deportes olímpicos", "Redes sociales", "Marcas de coches", "Profesiones comunes", "Estaciones del año", "Fiestas populares"
+        ];
+
+        // --- LOGICA DE CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
         let myName = "";
         let players = []; 
-        let gameState = {}; 
+        let gameState = {};
         
         const screens = ['menu', 'lobby', 'game', 'result'];
 
@@ -301,54 +382,55 @@
 
         function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
 
-        // --- CEREBRO MEJORADO: WIKIPEDIA + DESCRIPCIONES ---
-        async function fetchSmartWord() {
-            // Usamos generator=random para obtener páginas Y prop=extracts para sacar el resumen
-            // limit=10 para no saturar, pero pedimos intros
-            const url = "https://es.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnlimit=15&prop=extracts&exintro&explaintext&exchars=200&format=json&origin=*";
+        // --- CEREBRO: SMART SEARCH WIKIPEDIA ---
+        async function fetchCommonWord() {
+            // 1. Elegimos una semilla aleatoria (Ej: "Frutas comunes" o "Futbolistas famosos")
+            const seed = SEARCH_SEEDS[Math.floor(Math.random() * SEARCH_SEEDS.length)];
+            console.log("Semilla elegida:", seed);
+
+            // 2. Buscamos en Wikipedia usando "generator=search". 
+            // Wikipedia ordena por RELEVANCIA, así que los primeros resultados son siempre los más famosos.
+            const url = `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(seed)}&gsrlimit=20&prop=extracts&exintro&explaintext&exchars=250&format=json&origin=*`;
             
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                const pages = data.query.pages;
-                const pageValues = Object.values(pages);
-
-                // FILTRO AVANZADO:
-                // 1. Debe tener extracto (descripción).
-                // 2. El título no debe ser "raro" (sin paréntesis, dos puntos, números solos).
-                // 3. La descripción no debe ser vacía ni decir "se refiere a".
                 
-                let validPages = pageValues.filter(p => {
+                if (!data.query || !data.query.pages) throw new Error("Sin resultados");
+
+                const pages = Object.values(data.query.pages);
+
+                // 3. Filtramos basura
+                let validPages = pages.filter(p => {
                     const t = p.title;
                     const desc = p.extract;
-
-                    if (!desc || desc.length < 15) return false; // Sin descripción útil
-                    if (t.includes("(") || t.includes(":")) return false; // Títulos técnicos
-                    if (/^\d+$/.test(t)) return false; // Años
-                    if (t.startsWith("Anexo")) return false; 
-                    if (desc.includes("puede referirse a")) return false; // Desambiguación
-
+                    if (!desc || desc.length < 10) return false;
+                    if (t.startsWith("Anexo:") || t.startsWith("Lista de") || t.startsWith("Categoría:")) return false;
+                    if (t.includes("Discografía") || t.includes("Bibliografía")) return false;
                     return true;
                 });
 
-                if (validPages.length === 0) validPages = pageValues; // Fallback pánico
+                if (validPages.length === 0) validPages = pages; // Fallback
 
-                // ORDENAR POR LONGITUD DE TÍTULO (Más corto = Más común generalmente)
-                validPages.sort((a, b) => a.title.length - b.title.length);
+                // 4. Elegimos uno al azar de los Top 20 resultados más relevantes
+                const winner = validPages[Math.floor(Math.random() * validPages.length)];
 
-                // Elegir uno de los mejores 5
-                const topPicks = validPages.slice(0, 5); 
-                const winner = topPicks[Math.floor(Math.random() * topPicks.length)];
+                // Limpieza de texto
+                let cleanDesc = winner.extract.split('.')[0] + "."; // Primera frase suele ser la mejor
+                if (cleanDesc.length > 150) cleanDesc = cleanDesc.substring(0, 150) + "...";
 
-                // Limpiar la descripción un poco (quitar saltos de línea)
-                let cleanDesc = winner.extract.replace(/\n/g, " ").substring(0, 180);
-                if(winner.extract.length > 180) cleanDesc += "...";
-
-                return { title: winner.title, desc: cleanDesc };
+                return { title: winner.title, desc: cleanDesc, category: seed };
 
             } catch (e) {
                 console.error("Wiki Error:", e);
-                return { title: "Amor", desc: "Sentimiento de vivo afecto e inclinación hacia una persona o cosa." };
+                // Fallback por si explota la API
+                const fallbacks = [
+                    {title: "Taylor Swift", desc: "Cantautora estadounidense, una de las artistas más populares."},
+                    {title: "Pizza", desc: "Plato italiano consistente en una base de masa con tomate y queso."},
+                    {title: "Ibai Llanos", desc: "Streamer, youtuber y presentador de deportes electrónicos español."},
+                    {title: "París", desc: "Capital de Francia, conocida por la Torre Eiffel."}
+                ];
+                return fallbacks[Math.floor(Math.random() * fallbacks.length)];
             }
         }
 
@@ -360,11 +442,11 @@
             return array;
         }
 
-        // --- FUNCIONES PEERJS ---
+        // --- PEERJS & LOGICA ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Cinnamon Roll";
+            myName = document.getElementById('myUsername').value.trim() || "Princesa";
             isHost = true;
-            updateStatus("Creando salita... 🎀");
+            updateStatus("Creando mundo rosa... 🎀");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -379,6 +461,7 @@
             peer.on('connection', (c) => {
                 c.on('open', () => { c.on('data', (d) => handleDataHost(d, c)); });
                 c.on('close', () => {
+                    // Manejo de desconexión
                     players = players.filter(p => p.id !== c.peer);
                     connections = connections.filter(con => con.peer !== c.peer);
                     broadcastLobby();
@@ -387,28 +470,27 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Baby Angel";
+            myName = document.getElementById('myUsername').value.trim() || "Hada";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("¡Ups! Falta el código 🥺");
+            if (!roomId) return alert("¡Falta el código de la sala! 🥺");
             
             isHost = false;
-            updateStatus("Buscando... 🦢");
+            updateStatus("Volando hacia la sala... 🦢");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("¡Conectada! ✨");
+                    updateStatus("¡Llegaste! ✨");
                     conn.send({ type: 'JOIN', name: myName, id: id });
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("La sala se cerró 💔"); location.reload(); });
+                conn.on('close', () => { alert("La sala cerró sus puertas 💔"); location.reload(); });
             });
-            peer.on('error', () => alert("No encuentro esa sala 🥺"));
+            peer.on('error', () => alert("No encuentro esa sala, revisa el código 🥺"));
         }
 
-        // --- DATA HANDLING ---
         function handleDataHost(data, connSource) {
             if (data.type === 'JOIN') {
                 if (!players.find(p => p.id === data.id)) {
@@ -423,7 +505,7 @@
             if (data.type === 'LOBBY') {
                 players = data.players;
                 showScreen('lobby');
-                document.getElementById('playerCount').innerText = players.length;
+                // IMPORTANTE: Actualizar UI y Contador
                 updateLobbyUI();
                 document.getElementById('hostControls').classList.add('hidden');
                 document.getElementById('clientWaiting').classList.remove('hidden');
@@ -437,24 +519,23 @@
             const safePlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
             const msg = { type: 'LOBBY', players: safePlayers };
             if (!isHost) return;
+            // Host actualiza su propia UI
             updateLobbyUI();
             connections.forEach(c => c.send(msg));
         }
 
-        // --- GAME LOGIC ---
         async function startGame() {
-            if (players.length < 3 && !confirm("Son poquitos (menos de 3). ¿Jugamos igual? 🥺")) return;
+            if (players.length < 3 && !confirm("Sois poquitas (menos de 3). ¿Jugar igual?")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "Eligiendo palabra mágica... ✨";
+            btn.innerText = "✨ Buscando magia... ✨";
             btn.disabled = true;
 
-            // 1. Obtener palabra + descripción
-            const wordData = await fetchSmartWord(); // Retorna {title, desc}
+            // Fetch inteligente
+            const wordData = await fetchCommonWord(); 
             
             const impostor = players[Math.floor(Math.random() * players.length)];
             
-            // Orden aleatorio
             let turnOrder = [...players];
             turnOrder = shuffleArray(turnOrder).map(p => p.name);
 
@@ -470,7 +551,7 @@
             connections.forEach(c => c.send(msg));
             setupGame(wordData, impostor.id, turnOrder);
 
-            btn.innerText = "✨ Empezar Partida ✨";
+            btn.innerText = "💖 Empezar Partida 💖";
             btn.disabled = false;
         }
 
@@ -481,12 +562,12 @@
             const roleTxt = document.getElementById('roleDisplay');
             if (amIImpostor) {
                 roleTxt.innerText = "💔 Eres la IMPOSTORA";
-                roleTxt.style.color = "var(--danger)";
+                roleTxt.style.color = "#ff4d6d";
                 document.getElementById('wordContainer').classList.add('hidden');
                 document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
                 roleTxt.innerText = "💖 Eres CIUDADANA";
-                roleTxt.style.color = "var(--pink-hot)";
+                roleTxt.style.color = "var(--accent)";
                 document.getElementById('wordContainer').classList.remove('hidden');
                 document.getElementById('impostorMessage').classList.add('hidden');
                 
@@ -539,7 +620,7 @@
         }
 
         function kickPlayer(id) {
-            if(!confirm("¿Sacar a esta persona de la sala? 💔")) return;
+            if(!confirm("¿Sacar a esta persona? 💔")) return;
             const conn = connections.find(c => c.peer === id);
             if (conn) conn.close();
             players = players.filter(p => p.id !== id);
@@ -547,9 +628,14 @@
             broadcastLobby();
         }
 
+        // --- ARREGLO DEL CONTADOR ---
         function updateLobbyUI() {
             const list = document.getElementById('lobbyList');
             list.innerHTML = '';
+            
+            // Actualización forzada del contador
+            document.getElementById('playerCount').innerText = players.length;
+
             players.forEach(p => {
                 const li = document.createElement('li');
                 let html = `<span>${p.name} ${p.isHost ? '👑' : ''}</span>`;
@@ -565,8 +651,8 @@
             const el = document.getElementById('roomIdDisplay');
             el.select();
             navigator.clipboard.writeText(el.value);
-            el.style.color = "white";
-            setTimeout(() => el.style.color = "var(--pink-soft)", 300);
+            el.style.backgroundColor = "#ffebf0";
+            setTimeout(() => el.style.backgroundColor = "white", 300);
         }
     </script>
 </body>
