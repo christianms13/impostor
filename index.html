@@ -9,17 +9,16 @@
     
     <style>
         :root {
-            /* PALETA MÁLAGA CF */
-            --mcf-blue-light: #6CABDD; /* Azul Cielo Camiseta */
-            --mcf-blue-dark: #004488;  /* Azul Oscuro */
-            --mcf-gold: #D4AF37;       /* Dorado Escudo */
+            /* COLORES MÁLAGA CF */
+            --mcf-sky: #6CABDD;
+            --mcf-dark: #004488;
+            --mcf-gold: #D4AF37;
             --white: #ffffff;
-            --bg-overlay: rgba(0, 20, 40, 0.85);
-            --card-glass: rgba(255, 255, 255, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.96);
             --danger: #e74c3c;
         }
 
-        * { box-sizing: border-box; transition: all 0.2s ease; }
+        * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -27,195 +26,239 @@
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
             color: #333;
-            /* FONDO DE LA ROSALEDA */
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
+            overflow-x: hidden;
+            /* FONDO ESTADIO + DEGRADADO DIVERTIDO */
+            background: 
+                linear-gradient(135deg, rgba(0, 68, 136, 0.8), rgba(108, 171, 221, 0.7)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
             background-size: cover;
         }
 
-        /* CAPA OSCURA SOBRE EL FONDO */
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-overlay); z-index: -1;
+        /* EMOJIS FLOTANTES (DETRÁS DEL CONTENIDO) */
+        .emoji-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .floating-emoji {
+            position: absolute;
+            bottom: -50px; /* Empiezan abajo del todo */
+            animation: riseUp linear infinite;
+            opacity: 0.6; /* Más visibles */
+            z-index: 0;
+        }
+        @keyframes riseUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        /* CABECERA CON ESCUDO */
+        /* CABECERA */
         header {
             display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;
-            text-align: center;
+            text-align: center; z-index: 10;
         }
         .shield {
-            width: 90px; height: auto; margin-bottom: 15px;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.4));
-            transition: transform 0.3s;
+            width: 100px; height: auto; margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+            animation: floatShield 6s ease-in-out infinite;
         }
-        .shield:hover { transform: scale(1.1); }
+        @keyframes floatShield { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         h1 {
-            font-family: 'Teko', sans-serif; font-size: 4rem; text-transform: uppercase;
-            margin: 0; line-height: 0.9;
-            background: linear-gradient(to bottom, var(--white), var(--mcf-blue-light));
-            -webkit-background-clip: text; color: transparent;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-family: 'Teko', sans-serif; font-size: 4.5rem; text-transform: uppercase;
+            margin: 0; line-height: 0.8;
+            color: white;
+            text-shadow: 4px 4px 0px var(--mcf-dark);
         }
-        .subtitle { color: var(--mcf-blue-light); font-size: 1rem; letter-spacing: 2px; font-weight: 600; text-transform: uppercase;}
+        .subtitle { 
+            color: var(--white); background: var(--mcf-dark); padding: 5px 15px; 
+            border-radius: 20px; font-size: 0.9rem; letter-spacing: 2px; font-weight: 800; 
+            text-transform: uppercase; margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
 
-        /* CONTENEDOR PRINCIPAL AMPLIO */
+        /* BARRA DE ESTADO (SOLO VISIBLE CON TEXTO) */
+        #statusMsg {
+            color: white; margin-bottom: 15px; font-weight: 700; 
+            background: rgba(0,0,0,0.6); border-radius: 8px; z-index: 10;
+            padding: 0; transition: padding 0.3s;
+        }
+        #statusMsg:not(:empty) { padding: 10px 20px; }
+
+        /* CONTENEDOR PRINCIPAL */
         .main-card {
-            background: var(--card-glass);
-            width: 100%; max-width: 900px; /* MÁS AMPLIO */
-            border-radius: 20px;
+            background: var(--card-bg);
+            width: 100%; max-width: 900px;
+            border-radius: 25px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.5),
+                0 0 0 6px rgba(255,255,255,0.2); /* Borde cristal */
             text-align: center;
             position: relative;
-            border-top: 5px solid var(--mcf-blue-light);
-            border-bottom: 5px solid var(--mcf-blue-dark);
+            z-index: 10; /* POR ENCIMA DE LOS EMOJIS */
+            backdrop-filter: blur(10px);
         }
 
-        /* INPUTS ESTILO CAMISETA */
+        /* INPUTS */
         input {
-            width: 100%; padding: 18px; margin: 15px 0;
-            background: #f0f4f8; border: 2px solid #dde6ed;
-            border-radius: 12px; color: var(--mcf-blue-dark);
-            font-family: 'Montserrat'; font-weight: 600; font-size: 1.1rem;
+            width: 100%; padding: 20px; margin: 15px 0;
+            background: #f4f7f9; border: 2px solid #dae1e7;
+            border-radius: 15px; color: var(--mcf-dark);
+            font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem;
             text-align: center; outline: none;
         }
-        input:focus { border-color: var(--mcf-blue-light); background: white; box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.2); }
+        input:focus { border-color: var(--mcf-sky); background: white; box-shadow: 0 0 0 5px rgba(108, 171, 221, 0.3); transform: scale(1.02); }
 
-        /* BOTONES PRO */
+        /* BOTONES */
         button {
-            width: 100%; padding: 20px; margin-top: 15px;
-            background: linear-gradient(135deg, var(--mcf-blue-light) 0%, var(--mcf-blue-dark) 100%);
-            color: white; border: none; border-radius: 12px;
-            font-family: 'Teko', sans-serif; font-size: 1.8rem; letter-spacing: 1px;
+            width: 100%; padding: 22px; margin-top: 20px;
+            background: linear-gradient(135deg, var(--mcf-sky) 0%, var(--mcf-dark) 100%);
+            color: white; border: none; border-radius: 15px;
+            font-family: 'Teko', sans-serif; font-size: 2rem; letter-spacing: 1px;
             cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0, 68, 136, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 68, 136, 0.4);
             position: relative; overflow: hidden;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 68, 136, 0.4); }
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 68, 136, 0.5); filter: brightness(1.1); }
         button:active { transform: translateY(1px); }
 
         button.secondary {
-            background: transparent; border: 3px solid var(--mcf-blue-dark); color: var(--mcf-blue-dark);
+            background: white; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
             box-shadow: none;
         }
-        button.secondary:hover { background: var(--mcf-blue-dark); color: white; }
-
-        button.danger { background: var(--danger); }
+        button.secondary:hover { background: var(--mcf-dark); color: white; }
         
+        button.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
         .hidden { display: none !important; }
 
-        /* LISTA DE JUGADORES (ALINEACIÓN) */
-        .player-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        /* LISTAS */
+        .player-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .player-card-mini {
-            background: white; border: 1px solid #eee; padding: 15px; border-radius: 10px;
+            background: white; border: 1px solid #eee; padding: 15px; border-radius: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            font-weight: bold; color: var(--mcf-blue-dark);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 800; color: var(--mcf-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--mcf-sky);
         }
-        .host-badge { background: var(--mcf-gold); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-left: 5px; }
+        .host-badge { background: var(--mcf-gold); color: white; padding: 3px 8px; border-radius: 50px; font-size: 0.7rem; }
 
-        /* TARJETA DE ROL */
+        /* ROL */
         .role-section {
-            background: #f8f9fa; border-radius: 15px; padding: 30px;
-            border: 1px solid #eee; margin-bottom: 30px;
+            background: #f1f5f9; border-radius: 20px; padding: 30px;
+            border: 2px dashed #cbd5e1; margin-bottom: 30px;
         }
+        .role-title { font-size: 0.9rem; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;}
 
-        .role-title { font-size: 1rem; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        
-        /* PALABRA SECRETA */
         .secret-word {
-            font-family: 'Teko', sans-serif; font-size: 4rem; color: var(--mcf-blue-dark);
-            margin: 10px 0; line-height: 1; text-transform: uppercase;
+            font-family: 'Teko', sans-serif; font-size: 4.5rem; color: var(--mcf-dark);
+            margin: 5px 0; line-height: 1; text-transform: uppercase;
         }
         .impostor-text {
-            font-family: 'Teko', sans-serif; font-size: 4rem; color: var(--danger);
-            margin: 10px 0; line-height: 1; text-transform: uppercase; animation: pulse 1.5s infinite;
+            font-family: 'Teko', sans-serif; font-size: 4.5rem; color: var(--danger);
+            margin: 5px 0; line-height: 1; text-transform: uppercase; animation: pulse 1s infinite;
         }
 
-        /* DESCRIPCIÓN COLAPSIBLE */
+        /* DESCRIPCIÓN CON BOTÓN LEER MÁS MEJORADO */
         .desc-container {
-            background: white; padding: 20px; border-radius: 10px; border-left: 4px solid var(--mcf-blue-light);
-            text-align: left; margin-top: 10px;
+            background: white; padding: 25px; border-radius: 15px; border-left: 6px solid var(--mcf-sky);
+            text-align: left; margin-top: 15px; position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        .desc-text {
-            font-size: 1rem; color: #555; line-height: 1.6;
-            max-height: 60px; overflow: hidden; transition: max-height 0.5s ease-out;
-            position: relative;
-        }
-        .desc-text.expanded { max-height: 500px; } /* Altura suficiente para texto largo */
         
-        .read-more-btn {
-            background: none; color: var(--mcf-blue-light); border: none; font-size: 0.9rem;
-            padding: 5px 0; margin-top: 5px; cursor: pointer; font-weight: bold; width: auto; box-shadow: none; text-align: left;
+        .desc-text {
+            font-size: 1.1rem; color: #444; line-height: 1.6;
+            max-height: 80px; overflow: hidden; transition: max-height 0.6s cubic-bezier(0, 1, 0, 1);
         }
-        .read-more-btn:hover { text-decoration: underline; transform: none; background: none; box-shadow: none; }
+        
+        /* Efecto de desvanecimiento cuando está cerrado */
+        .desc-text:not(.expanded)::after {
+            content: ""; position: absolute; bottom: 45px; left: 0; width: 100%; height: 50px;
+            background: linear-gradient(transparent, white); pointer-events: none;
+        }
+
+        .desc-text.expanded { max-height: 600px; } /* Se expande */
+        .desc-text.expanded::after { display: none; }
+
+        .read-more-btn {
+            background: #eef2f6; color: var(--mcf-dark); border: none; font-size: 0.9rem;
+            padding: 10px; margin-top: 15px; cursor: pointer; font-weight: 800; 
+            width: 100%; border-radius: 8px; transition: 0.2s;
+            display: flex; justify-content: center; align-items: center; gap: 5px;
+        }
+        .read-more-btn:hover { background: var(--mcf-dark); color: white; transform: none; box-shadow: none; }
 
         /* ALINEACIÓN (TURNOS) */
         .lineup-list {
             list-style: none; padding: 0; text-align: left;
-            background: var(--mcf-blue-dark); color: white; border-radius: 10px; overflow: hidden;
+            background: var(--mcf-dark); color: white; border-radius: 15px; overflow: hidden;
         }
         .lineup-item {
-            padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 25px; border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center;
         }
         .lineup-item:last-child { border-bottom: none; }
         .dorsal {
-            font-family: 'Teko'; font-size: 1.5rem; width: 40px; text-align: center;
-            background: rgba(255,255,255,0.2); border-radius: 5px; margin-right: 15px;
+            font-family: 'Teko'; font-size: 2rem; width: 50px; text-align: center;
+            background: rgba(255,255,255,0.15); border-radius: 8px; margin-right: 20px;
+            color: var(--mcf-sky);
         }
-        .player-name-turn { font-weight: 600; font-size: 1.1rem; }
-        .turn-indicator { margin-left: auto; font-size: 0.8rem; color: var(--mcf-gold); text-transform: uppercase; font-weight: bold; }
+        .player-name-turn { font-weight: 700; font-size: 1.2rem; }
+        .turn-indicator { 
+            margin-left: auto; font-size: 0.8rem; background: var(--mcf-gold); 
+            color: var(--mcf-dark); padding: 4px 10px; border-radius: 20px; font-weight: 800; 
+        }
 
         /* COPY CODE */
         #roomIdDisplay {
-            font-family: monospace; font-size: 1.5rem; font-weight: bold; color: var(--mcf-blue-dark);
-            background: #eef2f5; padding: 15px; border-radius: 10px; border: 2px dashed #ccc;
-            cursor: pointer; display: inline-block; margin-top: 10px;
+            font-family: monospace; font-size: 1.6rem; font-weight: 800; color: var(--mcf-dark);
+            background: #f8fafc; padding: 20px; border-radius: 12px; border: 3px dashed #cbd5e1;
+            cursor: pointer; display: inline-block; margin-top: 10px; width: 100%;
         }
-        #roomIdDisplay:hover { border-color: var(--mcf-blue-light); background: white; }
+        #roomIdDisplay:hover { border-color: var(--mcf-sky); background: white; }
 
-        .kick-btn { width: auto; padding: 5px 10px; margin: 0; font-size: 0.8rem; background: #e74c3c; box-shadow: none; font-family: 'Montserrat'; }
+        .kick-btn { width: auto; padding: 5px 12px; margin: 0; font-size: 0.8rem; background: #e74c3c; box-shadow: none; font-family: 'Montserrat'; }
 
-        /* EMOJIS DECORATIVOS */
-        .floating-emoji { position: fixed; z-index: 0; opacity: 0.1; animation: float 10s infinite ease-in-out; pointer-events: none; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
+    <div id="emojiContainer" class="emoji-container"></div>
+
     <header>
         <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Escudo Málaga CF" class="shield">
-        <h1>IMPOSTOR<br><span style="font-size: 2.5rem; color: white;">MALAGUISTA</span></h1>
-        <div class="subtitle">⚽💙 LA BOMBONERA EDITION 💙⚽</div>
+        <h1>IMPOSTOR<br><span style="font-size: 3.5rem; color: var(--white);">MALAGUISTA</span></h1>
+        <div class="subtitle">⚽ LA BOMBONERA EDITION ⚽</div>
     </header>
 
-    <div id="statusMsg" style="color: white; margin-bottom: 10px; font-weight: bold; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px;"></div>
+    <div id="statusMsg"></div>
 
     <div id="screen-menu" class="main-card">
-        <h2>FICHAJE NUEVO ✍️</h2>
+        <h2 style="font-family:'Teko'; font-size: 2.5rem; margin-top:0;">FICHAJE NUEVO ✍️</h2>
         <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
         <button onclick="createGame()">CREAR VESTUARIO</button>
-        <div style="margin: 20px 0; font-weight: bold; color: #888;">— O ÚNETE AL EQUIPO —</div>
+        <div style="margin: 20px 0; font-weight: 800; color: #94a3b8;">— O ÚNETE AL EQUIPO —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
         <button class="secondary" onclick="joinGame()">UNIRSE AL EQUIPO</button>
     </div>
 
     <div id="screen-lobby" class="main-card hidden">
-        <h2>VESTUARIO 🏟️</h2>
-        <p>Comparte el código con la plantilla:</p>
+        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO 🏟️</h2>
+        <p style="color: #64748b;">Comparte el código con la plantilla:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <h3 style="text-align: left; margin-top: 30px; color: var(--mcf-blue-dark);">CONVOCADOS (<span id="playerCount">0</span>)</h3>
+        <h3 style="text-align: left; margin-top: 30px; color: var(--mcf-dark); font-family:'Teko'; font-size: 2rem;">CONVOCADOS (<span id="playerCount">0</span>)</h3>
         <ul id="lobbyList" class="player-list"></ul>
 
         <div id="hostControls" class="hidden" style="margin-top: 30px;">
             <button onclick="startGame()" id="btnStart">⚽ ¡PITIDO INICIAL! ⚽</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--mcf-blue-light); font-weight: bold; margin-top: 20px; font-size: 1.2rem;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
+            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
         </div>
     </div>
 
@@ -226,49 +269,56 @@
         </div>
 
         <div style="text-align: left;">
-            <h3 style="color: var(--mcf-blue-dark); font-family: 'Teko'; font-size: 2rem; margin-bottom: 10px;">📋 ALINEACIÓN (TURNOS)</h3>
+            <h3 style="color: var(--mcf-dark); font-family: 'Teko'; font-size: 2rem; margin-bottom: 15px;">📋 ALINEACIÓN DEL PARTIDO</h3>
             <ul id="turnOrderList" class="lineup-list"></ul>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
             <button class="danger" onclick="revealGame()">🛑 PITIDO FINAL (REVELAR)</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #888;">PARTIDO EN JUEGO... ⚽</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:600;">PARTIDO EN JUEGO... ⚽</p>
     </div>
 
     <div id="screen-result" class="main-card hidden">
-        <h2 style="font-family: 'Teko'; font-size: 3rem; color: var(--mcf-blue-dark);">MARCADOR FINAL</h2>
+        <h2 style="font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); margin:0;">MARCADOR FINAL</h2>
         
-        <div style="background: #f0f4f8; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #ddd;">
-            <p style="color: #666; margin: 0; font-size: 0.9rem;">LA PALABRA ERA:</p>
-            <div id="finalWord" style="font-size: 2.5rem; color: var(--mcf-blue-dark); font-family: 'Teko'; font-weight: bold;"></div>
-            <p id="finalDesc" style="font-size: 0.9rem; color: #555; font-style: italic;"></p>
+        <div style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin: 25px 0; border: 1px solid #e2e8f0;">
+            <p style="color: #64748b; margin: 0; font-size: 0.9rem; font-weight:800; letter-spacing:1px;">LA PALABRA ERA:</p>
+            <div id="finalWord" style="font-size: 3rem; color: var(--mcf-dark); font-family: 'Teko'; font-weight: bold;"></div>
+            <p id="finalDesc" style="font-size: 1rem; color: #475569; font-style: italic; margin-top:10px;"></p>
         </div>
 
-        <p style="color: #666;">EL IMPOSTOR ERA:</p>
-        <h3 id="finalImpostor" style="font-family: 'Teko'; font-size: 3rem; color: var(--danger); margin: 0;"></h3>
+        <p style="color: #64748b; font-weight:800; margin-bottom:0;">EL IMPOSTOR ERA:</p>
+        <h3 id="finalImpostor" style="font-family: 'Teko'; font-size: 4rem; color: var(--danger); margin: 0; line-height:1;"></h3>
         
         <div id="hostRestartControls" class="hidden">
             <button onclick="returnToLobby()">🔄 VOLVER AL VESTUARIO</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color: #888; margin-top:20px;">ESPERANDO AL MÍSTER...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color: #94a3b8; margin-top:20px;">ESPERANDO AL MÍSTER...</p>
     </div>
 
     <script>
-        // --- EMOJIS FLOTANTES ---
-        const emojis = ["⚽", "🐟", "💙", "🤍", "🏟️", "🌊"];
-        for(let i=0; i<10; i++) {
+        // --- GENERADOR DE EMOJIS TIPO BURBUJA ---
+        const emojiContainer = document.getElementById('emojiContainer');
+        const emojis = ["⚽", "🐟", "💙", "🤍", "🏟️", "🌊", "🥘", "🌞"];
+        
+        // Creamos más emojis para que sea divertido
+        for(let i=0; i<35; i++) {
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
+            // Posición horizontal aleatoria
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.top = Math.random() * 100 + 'vh';
-            el.style.fontSize = (Math.random() * 2 + 1) + 'rem';
-            el.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            document.body.appendChild(el);
+            // Duración aleatoria (algunos rápidos, otros lentos)
+            el.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            // Retraso aleatorio para que no salgan todos a la vez
+            el.style.animationDelay = Math.random() * 10 + 's';
+            // Tamaño variado
+            el.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+            emojiContainer.appendChild(el);
         }
 
-        // --- BASE DE DATOS (Copiada del prompt anterior) ---
+        // --- BASE DE DATOS (Tu lista completa) ---
         const PALABRAS_JUEGO = [
             "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pájaro", "Águila", "Búho", "Pingüino", "Pato", "Gallina", "Gallo", "Vaca", "Cerdo", "Oveja", "Caballo", "Burro", "Cabra", "León", "Tigre", "Leopardo", "Pantera", "Elefante", "Jirafa", "Rinoceronte", "Hipopótamo", "Cebra", "Oso", "Oso Panda", "Oso Polar", "Koala", "Canguro", "Mono", "Gorila", "Chimpancé", "Lobo", "Zorro", "Ciervo", "Ardilla", "Ratón", "Rata", "Murciélago", "Ballena", "Delfín", "Tiburón", "Pulpo", "Cangrejo", "Tortuga", "Cocodrilo", "Serpiente", "Cobra", "Rana", "Sapo", "Camaleón", "Iguana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Mariposa", "Abeja", "Hormiga", "Araña", "Mosquito", "Mosca", "Cucaracha", "Escorpión", "Caracol", "Medusa", "Estrella de Mar", "Pez Payaso", "Salmón", "Flamenco", "Cisne", "Pavo Real", "Capibara", "Nutria", "Erizo",
             "Móvil", "iPhone", "Cargador", "Auriculares", "Ordenador", "Portátil", "Tablet", "Teclado", "Ratón", "Pantalla", "Televisión", "Mando a distancia", "Cámara", "Reloj", "Despertador", "Lámpara", "Bombilla", "Linterna", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Llavero", "Gafas", "Gafas de Sol", "Paraguas", "Mesa", "Silla", "Sofá", "Sillón", "Cama", "Almohada", "Manta", "Sábana", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel Higiénico", "Escoba", "Fregona", "Cubo", "Basura", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Servilleta", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma de borrar", "Tijeras", "Pegamento", "Regla", "Papel", "Carta", "Sobre", "Sello", "Periódico", "Revista", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de Crédito", "Anillo", "Collar", "Pendientes", "Pulsera", "Reloj de pulsera",
@@ -284,7 +334,7 @@
             "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Estudiante", "Cocinero", "Camarero", "Peluquero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Princesa", "Príncipe", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Hada", "Sirena", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Frío", "Calor", "Lluvia", "Nieve", "Viento", "Tormenta", "Arcoiris", "Fuego", "Humo", "Luz", "Oscuridad", "Sombra", "Sueño", "Pesadilla", "Dinero", "Trabajo", "Fiesta", "Vacaciones", "Regalo", "Sorpresa"
         ];
 
-        // --- LÓGICA DE JUEGO ---
+        // --- LÓGICA DE JUEGO & CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -297,13 +347,17 @@
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
             document.getElementById(`screen-${name}`).classList.remove('hidden');
         }
-        function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
+        function updateStatus(msg) { 
+            const el = document.getElementById('statusMsg');
+            el.innerText = msg; 
+            // La clase CSS se encarga del padding si hay texto o no
+        }
 
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=400&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=450&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Concepto popular. ¡Investiga y disimula!"; 
+            let description = "Información clasificada. Investiga por tu cuenta."; 
 
             try {
                 const res = await fetch(url);
@@ -336,7 +390,7 @@
         function createGame() {
             myName = document.getElementById('myUsername').value.trim() || "Jugador Nº12";
             isHost = true;
-            updateStatus("Abriendo puertas del estadio...");
+            updateStatus("Abriendo puertas de La Rosaleda...");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -439,18 +493,18 @@
             btn.disabled = false;
         }
 
-        // --- FUNCIÓN DEL JUEGO ARREGLADA ---
+        // --- FUNCIÓN DEL JUEGO ---
         function setupGame(wordData, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
             
             const container = document.getElementById('roleContent');
-            container.innerHTML = ''; // Limpiar contenido previo
+            container.innerHTML = ''; 
 
             if (amIImpostor) {
                 container.innerHTML = `
                     <div class="impostor-text">IMPOSTOR</div>
-                    <p style="color: #666; font-size: 1.1rem;">Nadie sabe que eres tú. Finge saber la palabra.</p>
+                    <p style="color: #64748b; font-size: 1.1rem; font-weight:600;">Nadie sabe que eres tú. Finge y miente.</p>
                 `;
             } else {
                 container.innerHTML = `
@@ -462,7 +516,7 @@
                 `;
             }
 
-            // ALINEACIÓN (Turnos arreglados)
+            // ALINEACIÓN (Turnos)
             const ul = document.getElementById('turnOrderList');
             ul.innerHTML = '';
             orderList.forEach((name, index) => {
@@ -562,7 +616,7 @@
             el.style.backgroundColor = "#d1f2eb";
             el.innerText = "¡CÓDIGO COPIADO!";
             setTimeout(() => {
-                el.style.backgroundColor = "#eef2f5";
+                el.style.backgroundColor = "#f8fafc";
                 el.innerText = text;
             }, 1000);
         }
