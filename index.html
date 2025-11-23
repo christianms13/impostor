@@ -3,345 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 Impostor Coquette Ultimate</title>
+    <title>🎀 Impostor: Pink Edition Ultimate</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #2b1d22;      /* Fondo base oscuro-rosado */
-            --card-bg: rgba(50, 30, 40, 0.85); /* Tarjeta semitransparente */
-            --pink-light: #ffc2d1;    /* Rosa pastel */
-            --pink-pop: #ff8fab;      /* Rosa chicle */
-            --text-main: #ffe5ec;     /* Blanco rosado */
-            --text-sec: #e0b0be;      /* Rosa grisáceo */
-            --accent: #fb6f92;        /* Acento fuerte */
+            /* PALETA COQUETTE PRO */
+            --bg-gradient: linear-gradient(135deg, #2b111b 0%, #4a192c 100%);
+            --card-glass: rgba(255, 255, 255, 0.08);
+            --border-glass: rgba(255, 192, 203, 0.3);
+            --neon-pink: #ff69b4;
+            --soft-pink: #ffb7c5;
+            --deep-rose: #d63384;
+            --text-white: #fff0f5;
+            --text-muted: #e6ccd6;
+            --shadow-glow: 0 0 20px rgba(255, 105, 180, 0.4);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(255, 143, 171, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(251, 111, 146, 0.1) 0%, transparent 40%);
+            background: var(--bg-gradient);
+            color: var(--text-white);
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text y="18" font-size="18">🎀</text></svg>'), auto;
         }
 
-        /* EMOJIS FLOTANTES MEJORADOS */
-        .bg-emojis {
+        /* FONDO ANIMADO */
+        .bg-particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; overflow: hidden; opacity: 0.4;
+            pointer-events: none; z-index: -1;
+        }
+        .particle {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, var(--neon-pink), transparent);
+            opacity: 0.3; animation: floatUp linear infinite;
         }
         .bg-emoji {
-            position: absolute; font-size: 1.5rem;
-            animation: floatUp 25s linear infinite;
-            text-shadow: 0 0 5px rgba(255, 194, 209, 0.5);
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            position: absolute; font-size: 2rem; opacity: 0.2;
+            animation: floatEmoji linear infinite; filter: blur(1px);
         }
 
+        @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
+        @keyframes floatEmoji { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+
+        /* TÍTULO PRINCIPAL */
         h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            color: var(--pink-pop);
-            margin: 10px 0;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.3), 0 0 15px var(--pink-pop);
+            font-family: 'Dancing Script', cursive; font-size: 4.5rem;
+            background: linear-gradient(to right, #ff9a9e, #fecfef, #ff9a9e);
+            -webkit-background-clip: text; color: transparent;
+            margin: 10px 0; filter: drop-shadow(0 0 10px rgba(255,105,180,0.6));
+            animation: shimmer 3s infinite linear;
+        }
+        @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+        /* CONTENEDOR DE CRISTAL (GLASSMORPHISM) */
+        .glass-panel {
+            background: var(--card-glass);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 30px;
+            padding: 3rem;
+            width: 100%; max-width: 600px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            text-align: center; position: relative; overflow: hidden;
+            margin-top: 20px;
         }
 
-        .tagline {
-            background: rgba(255, 194, 209, 0.1);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--text-sec);
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* DECORACIÓN BRILLANTE */
+        .glass-panel::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,192,203,0.1) 0%, transparent 60%);
+            animation: rotateBg 10s linear infinite; pointer-events: none;
         }
+        @keyframes rotateBg { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .container {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 2.5rem;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 194, 209, 0.2);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s;
-        }
-
+        /* INPUTS */
         input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            background: rgba(0,0,0,0.3);
-            border: 2px solid var(--pink-light);
-            border-radius: 15px;
-            color: var(--text-main);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
+            width: 100%; padding: 18px; margin: 15px 0;
+            background: rgba(0,0,0,0.4); border: 2px solid var(--border-glass);
+            border-radius: 20px; color: var(--text-white); font-size: 1.1rem;
+            text-align: center; font-family: 'Quicksand'; outline: none;
         }
-        input:focus { border-color: var(--pink-pop); box-shadow: 0 0 10px var(--pink-pop); }
+        input:focus {
+            border-color: var(--neon-pink); background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3); transform: scale(1.02);
+        }
 
+        /* BOTONES PRO */
         button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            background: linear-gradient(135deg, var(--pink-pop) 0%, var(--accent) 100%);
-            border: none;
-            border-radius: 15px;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
+            width: 100%; padding: 18px; margin-top: 20px;
+            background: linear-gradient(45deg, #ff00cc, #333399); /* Placeholder gradient, overwritten below */
+            background: linear-gradient(135deg, var(--deep-rose) 0%, var(--neon-pink) 100%);
+            border: none; border-radius: 20px; color: white;
+            font-weight: 700; font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.4);
+            position: relative; overflow: hidden; letter-spacing: 1px;
         }
-        button:hover { transform: scale(1.02); filter: brightness(1.1); }
-        
+        button::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(214, 51, 132, 0.6); }
+        button:hover::after { left: 100%; }
+
         button.secondary {
-            background: transparent;
-            border: 2px solid var(--text-sec);
-            color: var(--text-sec);
-            box-shadow: none;
+            background: transparent; border: 2px solid var(--soft-pink);
+            color: var(--soft-pink); box-shadow: none;
         }
-        button.secondary:hover { border-color: var(--pink-light); color: var(--pink-light); }
+        button.secondary:hover { background: rgba(255,183,197,0.1); color: white; border-color: white; }
+
+        button.danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+
+        /* UTILIDADES */
+        .hidden { display: none !important; opacity: 0; }
         
-        button.danger { background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%); }
-
-        .hidden { display: none !important; }
-
-        .player-list { list-style: none; padding: 0; text-align: left; }
+        /* LISTAS */
         .player-list li {
-            background: rgba(255, 255, 255, 0.05);
-            margin: 8px 0; padding: 10px 15px;
-            border-radius: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-left: 3px solid var(--pink-pop);
+            background: rgba(255,255,255,0.05); margin: 10px 0; padding: 15px;
+            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+            border-left: 4px solid var(--neon-pink);
+            backdrop-filter: blur(5px);
         }
 
-        .role-card {
-            background: rgba(0,0,0,0.2);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px dashed var(--text-sec);
-            margin-top: 15px;
+        /* TARJETA DE ROL */
+        .role-container {
+            border: 2px dashed var(--border-glass); padding: 30px; border-radius: 25px;
+            background: rgba(0,0,0,0.2); position: relative;
         }
-
+        
         .secret-word {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
-            color: var(--pink-light);
-            margin: 10px 0;
-            text-shadow: 0 0 10px var(--accent);
-            word-wrap: break-word;
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem;
+            color: var(--soft-pink); text-shadow: 0 0 20px var(--deep-rose);
+            margin: 20px 0; line-height: 1;
         }
 
-        .description-box {
-            font-size: 0.95rem;
-            color: var(--text-sec);
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-style: italic;
+        .desc-box {
+            font-size: 1rem; color: var(--text-muted); background: rgba(0,0,0,0.3);
+            padding: 20px; border-radius: 15px; font-style: italic;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .impostor-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            color: #ff4d6d;
-            text-shadow: 0 0 15px #ff4d6d;
-            animation: pulse 2s infinite;
+        .impostor-alert {
+            font-size: 3rem; color: #ff416c; font-family: 'Dancing Script';
+            text-shadow: 0 0 30px #ff416c; animation: heartbeat 1.5s infinite;
         }
-        @keyframes pulse { 50% { opacity: 0.7; transform: scale(0.98); } }
+        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.1); } 30% { transform: scale(1); } }
 
-        .turn-list { text-align: left; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
-        .turn-list li { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0; color: var(--text-sec); }
-        .turn-list li:first-child { color: var(--pink-light); font-weight: bold; }
-
-        #roomIdDisplay { 
-            font-family: monospace; font-size: 1.2rem; letter-spacing: 2px; color: var(--pink-light);
-            background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; cursor: pointer; display: inline-block;
+        /* COPY CODE */
+        #roomIdDisplay {
+            font-family: monospace; font-size: 1.5rem; color: var(--neon-pink);
+            background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px;
+            cursor: pointer; display: inline-block; border: 1px dashed var(--neon-pink);
         }
+        #roomIdDisplay:hover { background: var(--neon-pink); color: white; }
 
-        .kick-btn { width: auto; padding: 4px 8px; font-size: 0.7rem; margin: 0; background: transparent; border: 1px solid #ff4d6d; color: #ff4d6d; box-shadow: none; }
-        .kick-btn:hover { background: #ff4d6d; color: white; }
+        .kick-btn { width: auto; margin:0; padding: 5px 12px; font-size: 0.8rem; background: transparent; border: 1px solid #ff416c; color: #ff416c; box-shadow: none; }
+        .kick-btn:hover { background: #ff416c; color: white; }
 
     </style>
 </head>
 <body>
 
-    <div id="emoji-bg" class="bg-emojis"></div>
+    <div id="particles" class="bg-particles"></div>
 
     <h1>The Impostor</h1>
-    <div class="tagline">✨ Ultimate Coquette Edition ✨</div>
-    <div id="statusMsg" style="color: var(--text-sec); font-size: 0.8rem; min-height: 20px;"></div>
+    <div style="font-size: 0.9rem; letter-spacing: 3px; color: var(--soft-pink); text-transform: uppercase; margin-bottom: 20px;">
+        ✨ Pink Pro Edition ✨
+    </div>
+    <div id="statusMsg" style="color: var(--text-muted); height: 20px; font-size: 0.9rem;"></div>
 
-    <div id="screen-menu" class="container">
-        <h2 style="font-family:'Dancing Script'; color: var(--pink-light);">¿Quién eres hoy?</h2>
-        <input type="text" id="myUsername" placeholder="Tu nombre lindo..." maxlength="12">
+    <div id="screen-menu" class="glass-panel">
+        <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; color: var(--soft-pink);">Login 💖</h2>
+        <input type="text" id="myUsername" placeholder="Tu nombre..." maxlength="12">
         <button onclick="createGame()">Crear Sala 🎀</button>
-        <div style="margin: 15px 0; font-size: 0.8rem; color: var(--text-sec);">— o únete a tus amigas —</div>
+        <div style="margin: 20px 0; color: var(--text-muted); font-size: 0.9rem;">— o únete a tus besties —</div>
         <input type="text" id="joinInput" placeholder="Código de sala">
         <button class="secondary" onclick="joinGame()">Unirse ✨</button>
     </div>
 
-    <div id="screen-lobby" class="container hidden">
-        <h2>Sala de Espera 🧸</h2>
-        <p style="color: var(--text-sec); font-size: 0.9rem;">Toca el código para copiar:</p>
+    <div id="screen-lobby" class="glass-panel hidden">
+        <h2 style="font-family:'Dancing Script'; font-size: 2.5rem;">Lobby 🧸</h2>
+        <p style="color: var(--text-muted);">Toca para copiar el código:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <div style="margin-top: 20px; text-align: left;">
-            <h3 style="color: var(--pink-light); font-family: 'Dancing Script';">Jugadoras (<span id="playerCount">0</span>)</h3>
-        </div>
-        <ul id="lobbyList" class="player-list"></ul>
+        <h3 style="margin-top: 30px; text-align: left; color: var(--soft-pink);">Jugadoras (<span id="playerCount">0</span>)</h3>
+        <ul id="lobbyList" class="player-list" style="padding:0; list-style:none;"></ul>
 
-        <div id="hostControls" class="hidden" style="margin-top: 25px;">
-            <div style="background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: var(--text-sec); margin-bottom: 15px; text-align: left;">
-                📚 <b>Base de Datos:</b> Ultimate (Cine, Música, Coquette, Gamer, Deportes...)
-            </div>
+        <div id="hostControls" class="hidden" style="margin-top: 30px;">
             <button onclick="startGame()" id="btnStart">💖 Empezar Partida 💖</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--pink-pop); animation: pulse 1.5s infinite;">Esperando a la anfitriona... 🦢</p>
+            <p style="color: var(--neon-pink); font-weight: bold; margin-top: 20px;">Esperando a la Host... 💅</p>
         </div>
     </div>
 
-    <div id="screen-game" class="container hidden">
-        <div class="role-card">
-            <p style="color: var(--text-sec); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Tu Identidad Secreta:</p>
-            <h3 id="roleDisplay" style="font-family: 'Dancing Script'; font-size: 2.2rem; margin: 5px 0;">...</h3>
+    <div id="screen-game" class="glass-panel hidden">
+        <div class="role-container">
+            <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Tu Identidad Secreta</p>
+            <h3 id="roleDisplay" style="font-family: 'Dancing Script'; font-size: 2.5rem; margin: 10px 0; color: white;">...</h3>
             
             <div id="wordContainer">
-                <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;">
-                <p style="font-size:0.8rem; color: var(--text-sec);">LA PALABRA ES:</p>
+                <hr style="border: 0; border-top: 1px dashed var(--border-glass); margin: 20px 0;">
+                <p style="font-size:0.9rem; color: var(--text-muted);">LA PALABRA ES:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                <div id="secretDescDisplay" class="description-box">Cargando definición...</div>
+                <div id="secretDescDisplay" class="desc-box">Cargando definición...</div>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;">
-                <div class="impostor-title">IMPOSTORA</div>
-                <p style="color: var(--text-main);">Shhh... 🤫<br>No sabes nada, solo actúa natural.</p>
+                <hr style="border: 0; border-top: 1px dashed var(--border-glass); margin: 20px 0;">
+                <div class="impostor-alert">IMPOSTORA</div>
+                <p style="color: var(--text-white); font-size: 1.1rem;">Shhh... 🤫<br>Miente como nunca.</p>
             </div>
         </div>
 
-        <div style="margin-top: 20px;">
-            <p style="text-align: left; color: var(--pink-light); font-weight: bold;">🩰 Orden de Turnos:</p>
-            <ol id="turnOrderList" class="turn-list"></ol>
+        <div style="margin-top: 25px; text-align: left;">
+            <p style="color: var(--neon-pink); font-weight: bold;">🩰 Orden de Turnos:</p>
+            <ol id="turnOrderList" style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; color: var(--text-muted);"></ol>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
             <button class="danger" onclick="revealGame()">💔 Terminar Ronda</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: var(--text-sec); font-size: 0.8rem;">Jugando... ✨</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: var(--text-muted);">Jugando... ✨</p>
     </div>
 
-    <div id="screen-result" class="container hidden">
-        <h2 style="font-family: 'Dancing Script'; color: var(--pink-light);">Resultados</h2>
+    <div id="screen-result" class="glass-panel hidden">
+        <h2 style="font-family: 'Dancing Script'; font-size: 3rem; color: var(--soft-pink);">Resultados</h2>
         
-        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
-            <p style="color: var(--text-sec); font-size: 0.8rem;">La palabra era:</p>
-            <div id="finalWord" style="font-size: 2rem; color: var(--pink-pop); font-family: 'Dancing Script'; font-weight: bold;"></div>
-            <p id="finalDesc" style="font-size: 0.8rem; color: var(--text-sec); font-style: italic;"></p>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 25px;">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">La palabra era:</p>
+            <div id="finalWord" style="font-size: 2.5rem; color: var(--neon-pink); font-family: 'Dancing Script'; font-weight: bold;"></div>
+            <p id="finalDesc" style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;"></p>
         </div>
 
-        <p style="color: var(--text-sec);">La Impostora era:</p>
-        <h3 id="finalImpostor" style="font-family: 'Dancing Script'; font-size: 2.5rem; color: #ff4d6d; margin: 0;"></h3>
+        <p style="color: var(--text-muted);">La Impostora era:</p>
+        <h3 id="finalImpostor" style="font-family: 'Dancing Script'; font-size: 3rem; color: #ff416c; margin: 0;"></h3>
         
         <div id="hostRestartControls" class="hidden">
             <button onclick="returnToLobby()">🔄 Volver al Lobby</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color: var(--text-sec);">Esperando al Host...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color: var(--text-muted); margin-top:20px;">Esperando al Host...</p>
     </div>
 
     <script>
-        // --- BASE DE DATOS MASIVA (ULTIMATE) ---
-        const cineYSeries = [
-             "Star Wars", "Darth Vader", "Yoda", "Luke Skywalker", "Princesa Leia", "Han Solo", "Chewbacca", "R2-D2", "C-3PO", "Mandaloriano", "Grogu", "Sable de Luz", "Estrella de la Muerte", "Halcón Milenario", "Tatooine", "Ewok", "Jedi", "Sith", "Kylo Ren", "Rey", "Stormtrooper", "Imperio", "Rebelión",
-            "Harry Potter", "Hogwarts", "Hermione Granger", "Ron Weasley", "Dumbledore", "Voldemort", "Snape", "Hagrid", "Dobby", "Varita", "Snitch Dorada", "Quidditch", "Andén 9 ¾", "Gryffindor", "Slytherin", "Patronus", "Horrocrux", "Elfo Doméstico", "Muggle", "Callejón Diagon",
-            "El Señor de los Anillos", "Frodo", "Gandalf", "Aragorn", "Legolas", "Gimli", "Gollum", "Sauron", "Anillo Único", "Mordor", "La Comarca", "Hobbit", "Monte del Destino", "Tierra Media", "Rivendel", "Nazgul", "Orco", "Elfo",
-            "Marvel", "UCM", "Avengers", "Iron Man", "Capitán América", "Thor", "Hulk", "Viuda Negra", "Spider-Man", "Thanos", "Guantelete del Infinito", "Gema del Infinito", "Loki", "Wanda Maximoff", "Bruja Escarlata", "Doctor Strange", "Guardianes de la Galaxia", "Groot", "Rocket", "Wakanda", "Black Panther", "Deadpool", "Wolverine", "X-Men", "Magneto",
-            "DC Comics", "Batman", "Joker", "Superman", "Wonder Woman", "Flash", "Aquaman", "Harley Quinn", "Gotham", "Batmovil", "Kryptonita", "Liga de la Justicia", "Robin", "Catwoman", "Enigma", "Pingüino",
-            "Dune", "Paul Atreides", "Chani", "Lisan al Gaib", "Arrakis", "Gusano de Arena", "La Especia", "Harkonnen", "Fremen", "Bene Gesserit", "Ornithopter",
-            "Juego de Tronos", "Jon Snow", "Daenerys", "Tyrion", "Cersei", "Arya", "Sansa", "Dragón", "Trono de Hierro", "Invernalia", "Caminante Blanco", "Dracarys", "La Casa del Dragón", "Rhaenyra",
-            "Titanic", "Iceberg", "Jack y Rose", "Avatar", "Pandora", "Na'vi", "Barbie", "Ken", "Mojo Dojo Casa House", "Oppenheimer", "Bomba Atómica", "Jurassic Park", "T-Rex", "Velociraptor", "Ámbar", "Volver al Futuro", "Delorean", "McFly", "Condensador de Fluzo", "Pulp Fiction", "Vincent Vega", "Mia Wallace", "El Padrino", "Corleone", "Cabeza de Caballo", "Matrix", "Neo", "Pastilla Roja", "Stranger Things", "Eleven", "Demogorgon", "Upside Down", "Friends", "Central Perk", "Sofá", "Breaking Bad", "Heisenberg", "Meta Azul", "Los Pollos Hermanos", "Caravana", "Squid Game", "Luz Verde Luz Roja", "La Casa de Papel", "Máscara de Dalí", "Bella Ciao", "The Office", "Dunder Mifflin", "Grapadora en gelatina", "Wednesday", "Dedos", "Bridgerton", "Lady Whistledown", "Gossip Girl", "XOXO", "Euphoria", "Brilli Brilli", "The Bear", "Yes Chef", "Succession", "Waystar Royco", "Black Mirror", "Tecnología", "Rick y Morty", "Pistola de portales", "Pickle Rick", "Los Simpson", "Donut", "Cerveza Duff", "Springfield", "Crepúsculo", "Edward Cullen", "Bella Swan", "Vampiro brillante", "Hombre Lobo", "Team Edward", "Team Jacob", "Mean Girls", "Burn Book", "Las Divinas", "High School Musical",
-            "Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Martin Scorsese", "Wes Anderson", "Simetría", "Tim Burton", "Gótico", "Greta Gerwig", "Sofia Coppola", "Aesthetic", "Alfred Hitchcock", "Suspense", "Stanley Kubrick", "Hayao Miyazaki", "Studio Ghibli", "Totoro", "Pedro Almodóvar", "Guillermo del Toro", "A24", "Cine Indie", "Blumhouse", "Terror", "Disney", "Pixar", "Castillo", "Warner Bros", "Universal", "Netflix", "HBO", "Prime Video",
-            "Leonardo DiCaprio", "Brad Pitt", "Tom Cruise", "Johnny Depp", "Meryl Streep", "Angelina Jolie", "Jennifer Lawrence", "Emma Stone", "Ryan Gosling", "Margot Robbie", "Zendaya", "Timothée Chalamet", "Florence Pugh", "Anya Taylor-Joy", "Ana de Armas", "Pedro Pascal", "Jenna Ortega", "Millie Bobby Brown", "Henry Cavill", "Robert Pattinson", "Cillian Murphy", "Marilyn Monroe", "Audrey Hepburn", "Elvis Presley", "James Dean",
-            "Oscar", "Alfombra Roja", "Palomitas", "Claqueta", "Director", "Guion", "Croma", "Efectos Especiales", "CGI", "Cameo", "Spoiler", "Plot Twist", "Tráiler", "Premiere", "Butaca", "Proyector", "Pantalla Imax"
-        ];
-        const videojuegos = [
-            "Super Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Toad", "Reino Champiñón", "Estrella", "Tubería", "Mario Kart", "Caparazón Azul", "Senda Arcoíris", 
-            "Zelda", "Link", "Ganondorf", "Trifuerza", "Espada Maestra", "Hyrule", "Epona", "Ocarina", "Breath of the Wild", "Tears of the Kingdom",
-            "Pokémon", "Pikachu", "Charizard", "Eevee", "Pokéball", "Entrenador", "Gimnasio", "Pokedex", "Team Rocket", "Legendario", "Shiny",
-            "Minecraft", "Steve", "Alex", "Creeper", "Enderman", "Diamante", "Pico", "Mesa de Crafteo", "Nether", "Obsidiana", "Aldeano",
-            "Roblox", "Obby", "Adopt Me", "Oof", "Fortnite", "Pase de Batalla", "Baile", "Autobús de Batalla", "Construcción", "Skin", "Pavo",
-            "League of Legends", "LoL", "Grieta del Invocador", "Teemo", "Yasuo", "Ahri", "Jinx", "Arcane", "Faker", "Pentakill", "Barón",
-            "Valorant", "Jett", "Sage", "Spike", "Defuse", "Headshot", "Counter Strike", "Rush B", "Call of Duty", "Warzone", "Gulag", "Campero", "Nuketown",
-            "Los Sims", "Plumbob", "Simlish", "Ñiqui Ñiqui", "Motherlode", "Piscina sin escalera", "Animal Crossing", "Tom Nook", "Bayas", "Canela", "Nabo",
-            "GTA V", "Los Santos", "Trevor", "Coches", "Atraco", "5 Estrellas", "Red Dead Redemption", "Arthur Morgan", "Caballo", "Vaquero", "Far West",
-            "The Last of Us", "Ellie", "Joel", "Chasqueador", "Hongo", "Cordyceps", "God of War", "Kratos", "Atreus", "Hacha Leviatán", "Espadas del Caos",
-            "Elden Ring", "Dark Souls", "Malenia", "Hoguera", "You Died", "Git Gud", "FromSoftware", "Hollow Knight", "Stardew Valley", "Granja",
-            "Cyberpunk 2077", "Night City", "Keanu Reeves", "Implante", "Bug", "Resident Evil", "Umbrella", "Zombis", "Leon S. Kennedy", "Nemesis", "Silent Hill", "Niebla",
-            "Final Fantasy", "Cloud", "Sephiroth", "Chocobo", "Cristal", "Street Fighter", "Hadouken", "Chun-Li", "Ryu", "Mortal Kombat", "Fatality", "Scorpion", "Sub-Zero",
-            "Sonic", "Anillos", "Tails", "Eggman", "Erizo Azul", "Pac-Man", "Fantasma", "Cereza", "Tetris", "Pieza L", "Línea", "Candy Crush", "Color Bomb", "Among Us", "Impostor", "Tripulante", "Ventilación", "Sus", "Reportar",
-            "Nintendo", "Switch", "PlayStation", "PS5", "Mando", "DualSense", "Xbox", "Game Pass", "PC Master Race", "Steam", "Teclado Mecánico", "RGB", "Mouse", "Auriculares", "Silla Gamer", "Streamer", "Twitch", "Chat", "Donación", "Banear", "Lag", "Ping", "FPS", "Glitch", "Bug", "Speedrun", "Noob", "Pro", "Tryhard", "GG", "WP", "AFK", "Respawn", "Loot", "Farmear", "Boss", "Nivel", "XP", "Mana", "HP", "Hitbox", "DLC", "Early Access", "Beta", "Game Over", "Insert Coin"
-        ];
-        const deportes = [
-            "Málaga CF", "La Rosaleda", "Boquerón", "Costa del Sol", "Blanquiazul", "Frente Bokerón", "Isco", "Santi Cazorla", "Dely Valdés", "Weligton", "Toulalan", "Van Nistelrooy", "Pellegrini", "Champions League del Málaga", "Duda", "Juanito", "Kameni", "Antonio Banderas", "El Cautivo", "Caminito del Rey", "Espeto",
-            "Lionel Messi", "Leo Messi", "Cristiano Ronaldo", "CR7", "Siuuu", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Neymar", "Mbappé", "Haaland", "Vinicius", "Bellingham", "Lamine Yamal", "Pedri", "Gavi", "Lewandowski", "Sergio Ramos", "Iniesta", "Xavi", "Casillas", "Piqué", "Beckham",
-            "Alexia Putellas", "Aitana Bonmatí", "Jenni Hermoso", "Salma Paralluelo", "Megan Rapinoe", "Alex Morgan", "Marta Vieira", "Sam Kerr", "Balón de Oro", "Mundial", "Copa del Mundo",
-            "Real Madrid", "FC Barcelona", "Barça", "Atlético de Madrid", "Manchester City", "Manchester United", "Liverpool", "Arsenal", "PSG", "Bayern Munich", "Juventus", "Milan", "Boca Juniors", "River Plate",
-            "Gol", "Penalti", "Fuera de Juego", "VAR", "Córner", "Portero", "Árbitro", "Tarjeta Roja", "Tarjeta Amarilla", "Prórroga", "Tanda de Penaltis", "Chilena", "Regate", "Hat-trick", "Estadio", "Grada", "Hinchada", "Bufanda",
-            "Michael Jordan", "Air Jordan", "Chicago Bulls", "LeBron James", "The King", "Lakers", "Kobe Bryant", "Black Mamba", "Shaquille O'Neal", "Shaq", "Stephen Curry", "Chef Curry", "Warriors", "Triple", "Magic Johnson", "Larry Bird", "Dennis Rodman", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Nikola Jokic", "Wembanyama", "Kevin Durant", "James Harden", "Kyrie Irving",
-            "Canasta", "Mate", "Dunk", "Alley-oop", "Tapón", "Rebote", "Tiro Libre", "Bocina", "Playoffs", "Anillo NBA", "Draft", "All-Star",
-            "Tenis", "Rafa Nadal", "Roger Federer", "Novak Djokovic", "Carlos Alcaraz", "Serena Williams", "Sharapova", "Wimbledon", "Roland Garros", "Raqueta", "Punto de Set",
-            "Fórmula 1", "Fernando Alonso", "Nano", "33", "Lewis Hamilton", "Max Verstappen", "Ferrari", "Red Bull", "Mercedes", "Aston Martin", "Pit Stop", "Semaforo", "Bandera a Cuadros", "Safety Car", "MotoGP", "Marc Márquez", "Valentino Rossi",
-            "Juegos Olímpicos", "Medalla de Oro", "Usain Bolt", "Simone Biles", "Michael Phelps", "Atletismo", "Natación", "Gimnasia", "Boxeo", "Mike Tyson", "Muhammad Ali", "Canelo", "McGregor", "UFC", "Ring", "KO", "Golf", "Tiger Woods", "Hoyo en uno", "Rugby", "Touchdown", "Super Bowl"
-        ];
-        const musica = [
-            "Taylor Swift", "Swiftie", "Eras Tour", "Cardigan", "All Too Well", "Travis Kelce", "Lana Del Rey", "Summertime Sadness", "Vinyl", "Coquette Music", "Born to Die", "Beyoncé", "Queen B", "Renaissance", "Single Ladies", "Rihanna", "Umbrella", "Fenty", "Super Bowl", "Lady Gaga", "Bad Romance", "A Star is Born", "Ariana Grande", "Coleta Alta", "Thank u next", "Billie Eilish", "Pelo Verde", "Bad Guy", "Dua Lipa", "Levitating", "Olivia Rodrigo", "Drivers License", "Miley Cyrus", "Hannah Montana", "Flowers", "Selena Gomez", "Katy Perry", "Britney Spears", "Free Britney", "Madonna", "Shakira", "Loba", "Karol G", "La Bichota", "Rosalía", "Motomami", "Tra Trá", "Aitana", "Lola Índigo",
-            "Michael Jackson", "Rey del Pop", "Moonwalk", "Thriller", "Freddie Mercury", "Queen", "Bohemian Rhapsody", "Bigote", "The Beatles", "Abbey Road", "John Lennon", "Paul McCartney", "Elvis Presley", "Rey del Rock", "Tupé", "David Bowie", "Ziggy Stardust", "Prince", "Purple Rain", "Nirvana", "Kurt Cobain", "Grunge", "Rolling Stones", "Mick Jagger", "Lengua", "AC/DC", "Metallica", "Guns N Roses", "Slash", "Pink Floyd", "Elton John", "Piano", "Amy Winehouse", "Rehab", "Adele", "Whitney Houston",
-            "Eminem", "Rap God", "Kanye West", "Yeezy", "Drake", "Kendrick Lamar", "Travis Scott", "Bad Bunny", "Conejo Malo", "Un Verano Sin Ti", "J Balvin", "Colores", "Daddy Yankee", "Gasolina", "Reggaeton", "Feid", "Ferxxo", "Verde", "Maluma", "Bizarrap", "Sesión 53", "Quevedo", "C. Tangana", "El Madrileño", "Rauw Alejandro", "Duki",
-            "BTS", "Army", "Jungkook", "Dynamite", "Blackpink", "Lisa", "Jennie", "K-Pop", "Idol", "Lightstick",
-            "Micrófono", "Guitarra Eléctrica", "Batería", "Bajo", "Violín", "Piano de Cola", "Saxofón", "Trompeta", "DJ", "Mesa de Mezclas", "Vinilo", "Cassette", "CD", "Spotify", "Playlist", "Auriculares", "Altavoz", "Concierto", "Festival", "Coachella", "Grammy", "Videoclip", "Autotune", "Playback", "Gira Mundial", "Backstage", "Fan", "Groupie"
-        ];
-        const estiloDeVida = [
-            "Lazo", "Moño Rosa", "Perlas", "Encaje", "Volantes", "Vestido de Flores", "Corset", "Bailarinas", "Tacones", "Lipstick", "Gloss", "Rímel", "Eyeliner", "Colorete", "Skincare", "Mascarilla", "Perfume", "Chanel", "Nº5", "Dior", "Gucci", "Prada", "Louis Vuitton", "Bolso de lujo", "Versace", "Balenciaga", "Zara", "Shein", "H&M", "Nike", "Adidas", "Vogue", "Met Gala", "Pasarela", "Modelo", "Supermodelo", "Influencer", "Aesthetic", "Vintage", "Retro", "Y2K", "Old Money", "Dark Academia", "Cottagecore", "Pinterest", "Instagram", "TikTok", "Selfie", "Filtro",
-            "París", "Torre Eiffel", "Louvre", "Croissant", "Nueva York", "Estatua de la Libertad", "Times Square", "Central Park", "Taxi Amarillo", "Londres", "Big Ben", "Cabina Roja", "Tokio", "Cruce de Shibuya", "Monte Fuji", "Sushi", "Roma", "Coliseo", "Pizza", "Venecia", "Góndola", "Egipto", "Pirámides", "Desierto", "Dubái", "Rascacielos", "Burj Khalifa", "Los Ángeles", "Hollywood", "Cartel de Hollywood", "Las Vegas", "Casino", "Hawái", "Playa", "Volcán", "Río de Janeiro", "Cristo Redentor", "Carnaval", "Moscú", "Plaza Roja", "Sídney", "Ópera", "Canguro", "Muralla China", "Taj Mahal", "Polo Norte", "Iglú", "Espacio", "Luna", "Marte",
-            "Móvil", "iPhone", "Cargador", "Batería", "Wifi", "Portátil", "Teclado", "Ratón", "Tele", "Mando", "Netflix", "Sofá", "Manta", "Cojín", "Cama", "Almohada", "Despertador", "Espejo", "Cepillo", "Secador", "Plancha", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Taza", "Café", "Vaso", "Botella", "Cuchillo", "Tenedor", "Plato", "Mesa", "Silla", "Lámpara", "Bombilla", "Vela", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma", "Tijeras", "Llaves", "Cartera", "Dinero", "Tarjeta", "Moneda", "Gafas de Sol", "Paraguas", "Maleta", "Mochila", "Reloj", "Anillo", "Collar", "Pendientes", "Coche", "Moto", "Bici", "Patinete", "Autobús", "Metro", "Avión", "Tren", "Barco",
-            "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Ramen", "Tacos", "Burrito", "Nachos", "Pasta", "Espaguetis", "Lasaña", "Arroz", "Paella", "Pollo Frito", "Nuggets", "Helado", "Chocolate", "Tarta", "Donut", "Cookie", "Macaron", "Croissant", "Tortita", "Gofre", "Fruta", "Fresa", "Plátano", "Manzana", "Sandía", "Aguacate", "Huevo", "Bacon", "Queso", "Pan", "Leche", "Café", "Matcha", "Boba Tea", "Coca-Cola", "Agua", "Cerveza", "Vino", "Champán", "Cóctel"
-        ];
-        const conceptosYMas = [
-            "Médico", "Enfermera", "Cirujano", "Policía", "Ladrón", "Detective", "Espía", "Juez", "Abogado", "Bombero", "Astronauta", "Científico", "Profesor", "Alumno", "Director", "Actor", "Cantante", "Pintor", "Escritor", "Cocinero", "Chef", "Camarero", "Piloto", "Azafata", "Mecánico", "Fontanero", "Electricista", "Carpintero", "Jardinero", "Agricultor", "Peluquero", "Maquillador", "Presidente", "Rey", "Reina", "Príncipe", "Princesa", "Soldado", "General", "Hacker", "Youtuber", "Streamer", "Influencer", "Millonario", "Vagabundo", "Fantasma", "Vampiro", "Zombi", "Alien", "Bruja", "Mago", "Payaso", "Mimo", "Robot",
-            "Amor", "Corazón", "Odio", "Felicidad", "Sonrisa", "Tristeza", "Lágrima", "Miedo", "Grito", "Sorpresa", "Ira", "Fuego", "Vergüenza", "Celos", "Envidia", "Esperanza", "Fe", "Paz", "Paloma", "Guerra", "Tanque", "Libertad", "Cadenas", "Justicia", "Balanza", "Verdad", "Mentira", "Pinocho", "Secreto", "Sueño", "Pesadilla", "Recuerdo", "Olvido", "Tiempo", "Reloj de Arena", "Pasado", "Futuro", "Eternidad", "Vida", "Muerte", "Esqueleto", "Suerte", "Trébol", "Destino", "Casualidad", "Caos", "Orden", "Ley", "Crimen", "Castigo", "Cárcel", "Premio", "Trofeo", "Victoria", "Derrota", "Fiesta", "Cumpleaños", "Navidad", "Halloween", "Boda", "Divorcio",
-            "Ornitorrinco", "Caleidoscopio", "Laberinto", "Jeroglífico", "Momia", "Sarcófago", "Guillotina", "Verdugo", "Manicomio", "Camisa de Fuerza", "Búnker", "Trinchera", "Kamikaze", "Samurái", "Katana", "Ninja", "Vikingo", "Hacha", "Pirata", "Tesoro", "Mapa", "Brújula", "Catalejo", "Garfio", "Pata de Palo", "Loro", "Espantapájaros", "Marioneta", "Ventrílocuo", "Muñeco", "Vudú", "Ouija", "Espíritu", "Exorcismo", "Agua Bendita", "Apocalipsis", "Pandemia", "Mascarilla", "Vacuna", "Microchip", "Iluminati", "Triángulo", "Ovni", "Area 51", "Abducción", "Dinosaurio", "Meteorito", "Fósil", "Dragón", "Unicornio", "Sirena", "Tritón", "Kraken", "Monstruo del Lago Ness", "Yeti", "Bigfoot"
-        ];
+        // --- GENERACIÓN DE PARTÍCULAS Y EMOJIS ---
+        const particleContainer = document.getElementById('particles');
+        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "💖", "🍓", "🕯️", "💌", "💅", "✨"];
         
-        const todasLasPalabras = [...cineYSeries, ...videojuegos, ...deportes, ...musica, ...estiloDeVida, ...conceptosYMas];
-
-        // --- FONDO ANIMADO ---
-        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "💖", "🍓", "🕯️", "💌"];
-        const bgContainer = document.getElementById('emoji-bg');
+        // Emojis flotantes
         for(let i=0; i<15; i++) {
             const el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
@@ -349,10 +264,37 @@
             el.style.left = Math.random() * 100 + 'vw';
             el.style.animationDuration = (Math.random() * 20 + 20) + 's';
             el.style.animationDelay = Math.random() * 10 + 's';
-            bgContainer.appendChild(el);
+            particleContainer.appendChild(el);
+        }
+        // Partículas (polvo de hadas)
+        for(let i=0; i<30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2 + 'px';
+            p.style.width = size; p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            particleContainer.appendChild(p);
         }
 
-        // --- LÓGICA DE JUEGO ---
+        // --- DATABASE DE JUEGO (TU LISTA) ---
+        const PALABRAS_JUEGO = [
+            "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pájaro", "Águila", "Búho", "Pingüino", "Pato", "Gallina", "Gallo", "Vaca", "Cerdo", "Oveja", "Caballo", "Burro", "Cabra", "León", "Tigre", "Leopardo", "Pantera", "Elefante", "Jirafa", "Rinoceronte", "Hipopótamo", "Cebra", "Oso", "Oso Panda", "Oso Polar", "Koala", "Canguro", "Mono", "Gorila", "Chimpancé", "Lobo", "Zorro", "Ciervo", "Ardilla", "Ratón", "Rata", "Murciélago", "Ballena", "Delfín", "Tiburón", "Pulpo", "Cangrejo", "Tortuga", "Cocodrilo", "Serpiente", "Cobra", "Rana", "Sapo", "Camaleón", "Iguana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Mariposa", "Abeja", "Hormiga", "Araña", "Mosquito", "Mosca", "Cucaracha", "Escorpión", "Caracol", "Medusa", "Estrella de Mar", "Pez Payaso", "Salmón", "Flamenco", "Cisne", "Pavo Real", "Capibara", "Nutria", "Erizo",
+            "Móvil", "iPhone", "Cargador", "Auriculares", "Ordenador", "Portátil", "Tablet", "Teclado", "Ratón", "Pantalla", "Televisión", "Mando a distancia", "Cámara", "Reloj", "Despertador", "Lámpara", "Bombilla", "Linterna", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Llavero", "Gafas", "Gafas de Sol", "Paraguas", "Mesa", "Silla", "Sofá", "Sillón", "Cama", "Almohada", "Manta", "Sábana", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel Higiénico", "Escoba", "Fregona", "Cubo", "Basura", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Servilleta", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma de borrar", "Tijeras", "Pegamento", "Regla", "Papel", "Carta", "Sobre", "Sello", "Periódico", "Revista", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de Crédito", "Anillo", "Collar", "Pendientes", "Pulsera", "Reloj de pulsera",
+            "Star Wars", "Darth Vader", "Yoda", "Luke Skywalker", "Princesa Leia", "Sable de Luz", "Harry Potter", "Hermione", "Ron Weasley", "Voldemort", "Varita Mágica", "Hogwarts", "El Señor de los Anillos", "Frodo", "Gandalf", "Gollum", "Anillo", "Marvel", "Avengers", "Iron Man", "Spiderman", "Capitán América", "Thor", "Hulk", "Thanos", "Batman", "Joker", "Superman", "Wonder Woman", "Disney", "Mickey Mouse", "Minnie", "Pato Donald", "Rey León", "Simba", "Frozen", "Elsa", "Olaf", "Toy Story", "Woody", "Buzz Lightyear", "Shrek", "Burro", "Fiona", "Minions", "Gru", "Piratas del Caribe", "Jack Sparrow", "Titanic", "Barco", "Avatar", "Azul", "Jurassic Park", "T-Rex", "Stranger Things", "Once (Eleven)", "Miércoles (Wednesday)", "La Casa de Papel", "Máscara de Dalí", "El Juego del Calamar", "Friends", "Juego de Tronos", "Dragón", "Jon Snow", "Breaking Bad", "Los Simpson", "Homer Simpson", "Barbie", "Ken", "Oppenheimer", "Bomba", "Cine", "Película", "Palomitas", "Netflix", "Hollywood", "Oscar", "Actor", "Actriz", "Director",
+            "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Johnny Depp", "Will Smith", "Angelina Jolie", "Jennifer Lawrence", "Emma Watson", "Zendaya", "Tom Holland", "Chris Hemsworth", "Dwayne Johnson (The Rock)", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Ariana Grande", "Justin Bieber", "Selena Gomez", "Miley Cyrus", "Harry Styles", "Bad Bunny", "Rosalía", "Karol G", "Daddy Yankee", "Eminem", "Bizarrap", "BTS",
+            "Super Mario", "Luigi", "Princesa Peach", "Mario Kart", "Nintendo", "PlayStation", "Xbox", "Fortnite", "Minecraft", "Bloque", "Pico", "Espada", "Zelda", "Link", "Pokémon", "Pikachu", "Pokéball", "Charizard", "Among Us", "Impostor", "Tripulante", "GTA", "Coches", "FIFA", "Fútbol", "Call of Duty", "Disparos", "League of Legends", "Roblox", "Pac-Man", "Tetris", "Sonic", "Erizo", "Mando", "Consola", "Ordenador Gamer", "Streamer", "Youtuber", "Twitch", "Lag", "Game Over", "Nivel", "Vida", "Jefe Final",
+            "Fútbol", "Balón", "Portería", "Gol", "Árbitro", "Tarjeta Roja", "Penalti", "Lionel Messi", "Cristiano Ronaldo", "Neymar", "Mbappé", "Haaland", "Sergio Ramos", "Piqué", "Iniesta", "Maradona", "Pelé", "Real Madrid", "Barça", "Málaga CF", "Baloncesto", "Canasta", "Michael Jordan", "LeBron James", "Kobe Bryant", "Pau Gasol", "NBA", "Tenis", "Raqueta", "Rafa Nadal", "Roger Federer", "Djokovic", "Alcaraz", "Fórmula 1", "Coche de carreras", "Fernando Alonso", "Lewis Hamilton", "Ferrari", "MotoGP", "Moto", "Marc Márquez", "Valentino Rossi", "Natación", "Piscina", "Atletismo", "Correr", "Juegos Olímpicos", "Medalla de Oro", "Gimnasio", "Boxeo", "Ring", "Guantes",
+            "Ciudad", "Pueblo", "Playa", "Mar", "Montaña", "Bosque", "Selva", "Desierto", "Isla", "Volcán", "Cueva", "Río", "Lago", "Cascada", "Parque", "Jardín", "Granja", "Zoológico", "Escuela", "Hospital", "Aeropuerto", "Estación de tren", "Restaurante", "Hotel", "Supermercado", "Centro Comercial", "Cine", "Museo", "Iglesia", "Cementerio", "Castillo", "Palacio", "Casa", "Edificio", "Rascacielos", "Puente", "Carretera", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Big Ben", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Tokio", "Polo Norte", "Espacio", "Luna", "Sol", "Estrellas", "Planeta", "Tierra",
+            "Pizza", "Hamburguesa", "Patatas Fritas", "Hot Dog", "Sandwich", "Bocadillo", "Ensalada", "Sopa", "Arroz", "Pasta", "Espaguetis", "Macarrones", "Huevo", "Huevo Frito", "Tortilla", "Pollo", "Carne", "Pescado", "Sushi", "Tacos", "Burrito", "Pan", "Queso", "Jamón", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Uvas", "Sandía", "Melón", "Piña", "Limón", "Tomate", "Lechuga", "Patata", "Zanahoria", "Cebolla", "Ajo", "Sal", "Azúcar", "Pimienta", "Aceite", "Chocolate", "Helado", "Tarta", "Pastel", "Galleta", "Donut", "Cruasán", "Yogur", "Leche", "Agua", "Zumo", "Refresco", "Coca-Cola", "Café", "Té", "Cerveza", "Vino",
+            "Camiseta", "Pantalones", "Vaqueros", "Vestido", "Falda", "Jersey", "Sudadera", "Abrigo", "Chaqueta", "Camisa", "Traje", "Corbata", "Pijama", "Ropa Interior", "Calcetines", "Zapatos", "Zapatillas", "Deportivas", "Botas", "Tacones", "Sandalias", "Chanclas", "Gorro", "Sombrero", "Gorra", "Bufanda", "Guantes", "Bañador", "Bikini", "Cinturón", "Disfraz", "Maquillaje", "Pintalabios", "Perfume", "Colonia",
+            "Guitarra", "Piano", "Violín", "Batería", "Trompeta", "Saxofón", "Flauta", "Tambor", "Micrófono", "Música", "Canción", "Cantante", "Bailarín", "Baile", "Pintura", "Cuadro", "Pincel", "Color", "Escultura", "Teatro", "Circo", "Mago", "Payaso",
+            "Coche", "Moto", "Bicicleta", "Patinete", "Autobús", "Taxi", "Tren", "Metro", "Avión", "Helicóptero", "Barco", "Crucero", "Submarino", "Camión", "Furgoneta", "Tractor", "Ambulancia", "Coche de Policía", "Camión de Bomberos", "Cohete", "Ovni",
+            "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Estudiante", "Cocinero", "Camarero", "Peluquero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Princesa", "Príncipe", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Hada", "Sirena", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Frío", "Calor", "Lluvia", "Nieve", "Viento", "Tormenta", "Arcoiris", "Fuego", "Humo", "Luz", "Oscuridad", "Sombra", "Sueño", "Pesadilla", "Dinero", "Trabajo", "Fiesta", "Vacaciones", "Regalo", "Sorpresa"
+        ];
+
+        // --- LÓGICA DE JUEGO & CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -364,16 +306,17 @@
         function showScreen(name) {
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
             document.getElementById(`screen-${name}`).classList.remove('hidden');
+            setTimeout(() => document.getElementById(`screen-${name}`).style.opacity = '1', 10);
         }
         function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
 
         async function getWordAndDescription() {
-            const rawWord = todasLasPalabras[Math.floor(Math.random() * todasLasPalabras.length)];
+            const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
             
-            // Buscar descripción en Wikipedia para enriquecer la experiencia
+            // Buscar descripción en Wikipedia
             const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=280&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Un concepto icónico y popular."; // Fallback
+            let description = "Un concepto muy conocido."; // Fallback
 
             try {
                 const res = await fetch(url);
@@ -384,7 +327,6 @@
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
                     if (extract && extract.length > 5) {
-                        // Limpiamos un poco el texto
                         description = extract.split('.')[0] + ".";
                         if(description.length > 200) description = description.substring(0, 200) + "...";
                     }
@@ -406,9 +348,9 @@
 
         // --- PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Baby Doll";
+            myName = document.getElementById('myUsername').value.trim() || "Diva";
             isHost = true;
-            updateStatus("Abriendo salita...");
+            updateStatus("Abriendo portal mágico...");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -431,9 +373,9 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Angel";
+            myName = document.getElementById('myUsername').value.trim() || "Princess";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("¡Falta el código! 🦢");
+            if (!roomId) return alert("¡Necesitas el código, amiga! 🦢");
             
             isHost = false;
             updateStatus("Conectando...");
@@ -447,7 +389,7 @@
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("Desconectada."); location.reload(); });
+                conn.on('close', () => { alert("Ups, se cerró la sala."); location.reload(); });
             });
         }
 
@@ -483,10 +425,10 @@
         }
 
         async function startGame() {
-            if (players.length < 3 && !confirm("¿Jugar con menos de 3? Será difícil.")) return;
+            if (players.length < 3 && !confirm("¿Menos de 3 jugadoras? ¡Será difícil!")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "✨ Eligiendo destino ✨";
+            btn.innerText = "✨ Escaneando el universo... ✨";
             btn.disabled = true;
 
             const wordData = await getWordAndDescription();
@@ -519,11 +461,13 @@
             if (amIImpostor) {
                 roleTxt.innerText = "💔 IMPOSTORA";
                 roleTxt.style.color = "#ff4d6d";
+                roleTxt.style.textShadow = "0 0 15px #ff4d6d";
                 document.getElementById('wordContainer').classList.add('hidden');
                 document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
                 roleTxt.innerText = "💖 CIUDADANA";
-                roleTxt.style.color = "var(--pink-pop)";
+                roleTxt.style.color = "#ffb7c5";
+                roleTxt.style.textShadow = "0 0 15px #ffb7c5";
                 document.getElementById('wordContainer').classList.remove('hidden');
                 document.getElementById('impostorMessage').classList.add('hidden');
                 
@@ -535,7 +479,9 @@
             ul.innerHTML = '';
             orderList.forEach((name, index) => {
                 const li = document.createElement('li');
-                li.innerText = `${index + 1}. ${name}`;
+                li.innerHTML = `<span><span style='opacity:0.6'>${index + 1}.</span> ${name}</span>`;
+                li.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+                li.style.padding = "5px 0";
                 ul.appendChild(li);
             });
 
@@ -591,7 +537,7 @@
         }
         
         function kickPlayer(id) {
-            if(!confirm("¿Expulsar?")) return;
+            if(!confirm("¿Sacar de la sala?")) return;
             const conn = connections.find(c => c.peer === id);
             if (conn) conn.close();
             players = players.filter(p => p.id !== id);
@@ -604,8 +550,12 @@
             const text = el.innerText;
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
-            el.style.color = "white";
-            setTimeout(() => el.style.color = "var(--pink-light)", 300);
+            el.style.borderColor = "#fff";
+            el.style.color = "#fff";
+            setTimeout(() => {
+                el.style.borderColor = "var(--neon-pink)";
+                el.style.color = "var(--neon-pink)";
+            }, 300);
         }
     </script>
 </body>
