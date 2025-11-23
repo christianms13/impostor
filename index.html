@@ -114,16 +114,27 @@
       display: flex; flex-direction: column; align-items: center;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+    
+    /* IMAGEN DE LA CAMISETA O FANTASMA */
     .kit-shirt {
-      font-size: 2.5rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+      width: 50px; /* Tamaño similar al emoji anterior */
+      height: auto;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
       transition: transform 0.2s;
+      margin-bottom: 2px;
     }
+    
     .pitch-player:not(.pitch-ghost):hover .kit-shirt { transform: scale(1.2); }
     
+    /* ESTILOS PARA EL FANTASMA (ISCO) */
+    .pitch-ghost .kit-shirt {
+      filter: grayscale(100%) opacity(0.4) drop-shadow(0 0 2px white);
+    }
+
     .player-tag {
       background: rgba(255,255,255,0.95); color: var(--mcf-dark);
       padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
-      white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       max-width: 120px; overflow: hidden; text-overflow: ellipsis;
     }
     .position-tag {
@@ -132,13 +143,6 @@
       text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
     }
     .host-mark { color: var(--mcf-sky); margin-left: 3px; }
-
-    /* FANTASMA */
-    .pitch-ghost {
-      opacity: 0.5;
-      filter: grayscale(100%) blur(0.5px);
-      z-index: 0;
-    }
 
     /* UI ELEMENTS */
     input {
@@ -585,7 +589,7 @@
         if (wordData.desc) {
           btnHtml = `<button class="secondary" style="width:100%; margin-top:20px; font-size:1rem; padding:15px;" onclick="openVarModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
         } else {
-          btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin datos en el acta.</p>`;
+          btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin señal de VAR.</p>`;
         }
         container.innerHTML = `<div class="word-display">${wordData.title}</div>${btnHtml}`;
       }
@@ -688,7 +692,7 @@
         }
 
         playerDiv.innerHTML = `
-          <div class="kit-shirt">👕</div>
+          <img src="https://www.hummel.es/on/demandware.static/-/Sites-hummel-master-catalog/default/dw0f81d5f8/images/packshot/216444-7707_2.png" class="kit-shirt" alt="Camiseta">
           <div class="player-tag">${p.name}</div>
           <div class="position-tag">${posData.name} ${capiLabel}</div>
         `;
@@ -705,7 +709,7 @@
           ghostDiv.style.left = ghostPos.x + '%';
           ghostDiv.style.top = ghostPos.y + '%';
           ghostDiv.innerHTML = `
-            <div class="kit-shirt">👻</div>
+            <img src="./isco.png" class="kit-shirt" alt="Vacío">
             <div class="position-tag" style="background: rgba(0,0,0,0.5); color:#fff;">${ghostPos.name}</div>
           `;
           pitch.appendChild(ghostDiv);
