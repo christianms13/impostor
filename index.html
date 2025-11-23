@@ -9,6 +9,7 @@
     
     <style>
         :root {
+            /* PALETA MÁLAGA CF MODERNA */
             --mcf-sky: #6CABDD;
             --mcf-dark: #0a2c5c;
             --mcf-gold: #D4AF37;
@@ -37,7 +38,7 @@
             background-size: cover;
             z-index: -5; 
             filter: grayscale(20%) contrast(110%);
-            animation: subtleZoom 60s infinite alternate; /* Zoom lento "vivo" */
+            animation: subtleZoom 60s infinite alternate;
         }
         
         .bg-layer-overlay {
@@ -45,13 +46,13 @@
             background: linear-gradient(135deg, rgba(10, 44, 92, 0.85), rgba(108, 171, 221, 0.75));
             z-index: -4;
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite; /* Movimiento de colores */
+            animation: gradientShift 15s ease infinite;
         }
 
         @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- EMOJIS AMBIENTALES (SISTEMA NUEVO) --- */
+        /* --- EMOJIS FLOTANTES --- */
         .emoji-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
@@ -125,7 +126,7 @@
         button:active { transform: scale(0.98); }
 
         button.secondary {
-            background: transparent; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
+            background: white; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
             box-shadow: none;
         }
         button.secondary:hover { background: var(--mcf-dark); color: var(--white); }
@@ -156,28 +157,6 @@
         .word-display { font-family: 'Teko'; font-size: 4rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
         .impostor-display { font-family: 'Teko'; font-size: 4.5rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
 
-        /* DESCRIPCIÓN CORTITA */
-        .desc-wrapper { position: relative; text-align: left; background: var(--white); padding: 20px; border-radius: 15px; border-left: 5px solid var(--mcf-sky); }
-        .desc-content { 
-            font-size: 1.1rem; line-height: 1.5; color: #334155; 
-            max-height: 60px; overflow: hidden; transition: max-height 0.4s ease; font-weight: 500;
-        }
-        .desc-content.open { max-height: 400px; }
-        
-        .desc-fade {
-            position: absolute; bottom: 40px; left: 0; width: 100%; height: 30px;
-            background: linear-gradient(transparent, var(--white)); pointer-events: none;
-            transition: opacity 0.3s;
-        }
-        .desc-content.open + .desc-fade { opacity: 0; }
-        
-        .toggle-btn {
-            background: none; border: none; color: var(--mcf-sky); font-weight: 800;
-            padding: 10px 0 0 0; width: 100%; text-align: center; cursor: pointer;
-            display: block; box-shadow: none; margin: 0; font-size: 0.85rem;
-        }
-        .toggle-btn:hover { background: none; text-decoration: underline; transform: none; }
-
         /* ALINEACIÓN */
         .lineup-container { background: var(--mcf-dark); color: white; border-radius: 20px; padding: 5px 0; overflow: hidden; }
         .lineup-row {
@@ -192,8 +171,6 @@
         }
         .player-turn-name { font-size: 1.1rem; font-weight: 600; text-align: left; }
         .turn-badge { margin-left: auto; background: var(--mcf-gold); color: var(--mcf-dark); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 900; }
-        
-        /* Emoji extra en lista de turnos */
         .turn-emoji { margin-right: 10px; font-size: 1.2rem; }
 
         /* --- COPY CODE BUTTON --- */
@@ -215,14 +192,20 @@
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         
         .modal-box {
-            background: var(--white); width: 90%; max-width: 400px;
+            background: var(--white); width: 90%; max-width: 500px; /* Un poco más ancho para textos */
             border-radius: 25px; padding: 30px; text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s;
+            max-height: 80vh; display: flex; flex-direction: column;
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
         .modal-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
-        .modal-text { font-size: 1.2rem; font-weight: 600; color: #333; margin-bottom: 20px; }
-        .modal-btn-group { display: flex; gap: 10px; }
+        
+        /* Texto del modal con scroll si es largo */
+        .modal-text { 
+            font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 20px; 
+            line-height: 1.6; overflow-y: auto; text-align: left; padding: 0 10px;
+        }
+        .modal-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: auto;}
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
@@ -237,7 +220,7 @@
     <div id="customModal" class="modal-overlay">
         <div class="modal-box">
             <span id="modalIcon" class="modal-icon">⚽</span>
-            <p id="modalMessage" class="modal-text">Mensaje</p>
+            <div id="modalMessage" class="modal-text">Mensaje</div>
             <div id="modalButtons" class="modal-btn-group"></div>
         </div>
     </div>
@@ -311,30 +294,25 @@
     </div>
 
     <script>
-        // --- EMOJIS FLOTANTES "VIVOS" ---
+        // --- EMOJIS FLOTANTES (YA MOVIÉNDOSE) ---
         const emojiContainer = document.getElementById('emojiContainer');
         const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇"];
         
-        // Generar emojis en posiciones aleatorias
         for(let i=0; i<50; i++) {
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
             
-            // Posición inicial aleatoria en toda la pantalla
+            // Posición totalmente aleatoria en pantalla
             el.style.left = Math.random() * 100 + 'vw';
             el.style.top = Math.random() * 100 + 'vh';
             
-            // Tamaño variado
             el.style.fontSize = (Math.random() * 2.5 + 1.5) + 'rem';
-            // Opacidad visible
             el.style.opacity = (Math.random() * 0.5 + 0.3);
             
-            // Animación
-            // duration: 20-40s (muy lento y relajante)
-            el.style.animationDuration = (Math.random() * 20 + 20) + 's';
-            // delay negativo: para que ya estén moviéndose al cargar
-            el.style.animationDelay = (Math.random() * -40) + 's';
+            // Animación ya en curso (delay negativo)
+            el.style.animationDuration = (Math.random() * 25 + 15) + 's';
+            el.style.animationDelay = (Math.random() * -30) + 's'; // Truco para que parezca que ya se mueven
             
             emojiContainer.appendChild(el);
         }
@@ -346,12 +324,14 @@
             const text = document.getElementById('modalMessage');
             const btnGroup = document.getElementById('modalButtons');
             
-            text.innerText = message;
+            // Permitir HTML en el mensaje para formato de descripciones
+            text.innerHTML = message;
             btnGroup.innerHTML = '';
 
             if (type === 'error') icon.innerText = '❌';
             else if (type === 'success') icon.innerText = '✅';
             else if (type === 'confirm') icon.innerText = '❓';
+            else if (type === 'var') icon.innerText = '📺';
             else icon.innerText = '⚽';
 
             if (type === 'confirm') {
@@ -382,7 +362,7 @@
             document.getElementById('customModal').classList.remove('active');
         }
 
-        // --- BASE DE DATOS ACTUALIZADA ---
+        // --- DATABASE ---
         const PALABRAS_JUEGO = [
           "Michael Jordan", "LeBron James", "Kobe Bryant", "Shaquille O'Neal", "Stephen Curry", "Magic Johnson", "Larry Bird", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Kevin Durant", "James Harden", "Nikola Jokic", "Victor Wembanyama", "Dennis Rodman", "Scottie Pippen", "Kyrie Irving", "Allen Iverson", "Dirk Nowitzki", "Tim Duncan", "Yao Ming", "Steve Nash", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Málaga CF", "La Rosaleda", "Isco", "Santi Cazorla", "Dely Valdés", "Ruud van Nistelrooy", "Jeremy Toulalan", "Willy Caballero", "Kameni", "Duda", "Weligton", "Julio Baptista", "Joaquín Sánchez", "Salomón Rondón", "Camacho", "Sandro Ramírez", "Eliseu", "Manuel Pellegrini", "Basti", "Lionel Messi", "Cristiano Ronaldo", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos", "Iker Casillas", "Gerard Piqué", "Carles Puyol", "Lamine Yamal", "Jude Bellingham", "Kylian Mbappé", "Erling Haaland", "Vinicius Jr", "Neymar", "Luis Suárez", "Luka Modric", "Toni Kroos", "David Beckham", "Antoine Griezmann", "Thibaut Courtois", "Oliver y Benji", "Balón de Oro", "Mundial de Fútbol", "Champions League", "Árbitro", "VAR", "Penalti", "Tarjeta Roja", "Gol", "Portería", "Darth Vader", "Luke Skywalker", "Princesa Leia", "Yoda", "Han Solo", "Chewbacca", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Dumbledore", "Hogwarts", "Frodo Bolsón", "Gandalf", "Gollum", "Sauron", "El Anillo Único", "Spiderman", "Batman", "Joker", "Superman", "Iron Man", "Capitán América", "Thor", "Hulk", "Thanos", "Wonder Woman", "Deadpool", "Wolverine", "Mickey Mouse", "Bob Esponja", "Homer Simpson", "Shrek", "Burro", "Fiona", "Buzz Lightyear", "Woody", "Elsa", "Olaf", "Barbie", "Ken", "Jack Sparrow", "Jon Snow", "Daenerys Targaryen", "Walter White", "Eleven", "Miércoles Addams", "El Profesor", "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Yoshi", "Toad", "Pikachu", "Charizard", "Pokéball", "Ash Ketchum", "Sonic", "Link", "Zelda", "Steve", "Creeper", "Kratos", "Master Chief", "Among Us", "Impostor", "Tripulante", "Fortnite", "Minecraft", "Roblox", "League of Legends", "FIFA", "GTA", "Call of Duty", "Tetris", "Pac-Man", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Will Smith", "Johnny Depp", "Angelina Jolie", "Jennifer Lawrence", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Rosalía", "Bad Bunny", "Eminem", "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pez", "Tortuga", "Vaca", "Cerdo", "Oveja", "Caballo", "Gallina", "Gallo", "Pato", "León", "Tigre", "Elefante", "Jirafa", "Oso", "Panda", "Mono", "Gorila", "Lobo", "Zorro", "Águila", "Búho", "Pingüino", "Delfín", "Ballena", "Tiburón", "Pulpo", "Cocodrilo", "Serpiente", "Rana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Móvil", "iPhone", "Ordenador", "Portátil", "Televisión", "Mando", "Cámara", "Reloj", "Lámpara", "Bombilla", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Gafas", "Gafas de sol", "Paraguas", "Mesa", "Silla", "Sofá", "Cama", "Almohada", "Manta", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel higiénico", "Escoba", "Fregona", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Tijeras", "Pegamento", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de crédito", "Anillo", "Collar", "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Burrito", "Pasta", "Arroz", "Huevo", "Pan", "Queso", "Chocolate", "Helado", "Tarta", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Sandía", "Leche", "Café", "Cerveza", "Vino", "Coca-Cola", "Agua", "Coche", "Moto", "Bicicleta", "Autobús", "Tren", "Metro", "Avión", "Barco", "Helicóptero", "Cohete", "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Cocinero", "Camarero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Sol", "Luna", "Lluvia", "Nieve", "Fuego", "Playa", "Montaña", "Ciudad", "Bosque", "Desierto", "Isla", "Hospital", "Escuela", "Supermercado", "Cine", "Restaurante", "Aeropuerto", "Parque", "Estadio", "Casa", "Castillo", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Espacio"
         ];
@@ -404,13 +384,12 @@
             setTimeout(() => { el.style.opacity = 1; el.style.transform = "translateY(0)"; }, 50);
         }
 
-        // WIKIPEDIA API (DEFINICIONES CORTAS)
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            // Pedimos 2 oraciones para que sea tipo diccionario
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=2&exintro&explaintext&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            // Query optimizada: 3 frases completas para mejor definición
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Definición no disponible. ¡Usa tu conocimiento!"; 
+            let description = null; // Null para activar lógica de "sin datos"
 
             try {
                 const res = await fetch(url);
@@ -425,7 +404,7 @@
                     }
                 }
             } catch (e) {
-                console.log("Wiki fetch error:", e);
+                console.log("Wiki Error", e);
             }
 
             return { title: rawWord, desc: description };
@@ -518,7 +497,6 @@
         }
 
         async function startGame() {
-            // Eliminada restricción de jugadores
             const btn = document.getElementById('btnStart');
             btn.innerText = "⏳ SORTEANDO CAMPO...";
             btn.disabled = true;
@@ -558,18 +536,22 @@
                     <p style="color: #64748b; font-size: 1.2rem; font-weight:600; margin-top:10px;">Nadie sabe que eres tú.<br>Finge, miente y gana.</p>
                 `;
             } else {
+                // CIUDADANO: BOTÓN DE VAR
+                let descButton = '';
+                if (wordData.desc) {
+                    descButton = `<button class="secondary" style="width:100%; margin-top:15px; font-size:1rem; padding:15px;" onclick="openDescriptionModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
+                } else {
+                    descButton = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin datos en el acta arbitral.</p>`;
+                }
+
                 container.innerHTML = `
                     <div class="word-display">${wordData.title}</div>
-                    <div class="desc-wrapper">
-                        <div class="desc-content" id="descText">${wordData.desc}</div>
-                        <div class="desc-fade"></div>
-                        <button class="toggle-btn" onclick="toggleDesc()">⬇ VER INFO COMPLETA</button>
-                    </div>
+                    ${descButton}
                 `;
             }
 
             // Emojis aleatorios para turnos
-            const turnEmojis = ["🥅", "👟", "🧤", "🏆", "🥇", "⚽", "🏟️", "🟨"];
+            const turnEmojis = ["🥅", "👟", "🧤", "🏆", "🥇", "⚽", "🏟️", "🟨", "📢", "🏁"];
             
             const listContainer = document.getElementById('turnOrderList');
             listContainer.innerHTML = '';
@@ -580,7 +562,6 @@
                 let badge = '';
                 if(index === 0) badge = '<span class="turn-badge">EMPIEZA</span>';
                 
-                // Emoji random
                 const randEmoji = turnEmojis[Math.floor(Math.random() * turnEmojis.length)];
 
                 row.innerHTML = `
@@ -600,15 +581,9 @@
             }
         }
 
-        function toggleDesc() {
-            const el = document.getElementById('descText');
-            const btn = document.querySelector('.toggle-btn');
-            el.classList.toggle('open');
-            
-            if (el.classList.contains('open')) {
-                btn.innerHTML = "⬆ OCULTAR INFO";
-            } else {
-                btn.innerHTML = "⬇ VER INFO COMPLETA";
+        function openDescriptionModal() {
+            if (gameState.wordData && gameState.wordData.desc) {
+                showModal(gameState.wordData.desc, 'var');
             }
         }
 
@@ -621,7 +596,11 @@
         function showResult(wordData, impostorName) {
             showScreen('result');
             document.getElementById('finalWord').innerText = wordData.title;
-            document.getElementById('finalDesc').innerText = wordData.desc;
+            
+            // Mostrar descripción en el resultado también si existe
+            const descEl = document.getElementById('finalDesc');
+            descEl.innerText = wordData.desc || "Sin descripción disponible.";
+            
             document.getElementById('finalImpostor').innerText = impostorName;
             
             if(isHost) {
@@ -677,7 +656,6 @@
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
             
-            // Feedback visual simple (sin modal)
             const originalText = text;
             el.innerText = "¡COPIADO! ✅";
             el.style.backgroundColor = "#d1f2eb";
@@ -685,9 +663,9 @@
             
             setTimeout(() => {
                 el.innerText = originalText;
-                el.style.backgroundColor = "#eef2f6";
+                el.style.backgroundColor = "#e2e8f0";
                 el.style.borderColor = "#94a3b8";
-            }, 1000);
+            }, 1200);
         }
     </script>
 </body>
