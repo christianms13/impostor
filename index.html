@@ -11,14 +11,12 @@
         :root {
             /* PALETA MÁLAGA CF MODERNA */
             --mcf-sky: #6CABDD;
-            --mcf-dark: #0a2c5c; /* Azul profundo */
+            --mcf-dark: #0a2c5c;
             --mcf-gold: #D4AF37;
             --white: #ffffff;
             --danger: #ff4757;
-            --success: #2ed573;
-            --glass-bg: rgba(255, 255, 255, 0.92);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --shadow-soft: 0 10px 40px rgba(0, 30, 60, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.94);
+            --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.5);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,59 +28,41 @@
             min-height: 100vh;
             color: #2d3436;
             overflow-x: hidden;
-            position: relative;
             background-color: #001433;
         }
 
-        /* --- FONDO PRO FRONTEND --- */
-        /* Capa 1: Imagen Estadio */
+        /* --- FONDO PRO --- */
         .bg-layer-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
             background-size: cover;
-            z-index: -5;
-            filter: grayscale(30%) contrast(110%);
+            z-index: -5; filter: grayscale(20%) contrast(110%);
         }
-        /* Capa 2: Overlay Degradado Profesional */
         .bg-layer-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(10, 44, 92, 0.92), rgba(108, 171, 221, 0.85));
+            background: linear-gradient(135deg, rgba(10, 44, 92, 0.9), rgba(108, 171, 221, 0.8));
             z-index: -4;
         }
-        /* Capa 3: Pattern Grid (Toque Tech) */
-        .bg-layer-pattern {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(var(--white) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.1;
-            z-index: -3;
-        }
-
-        /* --- EMOJIS FLOTANTES --- */
+        
+        /* EMOJIS FLOTANTES */
         .emoji-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
         .floating-emoji {
-            position: absolute;
-            bottom: -10vh;
-            font-size: 2rem;
-            animation: floatUp linear infinite;
-            z-index: 0;
+            position: absolute; bottom: -10vh; font-size: 2rem;
+            animation: floatUp linear infinite; z-index: 0;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; } /* Más visibles como pediste */
+            10% { opacity: 0.8; }
             90% { opacity: 0.8; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
         /* --- CABECERA --- */
-        header {
-            text-align: center; margin-bottom: 30px; z-index: 10;
-            position: relative;
-        }
+        header { text-align: center; margin-bottom: 30px; z-index: 10; position: relative; }
         .shield {
             width: 110px; height: auto; margin-bottom: 10px;
             filter: drop-shadow(0 0 25px rgba(255,255,255,0.5));
@@ -93,31 +73,27 @@
         h1 {
             font-family: 'Teko', sans-serif; font-size: 4.5rem; text-transform: uppercase;
             margin: 0; line-height: 0.85; color: var(--white);
-            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3); letter-spacing: 1px;
         }
         .badge-pro {
             background: var(--mcf-gold); color: var(--mcf-dark);
-            padding: 5px 15px; border-radius: 50px;
-            font-size: 0.9rem; font-weight: 900; letter-spacing: 1px;
-            text-transform: uppercase; display: inline-block; margin-top: 10px;
+            padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: 900;
+            letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-top: 10px;
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* --- CONTENEDOR PRINCIPAL (Glassmorphism Pro) --- */
+        /* --- CONTENEDOR PRINCIPAL --- */
         .main-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 100%; max-width: 900px;
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: var(--shadow-soft), inset 0 0 0 1px var(--glass-border);
-            text-align: center;
-            position: relative; z-index: 10;
+            border-radius: 30px; padding: 40px;
+            box-shadow: var(--shadow-soft);
+            text-align: center; position: relative; z-index: 10;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* --- UI ELEMENTS --- */
+        /* --- ELEMENTOS UI --- */
         input {
             width: 100%; padding: 20px; margin: 15px 0;
             background: #f1f5f9; border: 2px solid #cbd5e1;
@@ -134,9 +110,9 @@
             font-family: 'Teko', sans-serif; font-size: 2rem; letter-spacing: 1px;
             cursor: pointer; text-transform: uppercase;
             box-shadow: 0 10px 30px rgba(10, 44, 92, 0.3);
-            position: relative; overflow: hidden; transition: all 0.3s;
+            position: relative; overflow: hidden; transition: all 0.2s;
         }
-        button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(10, 44, 92, 0.5); }
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(10, 44, 92, 0.5); filter: brightness(1.1); }
         button:active { transform: scale(0.98); }
 
         button.secondary {
@@ -155,15 +131,15 @@
             background: var(--white); border-radius: 15px; padding: 15px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
-            transition: transform 0.2s;
+            transition: transform 0.2s; position: relative;
         }
         .player-card:hover { transform: translateY(-2px); border-color: var(--mcf-sky); }
         .player-name { font-weight: 700; color: var(--mcf-dark); font-size: 1rem; margin-bottom: 5px; }
-        .host-tag { font-size: 0.7rem; background: var(--mcf-gold); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 800; }
+        .host-tag { font-size: 0.7rem; background: var(--mcf-gold); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 800; margin-bottom: 5px;}
         
         .kick-btn-mini {
-            margin-top: 5px; font-size: 0.7rem; background: #ffeaa7; color: #d63031; 
-            padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none;
+            font-size: 0.7rem; background: #ffeaa7; color: #d63031; 
+            padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none; margin-top: 0;
         }
 
         /* --- JUEGO --- */
@@ -176,7 +152,7 @@
         .word-display { font-family: 'Teko'; font-size: 4rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
         .impostor-display { font-family: 'Teko'; font-size: 4.5rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
 
-        /* DESCRIPCIÓN PRO */
+        /* DESCRIPCIÓN */
         .desc-wrapper { position: relative; text-align: left; background: var(--white); padding: 20px; border-radius: 15px; border-left: 5px solid var(--mcf-sky); }
         .desc-content { 
             font-size: 1.05rem; line-height: 1.6; color: #475569; 
@@ -213,7 +189,16 @@
         .player-turn-name { font-size: 1.1rem; font-weight: 600; }
         .turn-badge { margin-left: auto; background: var(--mcf-gold); color: var(--mcf-dark); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 900; }
 
-        /* --- MODAL PERSONALIZADO --- */
+        /* --- COPY CODE BUTTON --- */
+        #roomIdDisplay {
+            font-family: monospace; font-size: 1.8rem; font-weight: 700; color: var(--mcf-dark);
+            background: #e2e8f0; padding: 20px; border-radius: 15px; border: 3px dashed #94a3b8;
+            cursor: pointer; margin-top: 10px; width: 100%; word-break: break-all;
+            transition: 0.2s;
+        }
+        #roomIdDisplay:active { transform: scale(0.98); }
+
+        /* --- MODAL (Solo para errores/info, no copy) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 20, 40, 0.8); backdrop-filter: blur(5px);
@@ -225,19 +210,12 @@
         .modal-box {
             background: var(--white); width: 90%; max-width: 400px;
             border-radius: 25px; padding: 30px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s;
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
-        
         .modal-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
         .modal-text { font-size: 1.2rem; font-weight: 600; color: #333; margin-bottom: 20px; }
         .modal-btn-group { display: flex; gap: 10px; }
-
-        #roomIdDisplay {
-            font-family: monospace; font-size: 1.8rem; font-weight: 700; color: var(--mcf-dark);
-            background: #e2e8f0; padding: 20px; border-radius: 15px; border: 3px dashed #94a3b8;
-            cursor: pointer; margin-top: 10px; width: 100%; word-break: break-all;
-        }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
@@ -247,101 +225,98 @@
 
     <div class="bg-layer-image"></div>
     <div class="bg-layer-overlay"></div>
-    <div class="bg-layer-pattern"></div>
     <div id="emojiContainer" class="emoji-container"></div>
 
     <div id="customModal" class="modal-overlay">
         <div class="modal-box">
             <span id="modalIcon" class="modal-icon">⚽</span>
             <p id="modalMessage" class="modal-text">Mensaje</p>
-            <div id="modalButtons" class="modal-btn-group">
-                </div>
+            <div id="modalButtons" class="modal-btn-group"></div>
         </div>
     </div>
 
     <header>
         <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Málaga CF" class="shield">
         <h1>IMPOSTOR<br>MALAGUISTA</h1>
-        <div class="badge-pro">PRO MAX EDITION</div>
+        <div class="badge-pro">LA BOMBONERA EDITION ⚽</div>
     </header>
 
     <div id="screen-menu" class="main-card">
-        <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO</h2>
-        <input type="text" id="myUsername" placeholder="Tu Nombre de Jugador" maxlength="12">
-        <button onclick="createGame()">CREAR VESTUARIO</button>
+        <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO ✍️</h2>
+        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
+        <button onclick="createGame()">CREAR VESTUARIO 🆕</button>
         <div style="margin: 20px 0; font-weight: 800; color: #94a3b8; font-size: 0.9rem;">— O —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
-        <button class="secondary" onclick="joinGame()">UNIRSE AL EQUIPO</button>
+        <button class="secondary" onclick="joinGame()">UNIRSE AL EQUIPO 🤝</button>
     </div>
 
     <div id="screen-lobby" class="main-card hidden">
-        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO</h2>
-        <p style="color: #64748b;">Código de acceso:</p>
+        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO 🏟️</h2>
+        <p style="color: #64748b;">Toca para copiar el código:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
         <div style="margin-top: 30px; text-align: left;">
-            <span class="label">CONVOCATORIA (<span id="playerCount">0</span>)</span>
+            <span class="label">CONVOCATORIA 📋 (<span id="playerCount">0</span>)</span>
             <ul id="lobbyList" class="player-list"></ul>
         </div>
 
         <div id="hostControls" class="hidden" style="margin-top: 30px;">
-            <button onclick="startGame()" id="btnStart">⚽ ¡SALTAR AL CAMPO! ⚽</button>
+            <button onclick="startGame()" id="btnStart">SALTAR AL CAMPO ⚽</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">ESPERANDO AL MÍSTER... ⏱</p>
+            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
         </div>
     </div>
 
     <div id="screen-game" class="main-card hidden">
         <div class="role-container">
-            <span class="label">TU POSICIÓN TÁCTICA</span>
+            <span class="label">TU POSICIÓN TÁCTICA 📍</span>
             <div id="roleContent"></div>
         </div>
 
         <div style="text-align: left;">
-            <span class="label" style="margin-bottom: 15px; display:block;">11 INICIAL (ORDEN DE JUEGO)</span>
+            <span class="label" style="margin-bottom: 15px; display:block;">11 INICIAL (ORDEN) 🏃‍♂️</span>
             <div id="turnOrderList" class="lineup-container"></div>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">🛑 PITIDO FINAL</button>
+            <button class="danger" onclick="revealGame()">PITIDO FINAL 🛑</button>
         </div>
         <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:700;">PARTIDO EN JUEGO... NO DIGAS NADA 🤫</p>
     </div>
 
     <div id="screen-result" class="main-card hidden">
-        <h2 style="font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); margin:0;">MARCADOR</h2>
+        <h2 style="font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); margin:0;">MARCADOR 📊</h2>
         
         <div style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin: 25px 0; border: 1px solid #e2e8f0;">
-            <span class="label">LA PALABRA CLAVE</span>
+            <span class="label">LA PALABRA CLAVE 🔑</span>
             <div id="finalWord" class="word-display" style="font-size: 3rem;"></div>
             <p id="finalDesc" style="font-size: 1rem; color: #475569; font-style: italic; margin-top:10px; line-height:1.4;"></p>
         </div>
 
-        <span class="label">EL INFILTRADO ERA</span>
+        <span class="label">EL INFILTRADO ERA 🕵️</span>
         <h3 id="finalImpostor" style="font-family: 'Teko'; font-size: 4rem; color: var(--danger); margin: 0; line-height:1;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">🔄 NUEVO PARTIDO</button>
+            <button onclick="returnToLobby()">VOLVER AL VESTUARIO 🔄</button>
         </div>
         <p id="clientRestartWaiting" class="hidden" style="color: #94a3b8; margin-top:20px; font-weight:600;">RUEDA DE PRENSA...</p>
     </div>
 
     <script>
-        // --- SISTEMA DE EMOJIS "COQUETTE CHAOS" ---
+        // --- EMOJIS FLOTANTES (MÁS VARIADOS Y VISIBLES) ---
         const emojiContainer = document.getElementById('emojiContainer');
-        const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🎀", "✨", "🥘", "🌴", "🌞"];
+        const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇"];
         
-        for(let i=0; i<50; i++) { // 50 emojis, mucha variedad
+        for(let i=0; i<60; i++) {
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
-            // Aleatoriedad total
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = (Math.random() * 2 + 1) + 'rem';
-            el.style.opacity = (Math.random() * 0.4 + 0.3); // Opacidad visible (0.3 a 0.7)
-            el.style.animationDuration = (Math.random() * 20 + 15) + 's'; // Lentos y majestuosos
-            el.style.animationDelay = Math.random() * 20 + 's'; // Para que no salgan todos a la vez
+            el.style.fontSize = (Math.random() * 2.5 + 1) + 'rem';
+            el.style.opacity = (Math.random() * 0.5 + 0.3); // 0.3 a 0.8 opacidad
+            el.style.animationDuration = (Math.random() * 25 + 15) + 's';
+            el.style.animationDelay = Math.random() * 20 + 's';
             emojiContainer.appendChild(el);
         }
 
@@ -363,27 +338,24 @@
             if (type === 'confirm') {
                 const btnYes = document.createElement('button');
                 btnYes.innerText = "SÍ";
-                btnYes.style.width = "auto";
                 btnYes.style.flex = "1";
                 btnYes.onclick = () => { closeModal(); if(onConfirm) onConfirm(); };
                 
                 const btnNo = document.createElement('button');
                 btnNo.innerText = "NO";
                 btnNo.className = "secondary";
-                btnNo.style.width = "auto";
                 btnNo.style.flex = "1";
-                btnNo.style.marginTop = "0"; // Override default
+                btnNo.style.marginTop = "0";
                 btnNo.onclick = closeModal;
                 
                 btnGroup.appendChild(btnNo);
                 btnGroup.appendChild(btnYes);
             } else {
                 const btnOk = document.createElement('button');
-                btnOk.innerText = "VALE";
+                btnOk.innerText = "ENTENDIDO";
                 btnOk.onclick = closeModal;
                 btnGroup.appendChild(btnOk);
             }
-
             modal.classList.add('active');
         }
 
@@ -391,7 +363,7 @@
             document.getElementById('customModal').classList.remove('active');
         }
 
-        // --- DATABASE MASIVA ---
+        // --- BASE DE DATOS ACTUALIZADA ---
         const PALABRAS_JUEGO = [
           "Michael Jordan", "LeBron James", "Kobe Bryant", "Shaquille O'Neal", "Stephen Curry", "Magic Johnson", "Larry Bird", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Kevin Durant", "James Harden", "Nikola Jokic", "Victor Wembanyama", "Dennis Rodman", "Scottie Pippen", "Kyrie Irving", "Allen Iverson", "Dirk Nowitzki", "Tim Duncan", "Yao Ming", "Steve Nash", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Málaga CF", "La Rosaleda", "Isco", "Santi Cazorla", "Dely Valdés", "Ruud van Nistelrooy", "Jeremy Toulalan", "Willy Caballero", "Kameni", "Duda", "Weligton", "Julio Baptista", "Joaquín Sánchez", "Salomón Rondón", "Camacho", "Sandro Ramírez", "Eliseu", "Manuel Pellegrini", "Basti", "Lionel Messi", "Cristiano Ronaldo", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos", "Iker Casillas", "Gerard Piqué", "Carles Puyol", "Lamine Yamal", "Jude Bellingham", "Kylian Mbappé", "Erling Haaland", "Vinicius Jr", "Neymar", "Luis Suárez", "Luka Modric", "Toni Kroos", "David Beckham", "Antoine Griezmann", "Thibaut Courtois", "Oliver y Benji", "Balón de Oro", "Mundial de Fútbol", "Champions League", "Árbitro", "VAR", "Penalti", "Tarjeta Roja", "Gol", "Portería", "Darth Vader", "Luke Skywalker", "Princesa Leia", "Yoda", "Han Solo", "Chewbacca", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Dumbledore", "Hogwarts", "Frodo Bolsón", "Gandalf", "Gollum", "Sauron", "El Anillo Único", "Spiderman", "Batman", "Joker", "Superman", "Iron Man", "Capitán América", "Thor", "Hulk", "Thanos", "Wonder Woman", "Deadpool", "Wolverine", "Mickey Mouse", "Bob Esponja", "Homer Simpson", "Shrek", "Burro", "Fiona", "Buzz Lightyear", "Woody", "Elsa", "Olaf", "Barbie", "Ken", "Jack Sparrow", "Jon Snow", "Daenerys Targaryen", "Walter White", "Eleven", "Miércoles Addams", "El Profesor", "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Yoshi", "Toad", "Pikachu", "Charizard", "Pokéball", "Ash Ketchum", "Sonic", "Link", "Zelda", "Steve", "Creeper", "Kratos", "Master Chief", "Among Us", "Impostor", "Tripulante", "Fortnite", "Minecraft", "Roblox", "League of Legends", "FIFA", "GTA", "Call of Duty", "Tetris", "Pac-Man", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Will Smith", "Johnny Depp", "Angelina Jolie", "Jennifer Lawrence", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Rosalía", "Bad Bunny", "Eminem", "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pez", "Tortuga", "Vaca", "Cerdo", "Oveja", "Caballo", "Gallina", "Gallo", "Pato", "León", "Tigre", "Elefante", "Jirafa", "Oso", "Panda", "Mono", "Gorila", "Lobo", "Zorro", "Águila", "Búho", "Pingüino", "Delfín", "Ballena", "Tiburón", "Pulpo", "Cocodrilo", "Serpiente", "Rana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Móvil", "iPhone", "Ordenador", "Portátil", "Televisión", "Mando", "Cámara", "Reloj", "Lámpara", "Bombilla", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Gafas", "Gafas de sol", "Paraguas", "Mesa", "Silla", "Sofá", "Cama", "Almohada", "Manta", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel higiénico", "Escoba", "Fregona", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Tijeras", "Pegamento", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de crédito", "Anillo", "Collar", "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Burrito", "Pasta", "Arroz", "Huevo", "Pan", "Queso", "Chocolate", "Helado", "Tarta", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Sandía", "Leche", "Café", "Cerveza", "Vino", "Coca-Cola", "Agua", "Coche", "Moto", "Bicicleta", "Autobús", "Tren", "Metro", "Avión", "Barco", "Helicóptero", "Cohete", "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Cocinero", "Camarero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Sol", "Luna", "Lluvia", "Nieve", "Fuego", "Playa", "Montaña", "Ciudad", "Bosque", "Desierto", "Isla", "Hospital", "Escuela", "Supermercado", "Cine", "Restaurante", "Aeropuerto", "Parque", "Estadio", "Casa", "Castillo", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Espacio"
         ];
@@ -409,22 +381,16 @@
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
             const el = document.getElementById(`screen-${name}`);
             el.classList.remove('hidden');
-            // Trigger animation
-            el.style.opacity = 0;
-            el.style.transform = "translateY(20px)";
-            setTimeout(() => {
-                el.style.opacity = 1;
-                el.style.transform = "translateY(0)";
-            }, 50);
+            el.style.opacity = 0; el.style.transform = "translateY(20px)";
+            setTimeout(() => { el.style.opacity = 1; el.style.transform = "translateY(0)"; }, 50);
         }
 
-        // WIKIPEDIA API AVANZADA
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            // Aumentado exchars a 600 y ajustado la query
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=600&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            // Query expandida para descripciones más largas
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=800&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Información no disponible en la base de datos. ¡Juega con lo que sepas!"; 
+            let description = "No se encontró información detallada. ¡Confía en tu instinto!"; 
 
             try {
                 const res = await fetch(url);
@@ -434,12 +400,12 @@
                 
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
-                    if (extract && extract.length > 5) {
+                    if (extract && extract.length > 10) {
                         description = extract;
                     }
                 }
             } catch (e) {
-                console.log("Wiki fetch error:", e);
+                console.log("Wiki Error", e);
             }
 
             return { title: rawWord, desc: description };
@@ -457,7 +423,7 @@
         function createGame() {
             myName = document.getElementById('myUsername').value.trim() || "Malaguista";
             isHost = true;
-            showModal("Creando vestuario...", "info");
+            showModal("Abriendo vestuario...", "info");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -496,7 +462,7 @@
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { showModal("Conexión perdida con el vestuario.", "error"); location.reload(); });
+                conn.on('close', () => { showModal("Se ha perdido la conexión con el vestuario.", "error"); location.reload(); });
             });
         }
 
@@ -532,8 +498,6 @@
         }
 
         async function startGame() {
-            // RESTRICCIÓN DE JUGADORES ELIMINADA
-            
             const btn = document.getElementById('btnStart');
             btn.innerText = "⏳ SORTEANDO CAMPO...";
             btn.disabled = true;
@@ -556,7 +520,7 @@
             connections.forEach(c => c.send(msg));
             setupGame(wordData, impostor.id, turnOrder);
 
-            btn.innerText = "⚽ ¡PITIDO INICIAL! ⚽";
+            btn.innerText = "SALTAR AL CAMPO ⚽";
             btn.disabled = false;
         }
 
@@ -685,7 +649,21 @@
             const text = el.innerText;
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
-            showModal("¡Código copiado al portapapeles!", "success");
+            
+            // Feedback visual simple (sin modal)
+            const originalText = text;
+            const originalColor = el.style.backgroundColor;
+            const originalBorder = el.style.borderColor;
+            
+            el.innerText = "¡COPIADO! ✅";
+            el.style.backgroundColor = "#d1f2eb";
+            el.style.borderColor = "#2ed573";
+            
+            setTimeout(() => {
+                el.innerText = originalText;
+                el.style.backgroundColor = originalColor;
+                el.style.borderColor = originalBorder;
+            }, 1200);
         }
     </script>
 </body>
