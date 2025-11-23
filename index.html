@@ -300,7 +300,8 @@
     <div style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin: 25px 0; border: 1px solid #e2e8f0;">
       <span class="label">LA PALABRA CLAVE 🔑</span>
       <div id="finalWord" class="word-display" style="font-size: 3rem;"></div>
-      <p id="finalDesc" style="font-size: 1rem; color: #475569; font-style: italic; margin-top:10px; line-height:1.4;"></p>
+      
+      <div id="finalDescContainer" style="margin-top: 15px;"></div>
     </div>
 
     <span class="label">EL INFILTRADO ERA 🕵️</span>
@@ -313,11 +314,11 @@
   </div>
 
   <script>
-    // --- EMOJIS FLOTANTES (YA MOVIÉNDOSE) ---
+    // --- EMOJIS FLOTANTES MALAGUISTAS ---
     const emojiContainer = document.getElementById('emojiContainer');
-    const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇", "🥅", "🎽"];
+    const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇", "🥅", "🎽", "🏰", "⚓", "🍇", "🏖️", "🏁", "📣"];
     
-    for(let i=0; i<50; i++) {
+    for(let i=0; i<60; i++) {
       let el = document.createElement('div');
       el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       el.className = 'floating-emoji';
@@ -443,8 +444,6 @@
     // ASIGNAR POSICIÓN ALEATORIA LIBRE
     function getRandomFreePosition(currentPlayers) {
       const usedIndices = currentPlayers.map(p => p.posIndex);
-      // Solo consideramos el 11 inicial para la asignación "de campo"
-      // Indices 0 a 10.
       const availableIndices = [];
       for(let i=0; i<11; i++) {
         if(!usedIndices.includes(i)) availableIndices.push(i);
@@ -454,12 +453,8 @@
         const randomIndex = Math.floor(Math.random() * availableIndices.length);
         return availableIndices[randomIndex];
       } else {
-        // Si está lleno el 11, asignamos al banquillo (índices 11 en adelante)
-        // Buscamos el primer hueco libre en el banquillo
         let benchIndex = 11;
-        while(usedIndices.includes(benchIndex)) {
-          benchIndex++;
-        }
+        while(usedIndices.includes(benchIndex)) { benchIndex++; }
         return benchIndex;
       }
     }
@@ -590,7 +585,7 @@
         if (wordData.desc) {
           btnHtml = `<button class="secondary" style="width:100%; margin-top:20px; font-size:1rem; padding:15px;" onclick="openVarModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
         } else {
-          btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin señal de VAR.</p>`;
+          btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin datos en el acta.</p>`;
         }
         container.innerHTML = `<div class="word-display">${wordData.title}</div>${btnHtml}`;
       }
@@ -636,8 +631,15 @@
     function showResult(wordData, impostorName) {
       showScreen('result');
       document.getElementById('finalWord').innerText = wordData.title;
-      document.getElementById('finalDesc').innerText = wordData.desc || "Sin descripción.";
       document.getElementById('finalImpostor').innerText = impostorName;
+      
+      // LOGICA VAR EN RESULTADO
+      const container = document.getElementById('finalDescContainer');
+      if (wordData.desc) {
+        container.innerHTML = `<button class="secondary" style="width:100%; margin-top:15px; font-size:1rem; padding:15px;" onclick="openVarModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
+      } else {
+        container.innerHTML = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin datos en el acta.</p>`;
+      }
       
       if(isHost) {
         document.getElementById('hostRestartControls').classList.remove('hidden');
@@ -668,10 +670,8 @@
       // RENDERIZAR JUGADORES
       players.forEach((p) => {
         const posIndex = (p.posIndex !== undefined) ? p.posIndex : 11;
-        // Si el indice es mayor que el array de formacion, usamos posiciones de suplente random o la ultima
         let posData = FORMATION[posIndex];
         if (!posData) {
-             // Fallback para banquillo extra
              posData = { name: "SUPLENTE", x: (Math.random() > 0.5 ? 92 : 8), y: 50 + (Math.random() * 40 - 20) };
         }
         
@@ -695,8 +695,7 @@
         pitch.appendChild(playerDiv);
       });
 
-      // RENDERIZAR FANTASMAS (HUECOS VACÍOS DEL 11)
-      // Indices del 0 al 10 son los titulares
+      // RENDERIZAR FANTASMAS
       const usedIndices = players.map(p => p.posIndex);
       for(let i=0; i<11; i++) {
         if(!usedIndices.includes(i)) {
