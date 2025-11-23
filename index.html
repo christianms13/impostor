@@ -20,8 +20,12 @@
       --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.6);
     }
 
-    /* --- CURSOR GLOBAL FORZADO (SUPER IMPORTANTE) --- */
-    /* Aplicamos a todo (*) para sobreescribir comportamientos por defecto */
+    /* CURSOR GLOBAL */
+    body, button, input, .pitch-player, .shield, #roomIdDisplay {
+       cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png'), auto;
+    }
+
+    /* FORZAR CURSOR EN TODOS LOS ELEMENTOS PARA EVITAR PARPADEOS AL POINTER */
     *, *::before, *::after, button, input, a, div, span {
        cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png') 16 16, auto !important;
     }
@@ -113,78 +117,78 @@
       border: 2px solid rgba(255,255,255,0.6); border-bottom: none; transform: translateX(-50%); background: rgba(255,255,255,0.1);
     }
 
-    /* --- JUGADOR EN EL CAMPO (Estilos Arreglados) --- */
+    /* --- JUGADOR EN EL CAMPO (OPTIMIZADO) --- */
     .pitch-player {
       position: absolute;
       transform: translate(-50%, -50%);
-      width: 90px; /* Un poco más de área */
+      width: 80px;
       display: flex; flex-direction: column; align-items: center;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      /* El cursor se fuerza globalmente, pero aquí aseguramos interactividad */
+      cursor: pointer;
+      
+      /* OPTIMIZACIÓN DE RENDERIZADO */
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      
+      /* GESTIÓN INTELIGENTE DE Z-INDEX Y TRANSICIÓN */
+      z-index: 5;
+      /* Al salir del hover: transform suave, pero el z-index espera 0.3s antes de bajar */
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s 0.3s;
     }
-    
-    /* EFECTO HOVER RESTAURADO PARA TODOS (FANTASMAS INCLUIDOS) */
+
+    /* HOVER STATE */
     .pitch-player:hover { 
       transform: translate(-50%, -65%) scale(1.15); 
-      z-index: 50; 
+      z-index: 100;
+      /* Al entrar al hover: z-index sube INSTANTÁNEAMENTE (0s delay) */
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s 0s;
     }
 
     /* CAMISETAS */
     .kit-shirt {
       width: 50px; height: auto;
       filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
-      transition: transform 0.2s;
       margin-bottom: 2px;
-      position: relative;
+      
+      /* EVITAR PARPADEO AL RENDERIZAR */
+      transform: translateZ(0);
+      will-change: transform;
     }
     
-    /* FANTASMAS */
+    /* ESTILOS FANTASMA (LEYENDAS) */
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
     }
+    /* TALLAS DE FANTASMAS */
     .kit-shirt.ghost-normal { width: 45px; } 
     .kit-shirt.ghost-medium { width: 65px; } 
     .kit-shirt.ghost-large { width: 85px; } 
 
-    /* --- ETIQUETA NOMBRE (CONTENEDOR LIMPIO) --- */
     .player-tag {
       background: rgba(255,255,255,0.95); 
       color: var(--mcf-dark); 
-      padding: 3px 8px; border-radius: 5px; font-size: 0.75rem; font-weight: 800;
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis;
-      max-width: 100px; /* Limitar ancho para que salgan ... */
-      margin-top: -5px; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      border: 1px solid transparent;
+      padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
+      margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      
+      /* Estructura del nombre */
+      max-width: 110px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 3px;
     }
     
-    .player-tag.me { color: var(--danger); border-color: var(--danger); }
-
-    /* --- BOTÓN KICK FLOTANTE (NUEVO) --- */
-    .kick-btn-floating {
-      position: absolute;
-      top: -10px;
-      right: 10px; /* Flotando a la derecha de la camiseta */
-      background: var(--danger);
-      color: white;
-      border: 2px solid white;
-      border-radius: 50%;
-      width: 22px; height: 22px;
-      font-size: 12px;
-      font-weight: bold;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      z-index: 20;
-      transition: transform 0.2s;
+    .player-name-span {
+      display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
     }
-    .kick-btn-floating:hover { transform: scale(1.2); background: #c0392b; }
+    
+    .mini-kick-btn {
+      font-size: 0.6rem; padding: 1px 3px; border-radius: 2px; 
+      background: var(--danger); color: white; border: none; margin-left: 0; cursor: pointer;
+      flex-shrink: 0; line-height: 1;
+    }
 
-    /* ETIQUETA POSICIÓN */
+    .player-tag.me { color: var(--danger); border: 1px solid var(--danger); }
+
     .position-tag {
       background: var(--mcf-dark); color: var(--mcf-gold);
-      font-size: 0.6rem; padding: 2px 6px; border-radius: 3px; margin-top: 2px; font-weight: 700;
+      font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; margin-top: 2px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
     }
     .host-mark { color: var(--mcf-sky); margin-left: 3px; }
@@ -427,7 +431,7 @@
       { name: "SUPLENTE", x: 92, y: 50 }, { name: "SUPLENTE", x: 8, y: 50 }
     ];
 
-    // --- DATOS DE LEYENDAS ---
+    // --- DATOS DE LEYENDAS (CON FALLBACK Y WIKIQUERY CORREGIDA) ---
     const LEGENDS_DATA = {
       0: { 
         name: "Willy Caballero", 
@@ -499,6 +503,7 @@
 
     // --- VAR GLOBAL ---
     let currentWordData = null;
+    // Para el copy code
     let currentRoomCode = "";
     let copyTimeout = null;
 
@@ -515,6 +520,7 @@
       imgContainer.innerHTML = '';
 
       if (imageUrl) {
+        // Contenedor con efecto luz
         const spotlight = document.createElement('div');
         spotlight.className = 'modal-img-spotlight';
         
@@ -562,13 +568,15 @@
 
     // --- ABRIR MODAL DE LEYENDA ---
     async function openLegendModal(index) {
-      if (!LEGENDS_DATA[index]) return; 
+      if (!LEGENDS_DATA[index]) return;
 
       const legend = LEGENDS_DATA[index];
       const modalImg = `./${legend.file}-modal.png`;
       
+      // 1. Mostrar modal con loading
       showModal("Cargando historia...", "info", null, modalImg);
 
+      // 2. Buscar descripción en Wikipedia
       const searchQuery = legend.wikiQuery || legend.name;
       const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
       
@@ -588,6 +596,7 @@
         document.getElementById('modalMessage').innerText = desc;
 
       } catch (e) {
+        // 3. Fallback Manual
         console.log("Usando descripción manual para " + legend.name);
         document.getElementById('modalMessage').innerText = legend.fallback;
       }
@@ -890,22 +899,24 @@
         
         let capiLabel = p.isHost ? '<span class="host-mark">(CAPI)</span>' : '';
         
-        // ON CLICK OPEN LEGEND MODAL
+        // ON CLICK OPEN LEGEND MODAL (Valid for everyone to check position info)
         playerDiv.onclick = () => openLegendModal(posIndex);
 
         // CLASE ESPECIAL SI SOY YO
         const isMeClass = (p.id === peer.id) ? 'me' : '';
         
-        // BOTÓN FLOTANTE
-        let btnKickHTML = '';
+        // MINI KICK BUTTON FLOTANTE (Only for host, on other players)
+        let btnKick = '';
         if(isHost && !p.isHost) {
-          btnKickHTML = `<div class="kick-btn-floating" onclick="event.stopPropagation(); kickPlayer('${p.id}')">❌</div>`;
+          btnKick = `<button class="kick-btn-floating" onclick="event.stopPropagation(); kickPlayer('${p.id}')">❌</button>`;
         }
 
         playerDiv.innerHTML = `
-          ${btnKickHTML}
+          ${btnKick}
           <img src="https://www.hummel.es/on/demandware.static/-/Sites-hummel-master-catalog/default/dw0f81d5f8/images/packshot/216444-7707_2.png" class="kit-shirt" alt="Camiseta">
-          <div class="player-tag ${isMeClass}">${p.name}</div>
+          <div class="player-tag ${isMeClass}">
+            <span class="player-name-span">${p.name}</span>
+          </div>
           <div class="position-tag">${posData.name} ${capiLabel}</div>
         `;
         pitch.appendChild(playerDiv);
@@ -920,7 +931,7 @@
           ghostDiv.className = 'pitch-player pitch-ghost';
           ghostDiv.style.left = ghostPos.x + '%';
           ghostDiv.style.top = ghostPos.y + '%';
-          ghostDiv.onclick = () => openLegendModal(i); 
+          ghostDiv.onclick = () => openLegendModal(i); // Click en fantasma abre modal
           
           // Obtener imagen de leyenda
           const legendImg = LEGENDS_DATA[i] ? `./${LEGENDS_DATA[i].file}.png` : './isco.png';
