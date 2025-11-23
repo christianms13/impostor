@@ -2,224 +2,242 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostor Malaguista 💙🤍</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Impostor Malaguista PRO</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Teko:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* COLORES MÁLAGA CF */
+            /* PALETA MÁLAGA CF MODERNA */
             --mcf-sky: #6CABDD;
-            --mcf-dark: #004488;
+            --mcf-dark: #0a2c5c; /* Azul profundo */
             --mcf-gold: #D4AF37;
             --white: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.96);
-            --danger: #e74c3c;
+            --danger: #ff4757;
+            --success: #2ed573;
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow-soft: 0 10px 40px rgba(0, 30, 60, 0.4);
         }
 
-        * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
-            color: #333;
+            color: #2d3436;
             overflow-x: hidden;
-            /* FONDO ESTADIO + DEGRADADO DIVERTIDO */
-            background: 
-                linear-gradient(135deg, rgba(0, 68, 136, 0.8), rgba(108, 171, 221, 0.7)),
-                url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
-            background-size: cover;
+            position: relative;
+            background-color: #001433;
         }
 
-        /* EMOJIS FLOTANTES (DETRÁS DEL CONTENIDO) */
+        /* --- FONDO PRO FRONTEND --- */
+        /* Capa 1: Imagen Estadio */
+        .bg-layer-image {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -5;
+            filter: grayscale(30%) contrast(110%);
+        }
+        /* Capa 2: Overlay Degradado Profesional */
+        .bg-layer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10, 44, 92, 0.92), rgba(108, 171, 221, 0.85));
+            z-index: -4;
+        }
+        /* Capa 3: Pattern Grid (Toque Tech) */
+        .bg-layer-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(var(--white) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.1;
+            z-index: -3;
+        }
+
+        /* --- EMOJIS FLOTANTES --- */
         .emoji-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
         .floating-emoji {
             position: absolute;
-            bottom: -50px; /* Empiezan abajo del todo */
-            animation: riseUp linear infinite;
-            opacity: 0.6; /* Más visibles */
+            bottom: -10vh;
+            font-size: 2rem;
+            animation: floatUp linear infinite;
             z-index: 0;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
-        @keyframes riseUp {
+        @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
+            10% { opacity: 0.8; } /* Más visibles como pediste */
+            90% { opacity: 0.8; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        /* CABECERA */
+        /* --- CABECERA --- */
         header {
-            display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;
-            text-align: center; z-index: 10;
+            text-align: center; margin-bottom: 30px; z-index: 10;
+            position: relative;
         }
         .shield {
-            width: 100px; height: auto; margin-bottom: 15px;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
-            animation: floatShield 6s ease-in-out infinite;
+            width: 110px; height: auto; margin-bottom: 10px;
+            filter: drop-shadow(0 0 25px rgba(255,255,255,0.5));
+            animation: breathe 4s ease-in-out infinite;
         }
-        @keyframes floatShield { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         h1 {
             font-family: 'Teko', sans-serif; font-size: 4.5rem; text-transform: uppercase;
-            margin: 0; line-height: 0.8;
-            color: white;
-            text-shadow: 4px 4px 0px var(--mcf-dark);
+            margin: 0; line-height: 0.85; color: var(--white);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
         }
-        .subtitle { 
-            color: var(--white); background: var(--mcf-dark); padding: 5px 15px; 
-            border-radius: 20px; font-size: 0.9rem; letter-spacing: 2px; font-weight: 800; 
-            text-transform: uppercase; margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        .badge-pro {
+            background: var(--mcf-gold); color: var(--mcf-dark);
+            padding: 5px 15px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 900; letter-spacing: 1px;
+            text-transform: uppercase; display: inline-block; margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* BARRA DE ESTADO (SOLO VISIBLE CON TEXTO) */
-        #statusMsg {
-            color: white; margin-bottom: 15px; font-weight: 700; 
-            background: rgba(0,0,0,0.6); border-radius: 8px; z-index: 10;
-            padding: 0; transition: padding 0.3s;
-        }
-        #statusMsg:not(:empty) { padding: 10px 20px; }
-
-        /* CONTENEDOR PRINCIPAL */
+        /* --- CONTENEDOR PRINCIPAL (Glassmorphism Pro) --- */
         .main-card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 100%; max-width: 900px;
-            border-radius: 25px;
+            border-radius: 30px;
             padding: 40px;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.5),
-                0 0 0 6px rgba(255,255,255,0.2); /* Borde cristal */
+            box-shadow: var(--shadow-soft), inset 0 0 0 1px var(--glass-border);
             text-align: center;
-            position: relative;
-            z-index: 10; /* POR ENCIMA DE LOS EMOJIS */
-            backdrop-filter: blur(10px);
+            position: relative; z-index: 10;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* INPUTS */
+        /* --- UI ELEMENTS --- */
         input {
             width: 100%; padding: 20px; margin: 15px 0;
-            background: #f4f7f9; border: 2px solid #dae1e7;
-            border-radius: 15px; color: var(--mcf-dark);
+            background: #f1f5f9; border: 2px solid #cbd5e1;
+            border-radius: 16px; color: var(--mcf-dark);
             font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem;
-            text-align: center; outline: none;
+            text-align: center; outline: none; transition: all 0.3s;
         }
-        input:focus { border-color: var(--mcf-sky); background: white; box-shadow: 0 0 0 5px rgba(108, 171, 221, 0.3); transform: scale(1.02); }
+        input:focus { border-color: var(--mcf-sky); background: var(--white); box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.2); }
 
-        /* BOTONES */
         button {
-            width: 100%; padding: 22px; margin-top: 20px;
+            width: 100%; padding: 22px; margin-top: 15px;
             background: linear-gradient(135deg, var(--mcf-sky) 0%, var(--mcf-dark) 100%);
-            color: white; border: none; border-radius: 15px;
+            color: var(--white); border: none; border-radius: 16px;
             font-family: 'Teko', sans-serif; font-size: 2rem; letter-spacing: 1px;
             cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 10px 25px rgba(0, 68, 136, 0.4);
-            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(10, 44, 92, 0.3);
+            position: relative; overflow: hidden; transition: all 0.3s;
         }
-        button:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 68, 136, 0.5); filter: brightness(1.1); }
-        button:active { transform: translateY(1px); }
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(10, 44, 92, 0.5); }
+        button:active { transform: scale(0.98); }
 
         button.secondary {
-            background: white; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
+            background: transparent; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
             box-shadow: none;
         }
-        button.secondary:hover { background: var(--mcf-dark); color: white; }
+        button.secondary:hover { background: var(--mcf-dark); color: var(--white); }
         
-        button.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        button.danger { background: linear-gradient(135deg, #ff6b6b, #ee5253); box-shadow: 0 10px 30px rgba(238, 82, 83, 0.3); }
 
         .hidden { display: none !important; }
 
-        /* LISTAS */
-        .player-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .player-card-mini {
-            background: white; border: 1px solid #eee; padding: 15px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: 800; color: var(--mcf-dark);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--mcf-sky);
+        /* --- JUGADORES --- */
+        .player-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0; list-style: none; }
+        .player-card {
+            background: var(--white); border-radius: 15px; padding: 15px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
         }
-        .host-badge { background: var(--mcf-gold); color: white; padding: 3px 8px; border-radius: 50px; font-size: 0.7rem; }
-
-        /* ROL */
-        .role-section {
-            background: #f1f5f9; border-radius: 20px; padding: 30px;
-            border: 2px dashed #cbd5e1; margin-bottom: 30px;
-        }
-        .role-title { font-size: 0.9rem; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;}
-
-        .secret-word {
-            font-family: 'Teko', sans-serif; font-size: 4.5rem; color: var(--mcf-dark);
-            margin: 5px 0; line-height: 1; text-transform: uppercase;
-        }
-        .impostor-text {
-            font-family: 'Teko', sans-serif; font-size: 4.5rem; color: var(--danger);
-            margin: 5px 0; line-height: 1; text-transform: uppercase; animation: pulse 1s infinite;
-        }
-
-        /* DESCRIPCIÓN CON BOTÓN LEER MÁS MEJORADO */
-        .desc-container {
-            background: white; padding: 25px; border-radius: 15px; border-left: 6px solid var(--mcf-sky);
-            text-align: left; margin-top: 15px; position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
+        .player-card:hover { transform: translateY(-2px); border-color: var(--mcf-sky); }
+        .player-name { font-weight: 700; color: var(--mcf-dark); font-size: 1rem; margin-bottom: 5px; }
+        .host-tag { font-size: 0.7rem; background: var(--mcf-gold); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 800; }
         
-        .desc-text {
-            font-size: 1.1rem; color: #444; line-height: 1.6;
-            max-height: 80px; overflow: hidden; transition: max-height 0.6s cubic-bezier(0, 1, 0, 1);
+        .kick-btn-mini {
+            margin-top: 5px; font-size: 0.7rem; background: #ffeaa7; color: #d63031; 
+            padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none;
         }
+
+        /* --- JUEGO --- */
+        .role-container {
+            background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+            border-radius: 20px; padding: 30px; border: 1px solid #e2e8f0; margin-bottom: 30px;
+        }
+        .label { font-size: 0.8rem; color: #94a3b8; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; }
         
-        /* Efecto de desvanecimiento cuando está cerrado */
-        .desc-text:not(.expanded)::after {
-            content: ""; position: absolute; bottom: 45px; left: 0; width: 100%; height: 50px;
-            background: linear-gradient(transparent, white); pointer-events: none;
-        }
+        .word-display { font-family: 'Teko'; font-size: 4rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
+        .impostor-display { font-family: 'Teko'; font-size: 4.5rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
 
-        .desc-text.expanded { max-height: 600px; } /* Se expande */
-        .desc-text.expanded::after { display: none; }
+        /* DESCRIPCIÓN PRO */
+        .desc-wrapper { position: relative; text-align: left; background: var(--white); padding: 20px; border-radius: 15px; border-left: 5px solid var(--mcf-sky); }
+        .desc-content { 
+            font-size: 1.05rem; line-height: 1.6; color: #475569; 
+            max-height: 80px; overflow: hidden; transition: max-height 0.5s ease; 
+        }
+        .desc-content.open { max-height: 600px; }
+        .desc-fade {
+            position: absolute; bottom: 40px; left: 0; width: 100%; height: 40px;
+            background: linear-gradient(transparent, var(--white)); pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .desc-content.open + .desc-fade { opacity: 0; }
+        
+        .toggle-btn {
+            background: none; border: none; color: var(--mcf-sky); font-weight: 800;
+            padding: 10px 0 0 0; width: 100%; text-align: center; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: none; margin: 0;
+            font-size: 0.9rem;
+        }
+        .toggle-btn:hover { background: none; text-decoration: underline; transform: none; }
 
-        .read-more-btn {
-            background: #eef2f6; color: var(--mcf-dark); border: none; font-size: 0.9rem;
-            padding: 10px; margin-top: 15px; cursor: pointer; font-weight: 800; 
-            width: 100%; border-radius: 8px; transition: 0.2s;
-            display: flex; justify-content: center; align-items: center; gap: 5px;
+        /* ALINEACIÓN */
+        .lineup-container { background: var(--mcf-dark); color: white; border-radius: 20px; padding: 5px 0; overflow: hidden; }
+        .lineup-row {
+            display: flex; align-items: center; padding: 15px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .read-more-btn:hover { background: var(--mcf-dark); color: white; transform: none; box-shadow: none; }
+        .lineup-row:last-child { border-bottom: none; }
+        .dorsal-circle {
+            width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Teko'; font-size: 1.5rem; margin-right: 15px; color: var(--mcf-sky);
+        }
+        .player-turn-name { font-size: 1.1rem; font-weight: 600; }
+        .turn-badge { margin-left: auto; background: var(--mcf-gold); color: var(--mcf-dark); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 900; }
 
-        /* ALINEACIÓN (TURNOS) */
-        .lineup-list {
-            list-style: none; padding: 0; text-align: left;
-            background: var(--mcf-dark); color: white; border-radius: 15px; overflow: hidden;
+        /* --- MODAL PERSONALIZADO --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 20, 40, 0.8); backdrop-filter: blur(5px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
-        .lineup-item {
-            padding: 18px 25px; border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center;
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        
+        .modal-box {
+            background: var(--white); width: 90%; max-width: 400px;
+            border-radius: 25px; padding: 30px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .lineup-item:last-child { border-bottom: none; }
-        .dorsal {
-            font-family: 'Teko'; font-size: 2rem; width: 50px; text-align: center;
-            background: rgba(255,255,255,0.15); border-radius: 8px; margin-right: 20px;
-            color: var(--mcf-sky);
-        }
-        .player-name-turn { font-weight: 700; font-size: 1.2rem; }
-        .turn-indicator { 
-            margin-left: auto; font-size: 0.8rem; background: var(--mcf-gold); 
-            color: var(--mcf-dark); padding: 4px 10px; border-radius: 20px; font-weight: 800; 
-        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        
+        .modal-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
+        .modal-text { font-size: 1.2rem; font-weight: 600; color: #333; margin-bottom: 20px; }
+        .modal-btn-group { display: flex; gap: 10px; }
 
-        /* COPY CODE */
         #roomIdDisplay {
-            font-family: monospace; font-size: 1.6rem; font-weight: 800; color: var(--mcf-dark);
-            background: #f8fafc; padding: 20px; border-radius: 12px; border: 3px dashed #cbd5e1;
-            cursor: pointer; display: inline-block; margin-top: 10px; width: 100%;
+            font-family: monospace; font-size: 1.8rem; font-weight: 700; color: var(--mcf-dark);
+            background: #e2e8f0; padding: 20px; border-radius: 15px; border: 3px dashed #94a3b8;
+            cursor: pointer; margin-top: 10px; width: 100%; word-break: break-all;
         }
-        #roomIdDisplay:hover { border-color: var(--mcf-sky); background: white; }
-
-        .kick-btn { width: auto; padding: 5px 12px; margin: 0; font-size: 0.8rem; background: #e74c3c; box-shadow: none; font-family: 'Montserrat'; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
@@ -227,114 +245,158 @@
 </head>
 <body>
 
+    <div class="bg-layer-image"></div>
+    <div class="bg-layer-overlay"></div>
+    <div class="bg-layer-pattern"></div>
     <div id="emojiContainer" class="emoji-container"></div>
 
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <span id="modalIcon" class="modal-icon">⚽</span>
+            <p id="modalMessage" class="modal-text">Mensaje</p>
+            <div id="modalButtons" class="modal-btn-group">
+                </div>
+        </div>
+    </div>
+
     <header>
-        <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Escudo Málaga CF" class="shield">
-        <h1>IMPOSTOR<br><span style="font-size: 3.5rem; color: var(--white);">MALAGUISTA</span></h1>
-        <div class="subtitle">⚽ LA BOMBONERA EDITION ⚽</div>
+        <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Málaga CF" class="shield">
+        <h1>IMPOSTOR<br>MALAGUISTA</h1>
+        <div class="badge-pro">PRO MAX EDITION</div>
     </header>
 
-    <div id="statusMsg"></div>
-
     <div id="screen-menu" class="main-card">
-        <h2 style="font-family:'Teko'; font-size: 2.5rem; margin-top:0;">FICHAJE NUEVO ✍️</h2>
-        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
+        <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO</h2>
+        <input type="text" id="myUsername" placeholder="Tu Nombre de Jugador" maxlength="12">
         <button onclick="createGame()">CREAR VESTUARIO</button>
-        <div style="margin: 20px 0; font-weight: 800; color: #94a3b8;">— O ÚNETE AL EQUIPO —</div>
+        <div style="margin: 20px 0; font-weight: 800; color: #94a3b8; font-size: 0.9rem;">— O —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
         <button class="secondary" onclick="joinGame()">UNIRSE AL EQUIPO</button>
     </div>
 
     <div id="screen-lobby" class="main-card hidden">
-        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO 🏟️</h2>
-        <p style="color: #64748b;">Comparte el código con la plantilla:</p>
+        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO</h2>
+        <p style="color: #64748b;">Código de acceso:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <h3 style="text-align: left; margin-top: 30px; color: var(--mcf-dark); font-family:'Teko'; font-size: 2rem;">CONVOCADOS (<span id="playerCount">0</span>)</h3>
-        <ul id="lobbyList" class="player-list"></ul>
+        <div style="margin-top: 30px; text-align: left;">
+            <span class="label">CONVOCATORIA (<span id="playerCount">0</span>)</span>
+            <ul id="lobbyList" class="player-list"></ul>
+        </div>
 
         <div id="hostControls" class="hidden" style="margin-top: 30px;">
-            <button onclick="startGame()" id="btnStart">⚽ ¡PITIDO INICIAL! ⚽</button>
+            <button onclick="startGame()" id="btnStart">⚽ ¡SALTAR AL CAMPO! ⚽</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
+            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">ESPERANDO AL MÍSTER... ⏱</p>
         </div>
     </div>
 
     <div id="screen-game" class="main-card hidden">
-        <div class="role-section">
-            <div class="role-title">TU POSICIÓN EN EL CAMPO</div>
+        <div class="role-container">
+            <span class="label">TU POSICIÓN TÁCTICA</span>
             <div id="roleContent"></div>
         </div>
 
         <div style="text-align: left;">
-            <h3 style="color: var(--mcf-dark); font-family: 'Teko'; font-size: 2rem; margin-bottom: 15px;">📋 ALINEACIÓN DEL PARTIDO</h3>
-            <ul id="turnOrderList" class="lineup-list"></ul>
+            <span class="label" style="margin-bottom: 15px; display:block;">11 INICIAL (ORDEN DE JUEGO)</span>
+            <div id="turnOrderList" class="lineup-container"></div>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">🛑 PITIDO FINAL (REVELAR)</button>
+            <button class="danger" onclick="revealGame()">🛑 PITIDO FINAL</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:600;">PARTIDO EN JUEGO... ⚽</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:700;">PARTIDO EN JUEGO... NO DIGAS NADA 🤫</p>
     </div>
 
     <div id="screen-result" class="main-card hidden">
-        <h2 style="font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); margin:0;">MARCADOR FINAL</h2>
+        <h2 style="font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); margin:0;">MARCADOR</h2>
         
         <div style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin: 25px 0; border: 1px solid #e2e8f0;">
-            <p style="color: #64748b; margin: 0; font-size: 0.9rem; font-weight:800; letter-spacing:1px;">LA PALABRA ERA:</p>
-            <div id="finalWord" style="font-size: 3rem; color: var(--mcf-dark); font-family: 'Teko'; font-weight: bold;"></div>
-            <p id="finalDesc" style="font-size: 1rem; color: #475569; font-style: italic; margin-top:10px;"></p>
+            <span class="label">LA PALABRA CLAVE</span>
+            <div id="finalWord" class="word-display" style="font-size: 3rem;"></div>
+            <p id="finalDesc" style="font-size: 1rem; color: #475569; font-style: italic; margin-top:10px; line-height:1.4;"></p>
         </div>
 
-        <p style="color: #64748b; font-weight:800; margin-bottom:0;">EL IMPOSTOR ERA:</p>
+        <span class="label">EL INFILTRADO ERA</span>
         <h3 id="finalImpostor" style="font-family: 'Teko'; font-size: 4rem; color: var(--danger); margin: 0; line-height:1;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">🔄 VOLVER AL VESTUARIO</button>
+            <button onclick="returnToLobby()">🔄 NUEVO PARTIDO</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color: #94a3b8; margin-top:20px;">ESPERANDO AL MÍSTER...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color: #94a3b8; margin-top:20px; font-weight:600;">RUEDA DE PRENSA...</p>
     </div>
 
     <script>
-        // --- GENERADOR DE EMOJIS TIPO BURBUJA ---
+        // --- SISTEMA DE EMOJIS "COQUETTE CHAOS" ---
         const emojiContainer = document.getElementById('emojiContainer');
-        const emojis = ["⚽", "🐟", "💙", "🤍", "🏟️", "🌊", "🥘", "🌞"];
+        const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🎀", "✨", "🥘", "🌴", "🌞"];
         
-        // Creamos más emojis para que sea divertido
-        for(let i=0; i<35; i++) {
+        for(let i=0; i<50; i++) { // 50 emojis, mucha variedad
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
-            // Posición horizontal aleatoria
+            // Aleatoriedad total
             el.style.left = Math.random() * 100 + 'vw';
-            // Duración aleatoria (algunos rápidos, otros lentos)
-            el.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            // Retraso aleatorio para que no salgan todos a la vez
-            el.style.animationDelay = Math.random() * 10 + 's';
-            // Tamaño variado
-            el.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+            el.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+            el.style.opacity = (Math.random() * 0.4 + 0.3); // Opacidad visible (0.3 a 0.7)
+            el.style.animationDuration = (Math.random() * 20 + 15) + 's'; // Lentos y majestuosos
+            el.style.animationDelay = Math.random() * 20 + 's'; // Para que no salgan todos a la vez
             emojiContainer.appendChild(el);
         }
 
-        // --- BASE DE DATOS (Tu lista completa) ---
+        // --- SISTEMA DE MODALES ---
+        function showModal(message, type = 'info', onConfirm = null) {
+            const modal = document.getElementById('customModal');
+            const icon = document.getElementById('modalIcon');
+            const text = document.getElementById('modalMessage');
+            const btnGroup = document.getElementById('modalButtons');
+            
+            text.innerText = message;
+            btnGroup.innerHTML = '';
+
+            if (type === 'error') icon.innerText = '❌';
+            else if (type === 'success') icon.innerText = '✅';
+            else if (type === 'confirm') icon.innerText = '❓';
+            else icon.innerText = '⚽';
+
+            if (type === 'confirm') {
+                const btnYes = document.createElement('button');
+                btnYes.innerText = "SÍ";
+                btnYes.style.width = "auto";
+                btnYes.style.flex = "1";
+                btnYes.onclick = () => { closeModal(); if(onConfirm) onConfirm(); };
+                
+                const btnNo = document.createElement('button');
+                btnNo.innerText = "NO";
+                btnNo.className = "secondary";
+                btnNo.style.width = "auto";
+                btnNo.style.flex = "1";
+                btnNo.style.marginTop = "0"; // Override default
+                btnNo.onclick = closeModal;
+                
+                btnGroup.appendChild(btnNo);
+                btnGroup.appendChild(btnYes);
+            } else {
+                const btnOk = document.createElement('button');
+                btnOk.innerText = "VALE";
+                btnOk.onclick = closeModal;
+                btnGroup.appendChild(btnOk);
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.remove('active');
+        }
+
+        // --- DATABASE MASIVA ---
         const PALABRAS_JUEGO = [
-            "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pájaro", "Águila", "Búho", "Pingüino", "Pato", "Gallina", "Gallo", "Vaca", "Cerdo", "Oveja", "Caballo", "Burro", "Cabra", "León", "Tigre", "Leopardo", "Pantera", "Elefante", "Jirafa", "Rinoceronte", "Hipopótamo", "Cebra", "Oso", "Oso Panda", "Oso Polar", "Koala", "Canguro", "Mono", "Gorila", "Chimpancé", "Lobo", "Zorro", "Ciervo", "Ardilla", "Ratón", "Rata", "Murciélago", "Ballena", "Delfín", "Tiburón", "Pulpo", "Cangrejo", "Tortuga", "Cocodrilo", "Serpiente", "Cobra", "Rana", "Sapo", "Camaleón", "Iguana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Mariposa", "Abeja", "Hormiga", "Araña", "Mosquito", "Mosca", "Cucaracha", "Escorpión", "Caracol", "Medusa", "Estrella de Mar", "Pez Payaso", "Salmón", "Flamenco", "Cisne", "Pavo Real", "Capibara", "Nutria", "Erizo",
-            "Móvil", "iPhone", "Cargador", "Auriculares", "Ordenador", "Portátil", "Tablet", "Teclado", "Ratón", "Pantalla", "Televisión", "Mando a distancia", "Cámara", "Reloj", "Despertador", "Lámpara", "Bombilla", "Linterna", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Llavero", "Gafas", "Gafas de Sol", "Paraguas", "Mesa", "Silla", "Sofá", "Sillón", "Cama", "Almohada", "Manta", "Sábana", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel Higiénico", "Escoba", "Fregona", "Cubo", "Basura", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Servilleta", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma de borrar", "Tijeras", "Pegamento", "Regla", "Papel", "Carta", "Sobre", "Sello", "Periódico", "Revista", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de Crédito", "Anillo", "Collar", "Pendientes", "Pulsera", "Reloj de pulsera",
-            "Star Wars", "Darth Vader", "Yoda", "Luke Skywalker", "Princesa Leia", "Sable de Luz", "Harry Potter", "Hermione", "Ron Weasley", "Voldemort", "Varita Mágica", "Hogwarts", "El Señor de los Anillos", "Frodo", "Gandalf", "Gollum", "Anillo", "Marvel", "Avengers", "Iron Man", "Spiderman", "Capitán América", "Thor", "Hulk", "Thanos", "Batman", "Joker", "Superman", "Wonder Woman", "Disney", "Mickey Mouse", "Minnie", "Pato Donald", "Rey León", "Simba", "Frozen", "Elsa", "Olaf", "Toy Story", "Woody", "Buzz Lightyear", "Shrek", "Burro", "Fiona", "Minions", "Gru", "Piratas del Caribe", "Jack Sparrow", "Titanic", "Barco", "Avatar", "Azul", "Jurassic Park", "T-Rex", "Stranger Things", "Once (Eleven)", "Miércoles (Wednesday)", "La Casa de Papel", "Máscara de Dalí", "El Juego del Calamar", "Friends", "Juego de Tronos", "Dragón", "Jon Snow", "Breaking Bad", "Los Simpson", "Homer Simpson", "Barbie", "Ken", "Oppenheimer", "Bomba", "Cine", "Película", "Palomitas", "Netflix", "Hollywood", "Oscar", "Actor", "Actriz", "Director",
-            "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Johnny Depp", "Will Smith", "Angelina Jolie", "Jennifer Lawrence", "Emma Watson", "Zendaya", "Tom Holland", "Chris Hemsworth", "Dwayne Johnson (The Rock)", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Ariana Grande", "Justin Bieber", "Selena Gomez", "Miley Cyrus", "Harry Styles", "Bad Bunny", "Rosalía", "Karol G", "Daddy Yankee", "Eminem", "Bizarrap", "BTS",
-            "Super Mario", "Luigi", "Princesa Peach", "Mario Kart", "Nintendo", "PlayStation", "Xbox", "Fortnite", "Minecraft", "Bloque", "Pico", "Espada", "Zelda", "Link", "Pokémon", "Pikachu", "Pokéball", "Charizard", "Among Us", "Impostor", "Tripulante", "GTA", "Coches", "FIFA", "Fútbol", "Call of Duty", "Disparos", "League of Legends", "Roblox", "Pac-Man", "Tetris", "Sonic", "Erizo", "Mando", "Consola", "Ordenador Gamer", "Streamer", "Youtuber", "Twitch", "Lag", "Game Over", "Nivel", "Vida", "Jefe Final",
-            "Fútbol", "Balón", "Portería", "Gol", "Árbitro", "Tarjeta Roja", "Penalti", "Lionel Messi", "Cristiano Ronaldo", "Neymar", "Mbappé", "Haaland", "Sergio Ramos", "Piqué", "Iniesta", "Maradona", "Pelé", "Real Madrid", "Barça", "Málaga CF", "Baloncesto", "Canasta", "Michael Jordan", "LeBron James", "Kobe Bryant", "Pau Gasol", "NBA", "Tenis", "Raqueta", "Rafa Nadal", "Roger Federer", "Djokovic", "Alcaraz", "Fórmula 1", "Coche de carreras", "Fernando Alonso", "Lewis Hamilton", "Ferrari", "MotoGP", "Moto", "Marc Márquez", "Valentino Rossi", "Natación", "Piscina", "Atletismo", "Correr", "Juegos Olímpicos", "Medalla de Oro", "Gimnasio", "Boxeo", "Ring", "Guantes",
-            "Ciudad", "Pueblo", "Playa", "Mar", "Montaña", "Bosque", "Selva", "Desierto", "Isla", "Volcán", "Cueva", "Río", "Lago", "Cascada", "Parque", "Jardín", "Granja", "Zoológico", "Escuela", "Hospital", "Aeropuerto", "Estación de tren", "Restaurante", "Hotel", "Supermercado", "Centro Comercial", "Cine", "Museo", "Iglesia", "Cementerio", "Castillo", "Palacio", "Casa", "Edificio", "Rascacielos", "Puente", "Carretera", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Big Ben", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Tokio", "Polo Norte", "Espacio", "Luna", "Sol", "Estrellas", "Planeta", "Tierra",
-            "Pizza", "Hamburguesa", "Patatas Fritas", "Hot Dog", "Sandwich", "Bocadillo", "Ensalada", "Sopa", "Arroz", "Pasta", "Espaguetis", "Macarrones", "Huevo", "Huevo Frito", "Tortilla", "Pollo", "Carne", "Pescado", "Sushi", "Tacos", "Burrito", "Pan", "Queso", "Jamón", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Uvas", "Sandía", "Melón", "Piña", "Limón", "Tomate", "Lechuga", "Patata", "Zanahoria", "Cebolla", "Ajo", "Sal", "Azúcar", "Pimienta", "Aceite", "Chocolate", "Helado", "Tarta", "Pastel", "Galleta", "Donut", "Cruasán", "Yogur", "Leche", "Agua", "Zumo", "Refresco", "Coca-Cola", "Café", "Té", "Cerveza", "Vino",
-            "Camiseta", "Pantalones", "Vaqueros", "Vestido", "Falda", "Jersey", "Sudadera", "Abrigo", "Chaqueta", "Camisa", "Traje", "Corbata", "Pijama", "Ropa Interior", "Calcetines", "Zapatos", "Zapatillas", "Deportivas", "Botas", "Tacones", "Sandalias", "Chanclas", "Gorro", "Sombrero", "Gorra", "Bufanda", "Guantes", "Bañador", "Bikini", "Cinturón", "Disfraz", "Maquillaje", "Pintalabios", "Perfume", "Colonia",
-            "Guitarra", "Piano", "Violín", "Batería", "Trompeta", "Saxofón", "Flauta", "Tambor", "Micrófono", "Música", "Canción", "Cantante", "Bailarín", "Baile", "Pintura", "Cuadro", "Pincel", "Color", "Escultura", "Teatro", "Circo", "Mago", "Payaso",
-            "Coche", "Moto", "Bicicleta", "Patinete", "Autobús", "Taxi", "Tren", "Metro", "Avión", "Helicóptero", "Barco", "Crucero", "Submarino", "Camión", "Furgoneta", "Tractor", "Ambulancia", "Coche de Policía", "Camión de Bomberos", "Cohete", "Ovni",
-            "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Estudiante", "Cocinero", "Camarero", "Peluquero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Princesa", "Príncipe", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Hada", "Sirena", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Frío", "Calor", "Lluvia", "Nieve", "Viento", "Tormenta", "Arcoiris", "Fuego", "Humo", "Luz", "Oscuridad", "Sombra", "Sueño", "Pesadilla", "Dinero", "Trabajo", "Fiesta", "Vacaciones", "Regalo", "Sorpresa"
+          "Michael Jordan", "LeBron James", "Kobe Bryant", "Shaquille O'Neal", "Stephen Curry", "Magic Johnson", "Larry Bird", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Kevin Durant", "James Harden", "Nikola Jokic", "Victor Wembanyama", "Dennis Rodman", "Scottie Pippen", "Kyrie Irving", "Allen Iverson", "Dirk Nowitzki", "Tim Duncan", "Yao Ming", "Steve Nash", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Málaga CF", "La Rosaleda", "Isco", "Santi Cazorla", "Dely Valdés", "Ruud van Nistelrooy", "Jeremy Toulalan", "Willy Caballero", "Kameni", "Duda", "Weligton", "Julio Baptista", "Joaquín Sánchez", "Salomón Rondón", "Camacho", "Sandro Ramírez", "Eliseu", "Manuel Pellegrini", "Basti", "Lionel Messi", "Cristiano Ronaldo", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos", "Iker Casillas", "Gerard Piqué", "Carles Puyol", "Lamine Yamal", "Jude Bellingham", "Kylian Mbappé", "Erling Haaland", "Vinicius Jr", "Neymar", "Luis Suárez", "Luka Modric", "Toni Kroos", "David Beckham", "Antoine Griezmann", "Thibaut Courtois", "Oliver y Benji", "Balón de Oro", "Mundial de Fútbol", "Champions League", "Árbitro", "VAR", "Penalti", "Tarjeta Roja", "Gol", "Portería", "Darth Vader", "Luke Skywalker", "Princesa Leia", "Yoda", "Han Solo", "Chewbacca", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Dumbledore", "Hogwarts", "Frodo Bolsón", "Gandalf", "Gollum", "Sauron", "El Anillo Único", "Spiderman", "Batman", "Joker", "Superman", "Iron Man", "Capitán América", "Thor", "Hulk", "Thanos", "Wonder Woman", "Deadpool", "Wolverine", "Mickey Mouse", "Bob Esponja", "Homer Simpson", "Shrek", "Burro", "Fiona", "Buzz Lightyear", "Woody", "Elsa", "Olaf", "Barbie", "Ken", "Jack Sparrow", "Jon Snow", "Daenerys Targaryen", "Walter White", "Eleven", "Miércoles Addams", "El Profesor", "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Yoshi", "Toad", "Pikachu", "Charizard", "Pokéball", "Ash Ketchum", "Sonic", "Link", "Zelda", "Steve", "Creeper", "Kratos", "Master Chief", "Among Us", "Impostor", "Tripulante", "Fortnite", "Minecraft", "Roblox", "League of Legends", "FIFA", "GTA", "Call of Duty", "Tetris", "Pac-Man", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Will Smith", "Johnny Depp", "Angelina Jolie", "Jennifer Lawrence", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Rosalía", "Bad Bunny", "Eminem", "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pez", "Tortuga", "Vaca", "Cerdo", "Oveja", "Caballo", "Gallina", "Gallo", "Pato", "León", "Tigre", "Elefante", "Jirafa", "Oso", "Panda", "Mono", "Gorila", "Lobo", "Zorro", "Águila", "Búho", "Pingüino", "Delfín", "Ballena", "Tiburón", "Pulpo", "Cocodrilo", "Serpiente", "Rana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Móvil", "iPhone", "Ordenador", "Portátil", "Televisión", "Mando", "Cámara", "Reloj", "Lámpara", "Bombilla", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Gafas", "Gafas de sol", "Paraguas", "Mesa", "Silla", "Sofá", "Cama", "Almohada", "Manta", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel higiénico", "Escoba", "Fregona", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Tijeras", "Pegamento", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de crédito", "Anillo", "Collar", "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Burrito", "Pasta", "Arroz", "Huevo", "Pan", "Queso", "Chocolate", "Helado", "Tarta", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Sandía", "Leche", "Café", "Cerveza", "Vino", "Coca-Cola", "Agua", "Coche", "Moto", "Bicicleta", "Autobús", "Tren", "Metro", "Avión", "Barco", "Helicóptero", "Cohete", "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Cocinero", "Camarero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Sol", "Luna", "Lluvia", "Nieve", "Fuego", "Playa", "Montaña", "Ciudad", "Bosque", "Desierto", "Isla", "Hospital", "Escuela", "Supermercado", "Cine", "Restaurante", "Aeropuerto", "Parque", "Estadio", "Casa", "Castillo", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Espacio"
         ];
 
-        // --- LÓGICA DE JUEGO & CONEXIÓN ---
+        // --- LÓGICA DE JUEGO ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -345,19 +407,24 @@
         const screens = ['menu', 'lobby', 'game', 'result'];
         function showScreen(name) {
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
-            document.getElementById(`screen-${name}`).classList.remove('hidden');
-        }
-        function updateStatus(msg) { 
-            const el = document.getElementById('statusMsg');
-            el.innerText = msg; 
-            // La clase CSS se encarga del padding si hay texto o no
+            const el = document.getElementById(`screen-${name}`);
+            el.classList.remove('hidden');
+            // Trigger animation
+            el.style.opacity = 0;
+            el.style.transform = "translateY(20px)";
+            setTimeout(() => {
+                el.style.opacity = 1;
+                el.style.transform = "translateY(0)";
+            }, 50);
         }
 
+        // WIKIPEDIA API AVANZADA
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=450&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            // Aumentado exchars a 600 y ajustado la query
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=600&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Información clasificada. Investiga por tu cuenta."; 
+            let description = "Información no disponible en la base de datos. ¡Juega con lo que sepas!"; 
 
             try {
                 const res = await fetch(url);
@@ -372,7 +439,7 @@
                     }
                 }
             } catch (e) {
-                console.log("Wiki fetch failed, using fallback.");
+                console.log("Wiki fetch error:", e);
             }
 
             return { title: rawWord, desc: description };
@@ -388,14 +455,14 @@
 
         // --- PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Jugador Nº12";
+            myName = document.getElementById('myUsername').value.trim() || "Malaguista";
             isHost = true;
-            updateStatus("Abriendo puertas de La Rosaleda...");
+            showModal("Creando vestuario...", "info");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
+                closeModal();
                 document.getElementById('roomIdDisplay').innerText = id;
-                updateStatus("");
                 players = [{ id: id, name: myName, isHost: true }];
                 updateLobbyUI();
                 showScreen('lobby');
@@ -415,21 +482,21 @@
         function joinGame() {
             myName = document.getElementById('myUsername').value.trim() || "Aficionado";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("¡Falta el código del partido!");
+            if (!roomId) return showModal("¡Falta el código del partido!", "error");
             
             isHost = false;
-            updateStatus("Entrando al campo...");
+            showModal("Conectando con el estadio...", "info");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("En el vestuario");
+                    closeModal();
                     conn.send({ type: 'JOIN', name: myName, id: id });
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("El entrenador cerró la sesión."); location.reload(); });
+                conn.on('close', () => { showModal("Conexión perdida con el vestuario.", "error"); location.reload(); });
             });
         }
 
@@ -465,7 +532,7 @@
         }
 
         async function startGame() {
-            if (players.length < 3 && !confirm("¿Menos de 3 jugadores? Va a ser un rondo aburrido.")) return;
+            // RESTRICCIÓN DE JUGADORES ELIMINADA
             
             const btn = document.getElementById('btnStart');
             btn.innerText = "⏳ SORTEANDO CAMPO...";
@@ -493,7 +560,6 @@
             btn.disabled = false;
         }
 
-        // --- FUNCIÓN DEL JUEGO ---
         function setupGame(wordData, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
@@ -503,35 +569,35 @@
 
             if (amIImpostor) {
                 container.innerHTML = `
-                    <div class="impostor-text">IMPOSTOR</div>
-                    <p style="color: #64748b; font-size: 1.1rem; font-weight:600;">Nadie sabe que eres tú. Finge y miente.</p>
+                    <div class="impostor-display">IMPOSTOR</div>
+                    <p style="color: #64748b; font-size: 1.2rem; font-weight:600; margin-top:10px;">Nadie sabe que eres tú.<br>Finge, miente y gana.</p>
                 `;
             } else {
                 container.innerHTML = `
-                    <div class="secret-word">${wordData.title}</div>
-                    <div class="desc-container">
-                        <div class="desc-text" id="descText">${wordData.desc}</div>
-                        <button class="read-more-btn" onclick="toggleDesc()">⬇ VER INFO COMPLETA</button>
+                    <div class="word-display">${wordData.title}</div>
+                    <div class="desc-wrapper">
+                        <div class="desc-content" id="descText">${wordData.desc}</div>
+                        <div class="desc-fade"></div>
+                        <button class="toggle-btn" onclick="toggleDesc()">⬇ VER INFO COMPLETA</button>
                     </div>
                 `;
             }
 
-            // ALINEACIÓN (Turnos)
-            const ul = document.getElementById('turnOrderList');
-            ul.innerHTML = '';
+            const listContainer = document.getElementById('turnOrderList');
+            listContainer.innerHTML = '';
             orderList.forEach((name, index) => {
-                const li = document.createElement('li');
-                li.className = 'lineup-item';
+                const row = document.createElement('div');
+                row.className = 'lineup-row';
                 
-                let extraHtml = '';
-                if(index === 0) extraHtml = '<span class="turn-indicator">EMPIEZA ⚽</span>';
+                let badge = '';
+                if(index === 0) badge = '<span class="turn-badge">EMPIEZA</span>';
 
-                li.innerHTML = `
-                    <div class="dorsal">${index + 1}</div>
-                    <div class="player-name-turn">${name}</div>
-                    ${extraHtml}
+                row.innerHTML = `
+                    <div class="dorsal-circle">${index + 1}</div>
+                    <div class="player-turn-name">${name}</div>
+                    ${badge}
                 `;
-                ul.appendChild(li);
+                listContainer.appendChild(row);
             });
 
             if (isHost) {
@@ -545,12 +611,13 @@
 
         function toggleDesc() {
             const el = document.getElementById('descText');
-            el.classList.toggle('expanded');
-            const btn = document.querySelector('.read-more-btn');
-            if (el.classList.contains('expanded')) {
-                btn.innerText = "⬆ OCULTAR";
+            const btn = document.querySelector('.toggle-btn');
+            el.classList.toggle('open');
+            
+            if (el.classList.contains('open')) {
+                btn.innerHTML = "⬆ OCULTAR INFO";
             } else {
-                btn.innerText = "⬇ VER INFO COMPLETA";
+                btn.innerHTML = "⬇ VER INFO COMPLETA";
             }
         }
 
@@ -587,25 +654,30 @@
             document.getElementById('playerCount').innerText = players.length;
             players.forEach(p => {
                 const li = document.createElement('li');
-                li.className = 'player-card-mini';
+                li.className = 'player-card';
                 
                 let btnKick = '';
                 if(isHost && p.id !== peer.id) {
-                    btnKick = `<button class="kick-btn" onclick="kickPlayer('${p.id}')">EXPULSAR</button>`;
+                    btnKick = `<button class="kick-btn-mini" onclick="kickPlayer('${p.id}')">ROJA 🟥</button>`;
                 }
                 
-                li.innerHTML = `<span>${p.name} ${p.isHost ? '<span class="host-badge">CAPI</span>' : ''}</span> ${btnKick}`;
+                li.innerHTML = `
+                    <span class="player-name">${p.name}</span>
+                    ${p.isHost ? '<span class="host-tag">CAPI</span>' : ''}
+                    ${btnKick}
+                `;
                 list.appendChild(li);
             });
         }
         
         function kickPlayer(id) {
-            if(!confirm("¿Sacar a este jugador del equipo?")) return;
-            const conn = connections.find(c => c.peer === id);
-            if (conn) conn.close();
-            players = players.filter(p => p.id !== id);
-            connections = connections.filter(c => c.peer !== id);
-            broadcastLobby();
+            showModal("¿Sacar tarjeta roja y expulsar?", "confirm", () => {
+                const conn = connections.find(c => c.peer === id);
+                if (conn) conn.close();
+                players = players.filter(p => p.id !== id);
+                connections = connections.filter(c => c.peer !== id);
+                broadcastLobby();
+            });
         }
 
         function copyRoomCode() {
@@ -613,12 +685,7 @@
             const text = el.innerText;
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
-            el.style.backgroundColor = "#d1f2eb";
-            el.innerText = "¡CÓDIGO COPIADO!";
-            setTimeout(() => {
-                el.style.backgroundColor = "#f8fafc";
-                el.innerText = text;
-            }, 1000);
+            showModal("¡Código copiado al portapapeles!", "success");
         }
     </script>
 </body>
