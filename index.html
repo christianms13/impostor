@@ -133,7 +133,6 @@
     /* ESTILOS FANTASMA (LEYENDAS) */
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
-      /* La anchura se define por las clases ghost-normal/medium/large */
     }
 
     /* TALLAS DE FANTASMAS */
@@ -141,14 +140,20 @@
     .kit-shirt.ghost-medium { width: 65px; } /* Cazorla, Toulalan */
     .kit-shirt.ghost-large { width: 85px; }  /* El resto */
 
-
     .player-tag {
       background: rgba(255,255,255,0.95); 
-      color: var(--danger); /* <-- CAMBIO AQUÍ: Color rojo para el nombre */
+      color: var(--mcf-dark); /* Azul por defecto */
       padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
       white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       max-width: 120px; overflow: hidden; text-overflow: ellipsis;
     }
+    
+    /* CLASE ESPECIAL PARA EL PROPIO USUARIO */
+    .player-tag.me {
+      color: var(--danger); /* Rojo solo para mí */
+      border: 1px solid var(--danger); /* Borde sutil para destacar */
+    }
+
     .position-tag {
       background: var(--mcf-dark); color: var(--mcf-gold);
       font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; margin-top: 2px; font-weight: 700;
@@ -721,9 +726,12 @@
           playerDiv.style.cursor = "pointer";
         }
 
+        // CLASE ESPECIAL SI SOY YO
+        const isMeClass = (p.id === peer.id) ? 'me' : '';
+
         playerDiv.innerHTML = `
           <img src="https://www.hummel.es/on/demandware.static/-/Sites-hummel-master-catalog/default/dw0f81d5f8/images/packshot/216444-7707_2.png" class="kit-shirt" alt="Camiseta">
-          <div class="player-tag">${p.name}</div>
+          <div class="player-tag ${isMeClass}">${p.name}</div>
           <div class="position-tag">${posData.name} ${capiLabel}</div>
         `;
         pitch.appendChild(playerDiv);
@@ -743,10 +751,10 @@
           const legendImg = LEGEND_IMAGES[i] || './isco.png';
           
           // Asignar clase de tamaño según posición
-          let sizeClass = 'ghost-large'; // Por defecto grande (Defensas, Extremos, Delantero, Portero)
+          let sizeClass = 'ghost-large'; // Por defecto grande
           if (i === 7) { // Isco
             sizeClass = 'ghost-normal';
-          } else if (i === 5 || i === 6) { // Toulalan (Pivote) y Cazorla (Int Dcho)
+          } else if (i === 5 || i === 6) { // Toulalan y Cazorla
             sizeClass = 'ghost-medium';
           }
 
