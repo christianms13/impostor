@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Impostor Malaguista PRO</title>
+    <title>Impostor Malaguista TACTICAL</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Teko:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* PALETA MÁLAGA CF MODERNA */
+            /* PALETA MÁLAGA CF */
             --mcf-sky: #6CABDD;
             --mcf-dark: #0a2c5c;
             --mcf-gold: #D4AF37;
             --white: #ffffff;
             --danger: #ff4757;
-            --glass-bg: rgba(255, 255, 255, 0.94);
+            --pitch-green: #2ecc71;
+            --pitch-dark: #27ae60;
+            --glass-bg: rgba(255, 255, 255, 0.96);
             --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.6);
         }
 
@@ -23,87 +25,113 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            margin: 0; padding: 20px;
+            margin: 0; padding: 10px;
             display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-            color: #2d3436;
-            overflow-x: hidden;
-            background-color: #001433;
+            min-height: 100vh; color: #2d3436;
+            overflow-x: hidden; background-color: #001433;
         }
 
-        /* --- FONDO ANIMADO PRO --- */
+        /* FONDO PRO */
         .bg-layer-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
-            background-size: cover;
-            z-index: -5; 
-            filter: grayscale(20%) contrast(110%);
+            background-size: cover; z-index: -5; 
+            filter: grayscale(30%) contrast(110%);
             animation: subtleZoom 60s infinite alternate;
         }
-        
         .bg-layer-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(10, 44, 92, 0.85), rgba(108, 171, 221, 0.75));
+            background: linear-gradient(135deg, rgba(10, 44, 92, 0.9), rgba(108, 171, 221, 0.8));
             z-index: -4;
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
         }
-
         @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- EMOJIS FLOTANTES --- */
-        .emoji-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: hidden;
-        }
-        .floating-emoji {
-            position: absolute;
-            animation: floatAround linear infinite;
-            z-index: 0;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-        }
+        /* EMOJIS FLOTANTES */
+        .emoji-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .floating-emoji { position: absolute; animation: floatAround linear infinite; z-index: 0; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
         @keyframes floatAround {
             0% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -50px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            50% { transform: translate(20px, -40px) rotate(180deg); }
             100% { transform: translate(0, 0) rotate(360deg); }
         }
 
-        /* --- CABECERA --- */
-        header { text-align: center; margin-bottom: 30px; z-index: 10; position: relative; }
-        .shield {
-            width: 110px; height: auto; margin-bottom: 10px;
-            filter: drop-shadow(0 0 25px rgba(255,255,255,0.6));
-            animation: breathe 4s ease-in-out infinite;
-        }
+        /* CABECERA */
+        header { text-align: center; margin-bottom: 20px; z-index: 10; position: relative; }
+        .shield { width: 90px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 20px rgba(255,255,255,0.6)); animation: breathe 4s ease-in-out infinite; }
         @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        h1 { font-family: 'Teko', sans-serif; font-size: 3.5rem; margin: 0; line-height: 0.85; color: var(--white); text-shadow: 0 5px 15px rgba(0,0,0,0.3); letter-spacing: 1px; }
+        .badge-pro { background: var(--mcf-gold); color: var(--mcf-dark); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-top: 10px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
 
-        h1 {
-            font-family: 'Teko', sans-serif; font-size: 4.5rem; text-transform: uppercase;
-            margin: 0; line-height: 0.85; color: var(--white);
-            text-shadow: 0 5px 15px rgba(0,0,0,0.3); letter-spacing: 1px;
-        }
-        .badge-pro {
-            background: var(--mcf-gold); color: var(--mcf-dark);
-            padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: 900;
-            letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-        }
-
-        /* --- CONTENEDOR PRINCIPAL --- */
+        /* CONTENEDOR PRINCIPAL */
         .main-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            width: 100%; max-width: 900px;
-            border-radius: 30px; padding: 40px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            width: 100%; max-width: 1000px; /* Más ancho para el campo */
+            border-radius: 25px; padding: 30px;
             box-shadow: var(--shadow-soft);
             text-align: center; position: relative; z-index: 10;
             transition: transform 0.3s ease, opacity 0.3s ease;
             border: 1px solid rgba(255,255,255,0.6);
         }
 
-        /* --- UI ELEMENTS --- */
+        /* CAMPO DE FÚTBOL (PITCH) */
+        .football-pitch {
+            background: 
+                repeating-linear-gradient(0deg, var(--pitch-green), var(--pitch-green) 25px, var(--pitch-dark) 25px, var(--pitch-dark) 50px);
+            border: 4px solid white;
+            border-radius: 10px;
+            position: relative;
+            width: 100%;
+            height: 650px; /* Altura fija para simular campo vertical */
+            margin: 20px 0;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        /* Líneas del campo */
+        .pitch-line-center { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
+        .pitch-circle { 
+            position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; 
+            border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; transform: translate(-50%, -50%); 
+        }
+        .pitch-area-top { 
+            position: absolute; top: 0; left: 50%; width: 200px; height: 80px; 
+            border: 2px solid rgba(255,255,255,0.6); border-top: none; transform: translateX(-50%); background: rgba(255,255,255,0.1);
+        }
+        .pitch-area-bottom { 
+            position: absolute; bottom: 0; left: 50%; width: 200px; height: 80px; 
+            border: 2px solid rgba(255,255,255,0.6); border-bottom: none; transform: translateX(-50%); background: rgba(255,255,255,0.1);
+        }
+
+        /* JUGADOR EN EL CAMPO */
+        .pitch-player {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            display: flex; flex-direction: column; align-items: center;
+            transition: all 0.5s ease;
+        }
+        .kit-shirt {
+            font-size: 2.5rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+            transition: transform 0.2s;
+        }
+        .pitch-player:hover .kit-shirt { transform: scale(1.2); }
+        
+        .player-tag {
+            background: rgba(255,255,255,0.9); color: var(--mcf-dark);
+            padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;
+            white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 120px; overflow: hidden; text-overflow: ellipsis;
+        }
+        .position-tag {
+            background: var(--mcf-dark); color: var(--mcf-gold);
+            font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; margin-top: 2px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+        }
+        
+        /* Placeholder vacío */
+        .pitch-placeholder { opacity: 0.4; filter: grayscale(100%); }
+
+        /* UI ELEMENTS */
         input {
             width: 100%; padding: 20px; margin: 15px 0;
             background: #f1f5f9; border: 2px solid #cbd5e1;
@@ -114,10 +142,10 @@
         input:focus { border-color: var(--mcf-sky); background: var(--white); box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.3); }
 
         button {
-            width: 100%; padding: 22px; margin-top: 15px;
+            width: 100%; padding: 20px; margin-top: 15px;
             background: linear-gradient(135deg, var(--mcf-sky) 0%, var(--mcf-dark) 100%);
             color: var(--white); border: none; border-radius: 16px;
-            font-family: 'Teko', sans-serif; font-size: 2rem; letter-spacing: 1px;
+            font-family: 'Teko', sans-serif; font-size: 1.8rem; letter-spacing: 1px;
             cursor: pointer; text-transform: uppercase;
             box-shadow: 0 10px 30px rgba(10, 44, 92, 0.3);
             position: relative; overflow: hidden; transition: all 0.2s;
@@ -125,86 +153,62 @@
         button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(10, 44, 92, 0.5); filter: brightness(1.1); }
         button:active { transform: scale(0.98); }
 
-        button.secondary {
-            background: white; border: 3px solid var(--mcf-dark); color: var(--mcf-dark);
-            box-shadow: none;
-        }
+        button.secondary { background: transparent; border: 3px solid var(--mcf-dark); color: var(--mcf-dark); box-shadow: none; }
         button.secondary:hover { background: var(--mcf-dark); color: var(--white); }
-        
         button.danger { background: linear-gradient(135deg, #ff6b6b, #ee5253); box-shadow: 0 10px 30px rgba(238, 82, 83, 0.3); }
 
         .hidden { display: none !important; }
 
-        /* --- JUGADORES --- */
-        .player-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0; list-style: none; }
-        .player-card {
-            background: var(--white); border-radius: 15px; padding: 15px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
-            transition: transform 0.2s; position: relative;
-        }
-        .player-name { font-weight: 700; color: var(--mcf-dark); font-size: 1rem; margin-bottom: 5px; }
-        .host-tag { font-size: 0.7rem; background: var(--mcf-gold); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 800; margin-bottom: 5px;}
-        .kick-btn-mini { font-size: 0.7rem; background: #ffeaa7; color: #d63031; padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none; margin-top: 0; }
-
-        /* --- JUEGO --- */
+        /* JUEGO */
         .role-container {
             background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
             border-radius: 20px; padding: 30px; border: 1px solid #e2e8f0; margin-bottom: 30px;
         }
         .label { font-size: 0.8rem; color: #94a3b8; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        
-        .word-display { font-family: 'Teko'; font-size: 4rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
-        .impostor-display { font-family: 'Teko'; font-size: 4.5rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
+        .word-display { font-family: 'Teko'; font-size: 3.5rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
+        .impostor-display { font-family: 'Teko'; font-size: 4rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
 
-        /* ALINEACIÓN */
+        /* ALINEACIÓN EN JUEGO */
         .lineup-container { background: var(--mcf-dark); color: white; border-radius: 20px; padding: 5px 0; overflow: hidden; }
         .lineup-row {
-            display: flex; align-items: center; padding: 15px 25px;
+            display: flex; align-items: center; padding: 12px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .lineup-row:last-child { border-bottom: none; }
         .dorsal-circle {
-            width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 50%;
+            width: 35px; height: 35px; background: rgba(255,255,255,0.15); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-family: 'Teko'; font-size: 1.5rem; margin-right: 15px; color: var(--mcf-sky);
+            font-family: 'Teko'; font-size: 1.3rem; margin-right: 15px; color: var(--mcf-sky);
         }
-        .player-turn-name { font-size: 1.1rem; font-weight: 600; text-align: left; }
+        .player-turn-name { font-size: 1rem; font-weight: 600; text-align: left; }
         .turn-badge { margin-left: auto; background: var(--mcf-gold); color: var(--mcf-dark); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 900; }
-        .turn-emoji { margin-right: 10px; font-size: 1.2rem; }
+        .turn-emoji { margin-right: 8px; font-size: 1.1rem; }
 
-        /* --- COPY CODE BUTTON --- */
+        /* COPY CODE */
         #roomIdDisplay {
-            font-family: monospace; font-size: 1.8rem; font-weight: 700; color: var(--mcf-dark);
-            background: #e2e8f0; padding: 20px; border-radius: 15px; border: 3px dashed #94a3b8;
-            cursor: pointer; margin-top: 10px; width: 100%; word-break: break-all;
-            transition: 0.2s;
+            font-family: monospace; font-size: 1.5rem; font-weight: 700; color: var(--mcf-dark);
+            background: #e2e8f0; padding: 15px; border-radius: 15px; border: 3px dashed #94a3b8;
+            cursor: pointer; margin-top: 10px; width: 100%; word-break: break-all; transition: 0.2s;
         }
         #roomIdDisplay:active { transform: scale(0.98); }
 
-        /* --- MODAL PERSONALIZADO --- */
+        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 20, 40, 0.85); backdrop-filter: blur(8px);
-            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
-        
         .modal-box {
-            background: var(--white); width: 90%; max-width: 500px; /* Un poco más ancho para textos */
+            background: var(--white); width: 90%; max-width: 500px;
             border-radius: 25px; padding: 30px; text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s;
-            max-height: 80vh; display: flex; flex-direction: column;
+            max-height: 85vh; display: flex; flex-direction: column;
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
         .modal-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
-        
-        /* Texto del modal con scroll si es largo */
-        .modal-text { 
-            font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 20px; 
-            line-height: 1.6; overflow-y: auto; text-align: left; padding: 0 10px;
-        }
+        .modal-text { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 20px; line-height: 1.6; overflow-y: auto; text-align: left; padding: 0 10px; }
         .modal-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: auto;}
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
@@ -220,7 +224,7 @@
     <div id="customModal" class="modal-overlay">
         <div class="modal-box">
             <span id="modalIcon" class="modal-icon">⚽</span>
-            <div id="modalMessage" class="modal-text">Mensaje</div>
+            <div id="modalMessage" class="modal-text"></div>
             <div id="modalButtons" class="modal-btn-group"></div>
         </div>
     </div>
@@ -228,12 +232,12 @@
     <header>
         <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Málaga CF" class="shield">
         <h1>IMPOSTOR<br>MALAGUISTA</h1>
-        <div class="badge-pro">LA BOMBONERA EDITION ⚽</div>
+        <div class="badge-pro">TACTICAL EDITION ⚽</div>
     </header>
 
     <div id="screen-menu" class="main-card">
         <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO ✍️</h2>
-        <input type="text" id="myUsername" placeholder="Tu Nombre de Jugador" maxlength="12">
+        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
         <button onclick="createGame()">CREAR VESTUARIO 🆕</button>
         <div style="margin: 20px 0; font-weight: 800; color: #94a3b8; font-size: 0.9rem;">— O —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
@@ -241,20 +245,26 @@
     </div>
 
     <div id="screen-lobby" class="main-card hidden">
-        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">VESTUARIO 🏟️</h2>
-        <p style="color: #64748b;">Toca para copiar el código:</p>
+        <h2 style="font-family:'Teko'; font-size: 3rem; margin:0;">PIZARRA TÁCTICA 📋</h2>
+        <p style="color: #64748b;">Código:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <div style="margin-top: 30px; text-align: left;">
-            <span class="label">CONVOCATORIA 📋 (<span id="playerCount">0</span>)</span>
-            <ul id="lobbyList" class="player-list"></ul>
+        <div style="margin-top: 20px; text-align: left;">
+            <span class="label">ONCE INICIAL (<span id="playerCount">0</span>)</span>
+            
+            <div id="pitchContainer" class="football-pitch">
+                <div class="pitch-area-top"></div>
+                <div class="pitch-circle"></div>
+                <div class="pitch-line-center"></div>
+                <div class="pitch-area-bottom"></div>
+                </div>
         </div>
 
-        <div id="hostControls" class="hidden" style="margin-top: 30px;">
+        <div id="hostControls" class="hidden" style="margin-top: 20px;">
             <button onclick="startGame()" id="btnStart">SALTAR AL CAMPO ⚽</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 25px; font-size: 1.2rem; animation: pulse 2s infinite;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
+            <p style="color: var(--mcf-sky); font-weight: 800; margin-top: 20px; font-size: 1.2rem; animation: pulse 2s infinite;">ESPERANDO AL MÍSTER... ⏱</p>
         </div>
     </div>
 
@@ -265,14 +275,14 @@
         </div>
 
         <div style="text-align: left;">
-            <span class="label" style="margin-bottom: 15px; display:block;">11 INICIAL (ORDEN) 🏃‍♂️</span>
+            <span class="label" style="margin-bottom: 15px; display:block;">ORDEN DE JUEGO 🏃‍♂️</span>
             <div id="turnOrderList" class="lineup-container"></div>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
             <button class="danger" onclick="revealGame()">PITIDO FINAL 🛑</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:700;">PARTIDO EN JUEGO... NO DIGAS NADA 🤫</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #94a3b8; font-weight:700;">PARTIDO EN JUEGO... 🤫</p>
     </div>
 
     <div id="screen-result" class="main-card hidden">
@@ -296,26 +306,41 @@
     <script>
         // --- EMOJIS FLOTANTES (YA MOVIÉNDOSE) ---
         const emojiContainer = document.getElementById('emojiContainer');
-        const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇"];
+        const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇", "🥅", "🎽"];
         
         for(let i=0; i<50; i++) {
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
-            
-            // Posición totalmente aleatoria en pantalla
             el.style.left = Math.random() * 100 + 'vw';
             el.style.top = Math.random() * 100 + 'vh';
-            
             el.style.fontSize = (Math.random() * 2.5 + 1.5) + 'rem';
             el.style.opacity = (Math.random() * 0.5 + 0.3);
-            
-            // Animación ya en curso (delay negativo)
             el.style.animationDuration = (Math.random() * 25 + 15) + 's';
-            el.style.animationDelay = (Math.random() * -30) + 's'; // Truco para que parezca que ya se mueven
-            
+            el.style.animationDelay = (Math.random() * -40) + 's'; // Ya empezados
             emojiContainer.appendChild(el);
         }
+
+        // --- FORMACIÓN TÁCTICA (1-4-3-3) ---
+        // Coordenadas (Top %, Left %)
+        const FORMATION = [
+            { name: "PORTERO", x: 50, y: 90 },
+            { name: "CENTRAL", x: 35, y: 75 },
+            { name: "CENTRAL", x: 65, y: 75 },
+            { name: "LAT. DCHO", x: 90, y: 65 },
+            { name: "LAT. IZQ", x: 10, y: 65 },
+            { name: "PIVOTE", x: 50, y: 55 },
+            { name: "INTERIOR", x: 30, y: 45 },
+            { name: "INTERIOR", x: 70, y: 45 },
+            { name: "EXT. DCHO", x: 85, y: 20 },
+            { name: "EXT. IZQ", x: 15, y: 20 },
+            { name: "DELANTERO", x: 50, y: 10 },
+            // Suplentes (se amontonan en la banda si hay más de 11)
+            { name: "SUPLENTE", x: 95, y: 50 }, 
+            { name: "SUPLENTE", x: 5, y: 50 },
+            { name: "SUPLENTE", x: 95, y: 40 },
+            { name: "SUPLENTE", x: 5, y: 40 }
+        ];
 
         // --- SISTEMA DE MODALES ---
         function showModal(message, type = 'info', onConfirm = null) {
@@ -324,7 +349,6 @@
             const text = document.getElementById('modalMessage');
             const btnGroup = document.getElementById('modalButtons');
             
-            // Permitir HTML en el mensaje para formato de descripciones
             text.innerHTML = message;
             btnGroup.innerHTML = '';
 
@@ -362,12 +386,15 @@
             document.getElementById('customModal').classList.remove('active');
         }
 
+        // --- VAR GLOBAL (Cliente) ---
+        let currentWordData = null;
+
         // --- DATABASE ---
         const PALABRAS_JUEGO = [
           "Michael Jordan", "LeBron James", "Kobe Bryant", "Shaquille O'Neal", "Stephen Curry", "Magic Johnson", "Larry Bird", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Kevin Durant", "James Harden", "Nikola Jokic", "Victor Wembanyama", "Dennis Rodman", "Scottie Pippen", "Kyrie Irving", "Allen Iverson", "Dirk Nowitzki", "Tim Duncan", "Yao Ming", "Steve Nash", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Málaga CF", "La Rosaleda", "Isco", "Santi Cazorla", "Dely Valdés", "Ruud van Nistelrooy", "Jeremy Toulalan", "Willy Caballero", "Kameni", "Duda", "Weligton", "Julio Baptista", "Joaquín Sánchez", "Salomón Rondón", "Camacho", "Sandro Ramírez", "Eliseu", "Manuel Pellegrini", "Basti", "Lionel Messi", "Cristiano Ronaldo", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos", "Iker Casillas", "Gerard Piqué", "Carles Puyol", "Lamine Yamal", "Jude Bellingham", "Kylian Mbappé", "Erling Haaland", "Vinicius Jr", "Neymar", "Luis Suárez", "Luka Modric", "Toni Kroos", "David Beckham", "Antoine Griezmann", "Thibaut Courtois", "Oliver y Benji", "Balón de Oro", "Mundial de Fútbol", "Champions League", "Árbitro", "VAR", "Penalti", "Tarjeta Roja", "Gol", "Portería", "Darth Vader", "Luke Skywalker", "Princesa Leia", "Yoda", "Han Solo", "Chewbacca", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Dumbledore", "Hogwarts", "Frodo Bolsón", "Gandalf", "Gollum", "Sauron", "El Anillo Único", "Spiderman", "Batman", "Joker", "Superman", "Iron Man", "Capitán América", "Thor", "Hulk", "Thanos", "Wonder Woman", "Deadpool", "Wolverine", "Mickey Mouse", "Bob Esponja", "Homer Simpson", "Shrek", "Burro", "Fiona", "Buzz Lightyear", "Woody", "Elsa", "Olaf", "Barbie", "Ken", "Jack Sparrow", "Jon Snow", "Daenerys Targaryen", "Walter White", "Eleven", "Miércoles Addams", "El Profesor", "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Yoshi", "Toad", "Pikachu", "Charizard", "Pokéball", "Ash Ketchum", "Sonic", "Link", "Zelda", "Steve", "Creeper", "Kratos", "Master Chief", "Among Us", "Impostor", "Tripulante", "Fortnite", "Minecraft", "Roblox", "League of Legends", "FIFA", "GTA", "Call of Duty", "Tetris", "Pac-Man", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Will Smith", "Johnny Depp", "Angelina Jolie", "Jennifer Lawrence", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Rosalía", "Bad Bunny", "Eminem", "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pez", "Tortuga", "Vaca", "Cerdo", "Oveja", "Caballo", "Gallina", "Gallo", "Pato", "León", "Tigre", "Elefante", "Jirafa", "Oso", "Panda", "Mono", "Gorila", "Lobo", "Zorro", "Águila", "Búho", "Pingüino", "Delfín", "Ballena", "Tiburón", "Pulpo", "Cocodrilo", "Serpiente", "Rana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Móvil", "iPhone", "Ordenador", "Portátil", "Televisión", "Mando", "Cámara", "Reloj", "Lámpara", "Bombilla", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Gafas", "Gafas de sol", "Paraguas", "Mesa", "Silla", "Sofá", "Cama", "Almohada", "Manta", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel higiénico", "Escoba", "Fregona", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Tijeras", "Pegamento", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de crédito", "Anillo", "Collar", "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Burrito", "Pasta", "Arroz", "Huevo", "Pan", "Queso", "Chocolate", "Helado", "Tarta", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Sandía", "Leche", "Café", "Cerveza", "Vino", "Coca-Cola", "Agua", "Coche", "Moto", "Bicicleta", "Autobús", "Tren", "Metro", "Avión", "Barco", "Helicóptero", "Cohete", "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Cocinero", "Camarero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Sol", "Luna", "Lluvia", "Nieve", "Fuego", "Playa", "Montaña", "Ciudad", "Bosque", "Desierto", "Isla", "Hospital", "Escuela", "Supermercado", "Cine", "Restaurante", "Aeropuerto", "Parque", "Estadio", "Casa", "Castillo", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Espacio"
         ];
 
-        // --- LÓGICA DE JUEGO & CONEXIÓN ---
+        // --- LÓGICA DE JUEGO ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -386,10 +413,10 @@
 
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            // Query optimizada: 3 frases completas para mejor definición
+            // Query optimizada: 3 frases
             const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = null; // Null para activar lógica de "sin datos"
+            let description = null;
 
             try {
                 const res = await fetch(url);
@@ -399,7 +426,7 @@
                 
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
-                    if (extract && extract.length > 5) {
+                    if (extract && extract.length > 10) {
                         description = extract;
                     }
                 }
@@ -483,7 +510,11 @@
                 document.getElementById('hostControls').classList.add('hidden');
                 document.getElementById('clientWaiting').classList.remove('hidden');
             }
-            if (data.type === 'START') setupGame(data.wordData, data.impostor, data.order);
+            if (data.type === 'START') {
+                // GUARDAR VAR GLOBALMENTE
+                currentWordData = data.wordData;
+                setupGame(data.wordData, data.impostor, data.order);
+            }
             if (data.type === 'REVEAL') showResult(data.wordData, data.impostorName);
             if (data.type === 'RESET') showScreen('lobby');
         }
@@ -508,6 +539,8 @@
             turnOrder = shuffleArray(turnOrder).map(p => p.name);
 
             gameState = { wordData: wordData, impostorName: impostor.name };
+            // Guardar también en Host
+            currentWordData = wordData;
             
             const msg = { 
                 type: 'START', 
@@ -536,23 +569,21 @@
                     <p style="color: #64748b; font-size: 1.2rem; font-weight:600; margin-top:10px;">Nadie sabe que eres tú.<br>Finge, miente y gana.</p>
                 `;
             } else {
-                // CIUDADANO: BOTÓN DE VAR
-                let descButton = '';
+                let btnHtml = '';
                 if (wordData.desc) {
-                    descButton = `<button class="secondary" style="width:100%; margin-top:15px; font-size:1rem; padding:15px;" onclick="openDescriptionModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
+                    btnHtml = `<button class="secondary" style="width:100%; margin-top:20px; font-size:1rem; padding:15px;" onclick="openVarModal()">📖 CONSULTAR VAR (DEFINICIÓN)</button>`;
                 } else {
-                    descButton = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin datos en el acta arbitral.</p>`;
+                    btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin señal de VAR.</p>`;
                 }
 
                 container.innerHTML = `
                     <div class="word-display">${wordData.title}</div>
-                    ${descButton}
+                    ${btnHtml}
                 `;
             }
 
-            // Emojis aleatorios para turnos
-            const turnEmojis = ["🥅", "👟", "🧤", "🏆", "🥇", "⚽", "🏟️", "🟨", "📢", "🏁"];
-            
+            // ALINEACIÓN CON EMOJIS
+            const turnEmojis = ["🥅", "🧤", "👟", "🎽", "🧢", "🧣", "🏁", "📢", "🏟️"];
             const listContainer = document.getElementById('turnOrderList');
             listContainer.innerHTML = '';
             orderList.forEach((name, index) => {
@@ -560,7 +591,7 @@
                 row.className = 'lineup-row';
                 
                 let badge = '';
-                if(index === 0) badge = '<span class="turn-badge">EMPIEZA</span>';
+                if(index === 0) badge = '<span class="turn-badge">SACANDO</span>';
                 
                 const randEmoji = turnEmojis[Math.floor(Math.random() * turnEmojis.length)];
 
@@ -581,9 +612,10 @@
             }
         }
 
-        function openDescriptionModal() {
-            if (gameState.wordData && gameState.wordData.desc) {
-                showModal(gameState.wordData.desc, 'var');
+        // FUNCIÓN DEL BOTÓN VAR
+        function openVarModal() {
+            if (currentWordData && currentWordData.desc) {
+                showModal(currentWordData.desc, 'var');
             }
         }
 
@@ -596,11 +628,7 @@
         function showResult(wordData, impostorName) {
             showScreen('result');
             document.getElementById('finalWord').innerText = wordData.title;
-            
-            // Mostrar descripción en el resultado también si existe
-            const descEl = document.getElementById('finalDesc');
-            descEl.innerText = wordData.desc || "Sin descripción disponible.";
-            
+            document.getElementById('finalDesc').innerText = wordData.desc || "Sin descripción.";
             document.getElementById('finalImpostor').innerText = impostorName;
             
             if(isHost) {
@@ -619,29 +647,61 @@
         }
 
         function updateLobbyUI() {
-            const list = document.getElementById('lobbyList');
-            list.innerHTML = '';
+            const pitch = document.getElementById('pitchContainer');
+            pitch.innerHTML = `
+                <div class="pitch-area-top"></div>
+                <div class="pitch-circle"></div>
+                <div class="pitch-line-center"></div>
+                <div class="pitch-area-bottom"></div>
+            `;
+            
             document.getElementById('playerCount').innerText = players.length;
-            players.forEach(p => {
-                const li = document.createElement('li');
-                li.className = 'player-card';
+
+            // RENDERIZAR JUGADORES EN EL CAMPO
+            players.forEach((p, index) => {
+                // Si hay más de 15, se quedan en el último spot (banquillo infinito)
+                const pos = FORMATION[index] || { name: "BANQUILLO", x: 50, y: 50 };
                 
-                let btnKick = '';
-                if(isHost && p.id !== peer.id) {
-                    btnKick = `<button class="kick-btn-mini" onclick="kickPlayer('${p.id}')">ROJA 🟥</button>`;
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'pitch-player';
+                playerDiv.style.left = pos.x + '%';
+                playerDiv.style.top = pos.y + '%';
+                
+                let hostLabel = p.isHost ? '(CAPI)' : '';
+                
+                // Kick function on click if host
+                if(isHost && !p.isHost) {
+                    playerDiv.onclick = () => kickPlayer(p.id);
+                    playerDiv.style.cursor = "pointer";
                 }
-                
-                li.innerHTML = `
-                    <span class="player-name">${p.name}</span>
-                    ${p.isHost ? '<span class="host-tag">CAPI</span>' : ''}
-                    ${btnKick}
+
+                playerDiv.innerHTML = `
+                    <div class="kit-shirt">👕</div>
+                    <div class="player-tag">${p.name} ${hostLabel}</div>
+                    <div class="position-tag">${pos.name}</div>
                 `;
-                list.appendChild(li);
+                pitch.appendChild(playerDiv);
             });
+
+            // PLACEHOLDERS PARA COMPLETAR EL 11 (OPCIONAL, PERO QUEDA BIEN)
+            if (players.length < 11) {
+                for (let i = players.length; i < 11; i++) {
+                    const pos = FORMATION[i];
+                    const ghost = document.createElement('div');
+                    ghost.className = 'pitch-player pitch-placeholder';
+                    ghost.style.left = pos.x + '%';
+                    ghost.style.top = pos.y + '%';
+                    ghost.innerHTML = `
+                        <div class="kit-shirt">👻</div>
+                        <div class="position-tag">${pos.name}</div>
+                    `;
+                    pitch.appendChild(ghost);
+                }
+            }
         }
         
         function kickPlayer(id) {
-            showModal("¿Sacar tarjeta roja y expulsar?", "confirm", () => {
+            showModal("¿Expulsar del equipo?", "confirm", () => {
                 const conn = connections.find(c => c.peer === id);
                 if (conn) conn.close();
                 players = players.filter(p => p.id !== id);
