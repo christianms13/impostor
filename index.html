@@ -121,7 +121,7 @@
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    /* Estilo base para camisetas (jugadores activos) */
+    /* CAMISETAS ACTIVAS */
     .kit-shirt {
       width: 50px; height: auto;
       filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
@@ -130,19 +130,18 @@
     }
     .pitch-player:not(.pitch-ghost):hover .kit-shirt { transform: scale(1.2); }
     
-    /* ESTILOS FANTASMA (LEYENDAS) */
+    /* FANTASMAS (LEYENDAS) */
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
     }
-
     /* TALLAS DE FANTASMAS */
-    .kit-shirt.ghost-normal { width: 45px; } /* Isco */
-    .kit-shirt.ghost-medium { width: 65px; } /* Cazorla, Toulalan */
-    .kit-shirt.ghost-large { width: 85px; }  /* El resto */
+    .kit-shirt.ghost-normal { width: 45px; } 
+    .kit-shirt.ghost-medium { width: 65px; } 
+    .kit-shirt.ghost-large { width: 85px; } 
 
     .player-tag {
       background: rgba(255,255,255,0.95); 
-      color: var(--mcf-dark); /* Azul por defecto */
+      color: var(--mcf-dark); 
       padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
       white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       max-width: 120px; overflow: hidden; text-overflow: ellipsis;
@@ -150,8 +149,8 @@
     
     /* CLASE ESPECIAL PARA EL PROPIO USUARIO */
     .player-tag.me {
-      color: var(--danger); /* Rojo solo para mí */
-      border: 1px solid var(--danger); /* Borde sutil para destacar */
+      color: var(--danger); 
+      border: 1px solid var(--danger); 
     }
 
     .position-tag {
@@ -390,6 +389,9 @@
 
     // --- VAR GLOBAL ---
     let currentWordData = null;
+    // Para el copy code
+    let currentRoomCode = "";
+    let copyTimeout = null;
 
     // --- SISTEMA DE MODALES ---
     function showModal(message, type = 'info', onConfirm = null) {
@@ -507,6 +509,7 @@
       
       peer.on('open', (id) => {
         closeModal();
+        currentRoomCode = id;
         document.getElementById('roomIdDisplay').innerText = id;
         const posIndex = getRandomFreePosition([]);
         players = [{ id: id, name: myName, isHost: true, posIndex: posIndex }];
@@ -560,6 +563,21 @@
     function handleDataClient(data) {
       if (data.type === 'LOBBY') {
         players = data.players;
+        // GUARDAR CODIGO SIEMPRE
+        if(players.length > 0 && players[0].id) {
+             // El primer jugador suele ser el host o viene en el paquete
+             // Pero para clientes, PeerJS no da el roomId directo fácil en data.
+             // Vamos a confiar en que el usuario ya lo puso en el input o ya lo tiene.
+             // Mejor: El host manda el ID en el paquete broadcastLobby si quisieramos,
+             // pero aqui, simplemente actualizamos UI.
+             // Si ya tenemos currentRoomCode (del input), no lo tocamos.
+        }
+        // Si soy cliente y acabo de unirme, currentRoomCode lo puse en el input
+        if(!isHost && !currentRoomCode) {
+             currentRoomCode = document.getElementById('joinInput').value.trim();
+        }
+        document.getElementById('roomIdDisplay').innerText = currentRoomCode;
+
         showScreen('lobby');
         updateLobbyUI();
         document.getElementById('hostControls').classList.add('hidden');
@@ -779,17 +797,25 @@
 
     function copyRoomCode() {
       const el = document.getElementById('roomIdDisplay');
-      const text = el.innerText;
-      if(text === "Cargando...") return;
-      navigator.clipboard.writeText(text);
+      // Usamos la variable global de seguridad
+      const realCode = currentRoomCode || el.innerText; 
       
-      const originalText = text;
+      // Evitar copiar si no hay código aun
+      if(realCode === "Cargando..." || !realCode) return;
+
+      // Copiar el código REAL
+      navigator.clipboard.writeText(realCode);
+      
+      // Feedback visual (cambia texto pero NO la variable de origen)
       el.innerText = "¡COPIADO! ✅";
       el.style.backgroundColor = "#d1f2eb";
       el.style.borderColor = "#2ed573";
       
-      setTimeout(() => {
-        el.innerText = originalText;
+      // Limpiar timeout previo si existe para evitar parpadeos
+      if(copyTimeout) clearTimeout(copyTimeout);
+
+      copyTimeout = setTimeout(() => {
+        el.innerText = realCode; // Restaurar el código real
         el.style.backgroundColor = "#e2e8f0";
         el.style.borderColor = "#94a3b8";
       }, 1200);
