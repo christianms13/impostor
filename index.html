@@ -130,12 +130,12 @@
       transition: transform 0.2s;
       margin-bottom: 2px;
     }
+    .pitch-player:not(.pitch-ghost):hover .kit-shirt { transform: scale(1.2); }
     
-    /* FANTASMAS (LEYENDAS) */
+    /* ESTILOS FANTASMA (LEYENDAS) */
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
     }
-    /* TALLAS DE FANTASMAS */
     .kit-shirt.ghost-normal { width: 45px; } 
     .kit-shirt.ghost-medium { width: 65px; } 
     .kit-shirt.ghost-large { width: 85px; } 
@@ -163,7 +163,6 @@
     }
     .host-mark { color: var(--mcf-sky); margin-left: 3px; }
 
-    /* FANTASMA Z-INDEX */
     .pitch-ghost { z-index: 0; }
 
     /* UI ELEMENTS */
@@ -246,16 +245,34 @@
     .modal-text { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 20px; line-height: 1.6; overflow-y: auto; text-align: left; padding: 0 10px; }
     .modal-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: auto;}
 
-    /* IMAGEN MODAL DE LEYENDA */
+    /* --- IMAGEN MODAL DE LEYENDA PRO --- */
+    /* Contenedor para el efecto "foco" */
+    .modal-img-spotlight {
+      position: relative;
+      display: inline-block;
+      margin: 0 auto 20px auto;
+      /* Fondo radial que simula un foco de luz */
+      background: radial-gradient(circle, rgba(108, 171, 221, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%; /* Foco redondo */
+      padding: 10px;
+    }
+
     .legend-modal-img {
       width: 100%;
-      max-width: 250px;
+      max-width: 280px;
       height: auto;
-      border: 4px solid var(--mcf-sky);
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(108, 171, 221, 0.4);
-      margin: 0 auto 15px auto;
       display: block;
+      position: relative;
+      /* Sombra que sigue el contorno del jugador (requiere PNG transparente) */
+      filter: drop-shadow(0 10px 15px rgba(0, 20, 60, 0.5));
+      /* Animación de entrada */
+      animation: fadeInUp 0.5s ease-out forwards;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      to { transform: translateY(0); opacity: 1; }
     }
 
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
@@ -390,17 +407,17 @@
 
     // --- DATOS DE LEYENDAS ---
     const LEGENDS_DATA = {
-      0: { name: "Willy Caballero", file: "caballero" },
-      1: { name: "Martín Demichelis", file: "demichelis" },
-      2: { name: "Joris Mathijsen", file: "mathijsen" },
-      3: { name: "Jesús Gámez", file: "jesus-gamez" },
-      4: { name: "Nacho Monreal", file: "monreal" },
-      5: { name: "Jérémy Toulalan", file: "toulalan" },
-      6: { name: "Santi Cazorla", file: "cazorla" },
-      7: { name: "Isco Alarcón", file: "isco" },
-      8: { name: "Joaquín Sánchez", file: "joaquin" },
-      9: { name: "Sebastián Fernández", file: "seba" },
-      10: { name: "Salomón Rondón", file: "rondon" }
+      0: { name: "Willy Caballero", file: "caballero", wikiQuery: "Willy Caballero" },
+      1: { name: "Martín Demichelis", file: "demichelis", wikiQuery: "Martín Demichelis" },
+      2: { name: "Joris Mathijsen", file: "mathijsen", wikiQuery: "Joris Mathijsen" },
+      3: { name: "Jesús Gámez", file: "jesus-gamez", wikiQuery: "Jesús Gámez" },
+      4: { name: "Nacho Monreal", file: "monreal", wikiQuery: "Nacho Monreal" },
+      5: { name: "Jérémy Toulalan", file: "toulalan", wikiQuery: "Jérémy Toulalan" },
+      6: { name: "Santi Cazorla", file: "cazorla", wikiQuery: "Santi Cazorla" },
+      7: { name: "Isco Alarcón", file: "isco", wikiQuery: "Isco" }, // Isco directo
+      8: { name: "Joaquín Sánchez", file: "joaquin", wikiQuery: "Joaquín Sánchez (futbolista)" }, // Desambiguación
+      9: { name: "Sebastián Fernández", file: "seba", wikiQuery: "Sebastián Fernández (futbolista)" }, // Desambiguación
+      10: { name: "Salomón Rondón", file: "rondon", wikiQuery: "Salomón Rondón" }
     };
 
     // --- VAR GLOBAL ---
@@ -422,10 +439,17 @@
       imgContainer.innerHTML = '';
 
       if (imageUrl) {
+        // Contenedor con efecto luz
+        const spotlight = document.createElement('div');
+        spotlight.className = 'modal-img-spotlight';
+        
         const img = document.createElement('img');
         img.src = imageUrl;
         img.className = "legend-modal-img";
-        imgContainer.appendChild(img);
+        
+        spotlight.appendChild(img);
+        imgContainer.appendChild(spotlight);
+        
         icon.style.display = 'none'; 
       } else {
         icon.style.display = 'block';
@@ -469,10 +493,11 @@
       const modalImg = `./${legend.file}-modal.png`;
       
       // 1. Mostrar modal con loading
-      showModal("Cargando historia del jugador...", "info", null, modalImg);
+      showModal("Ojeando al jugador...", "info", null, modalImg);
 
-      // 2. Buscar descripción en Wikipedia
-      const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=2&exintro&explaintext&titles=${encodeURIComponent(legend.name)}&format=json&origin=*`;
+      // 2. Buscar descripción en Wikipedia usando la query especifica
+      const searchQuery = legend.wikiQuery || legend.name;
+      const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
       
       try {
         const res = await fetch(url);
