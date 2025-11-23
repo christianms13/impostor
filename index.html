@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 Impostor Dark Coquette</title>
+    <title>🎀 Impostor Coquette Ultimate</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* PALETA DARK COQUETTE */
-            --bg-dark: #1a0b12;        /* Fondo casi negro rosado */
-            --card-dark: #2d1b22;      /* Tarjetas oscuras */
-            --text-main: #ecdfe3;      /* Texto blanco roto */
-            --text-dim: #bbaab0;       /* Texto secundario */
-            --accent-pink: #d47a96;    /* Rosa viejo elegante */
-            --accent-glow: #ffc2d1;    /* Brillo rosado */
-            --danger: #ff5c7c;         /* Rojo rosado */
-            --gold: #d4af37;           /* Toques dorados */
+            --bg-color: #2b1d22;      /* Fondo base oscuro-rosado */
+            --card-bg: rgba(50, 30, 40, 0.85); /* Tarjeta semitransparente */
+            --pink-light: #ffc2d1;    /* Rosa pastel */
+            --pink-pop: #ff8fab;      /* Rosa chicle */
+            --text-main: #ffe5ec;     /* Blanco rosado */
+            --text-sec: #e0b0be;      /* Rosa grisáceo */
+            --accent: #fb6f92;        /* Acento fuerte */
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Lato', sans-serif;
-            background-color: var(--bg-dark);
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
             padding: 20px;
@@ -33,168 +31,160 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, #3a1e28 0%, var(--bg-dark) 60%);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 143, 171, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(251, 111, 146, 0.1) 0%, transparent 40%);
         }
 
-        /* FONDO SUTIL DE EMOJIS FLOTANTES */
+        /* EMOJIS FLOTANTES MEJORADOS */
         .bg-emojis {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; opacity: 0.15; overflow: hidden;
+            pointer-events: none; z-index: -1; overflow: hidden; opacity: 0.4;
         }
         .bg-emoji {
             position: absolute; font-size: 1.5rem;
-            animation: float 20s linear infinite;
+            animation: floatUp 25s linear infinite;
+            text-shadow: 0 0 5px rgba(255, 194, 209, 0.5);
         }
-        @keyframes float {
+        @keyframes floatUp {
             0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.5; }
-            80% { opacity: 0.5; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 3rem;
-            color: var(--accent-glow);
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pink-pop);
             margin: 10px 0;
-            text-shadow: 0 0 15px rgba(255, 194, 209, 0.3);
-            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3), 0 0 15px var(--pink-pop);
+        }
+
+        .tagline {
+            background: rgba(255, 194, 209, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .container {
-            background-color: var(--card-dark);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 194, 209, 0.1);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            
-            /* MÁS ANCHO COMO PEDISTE */
-            max-width: 700px; 
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 2.5rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 194, 209, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            max-width: 600px;
             width: 100%;
-            
             text-align: center;
             position: relative;
-            margin-top: 20px;
-            transition: all 0.3s ease;
+            transition: transform 0.3s;
         }
 
-        /* Input Estilizado */
         input {
             width: 100%;
             padding: 15px;
-            margin: 12px 0;
+            margin: 10px 0;
             background: rgba(0,0,0,0.3);
-            border: 1px solid var(--accent-pink);
-            border-radius: 10px;
+            border: 2px solid var(--pink-light);
+            border-radius: 15px;
             color: var(--text-main);
-            font-family: 'Lato', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             font-size: 1.1rem;
             text-align: center;
             outline: none;
         }
-        input:focus { border-color: var(--accent-glow); box-shadow: 0 0 10px rgba(212, 122, 150, 0.2); }
+        input:focus { border-color: var(--pink-pop); box-shadow: 0 0 10px var(--pink-pop); }
 
-        /* Botones Elegantes */
         button {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             margin-top: 15px;
-            background: linear-gradient(135deg, #a65870 0%, #d47a96 100%);
+            background: linear-gradient(135deg, var(--pink-pop) 0%, var(--accent) 100%);
             border: none;
-            border-radius: 12px;
+            border-radius: 15px;
             color: white;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-family: 'Lato', sans-serif;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: transform 0.2s, filter 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
         }
-        button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
         
         button.secondary {
             background: transparent;
-            border: 1px solid var(--text-dim);
-            color: var(--text-dim);
+            border: 2px solid var(--text-sec);
+            color: var(--text-sec);
             box-shadow: none;
         }
-        button.secondary:hover { border-color: var(--accent-glow); color: var(--accent-glow); }
-
-        button.danger { background: linear-gradient(135deg, #b33951 0%, #e64c6e 100%); }
+        button.secondary:hover { border-color: var(--pink-light); color: var(--pink-light); }
+        
+        button.danger { background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%); }
 
         .hidden { display: none !important; }
 
-        /* LISTAS DE JUGADORES */
         .player-list { list-style: none; padding: 0; text-align: left; }
         .player-list li {
-            background: rgba(255,255,255,0.03);
-            margin: 8px 0; padding: 12px 20px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 8px 0; padding: 10px 15px;
+            border-radius: 10px;
             display: flex; justify-content: space-between; align-items: center;
-            border-left: 3px solid var(--accent-pink);
+            border-left: 3px solid var(--pink-pop);
         }
 
-        /* TARJETA DE ROL & JUEGO */
         .role-card {
             background: rgba(0,0,0,0.2);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-top: 10px;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px dashed var(--text-sec);
+            margin-top: 15px;
         }
 
         .secret-word {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem; /* Más grande */
-            color: var(--accent-glow);
-            margin: 15px 0;
-            text-shadow: 0 0 10px rgba(255, 194, 209, 0.4);
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: var(--pink-light);
+            margin: 10px 0;
+            text-shadow: 0 0 10px var(--accent);
             word-wrap: break-word;
-            line-height: 1.1;
         }
 
         .description-box {
-            font-size: 1rem;
-            color: var(--text-dim);
+            font-size: 0.95rem;
+            color: var(--text-sec);
             background: rgba(0,0,0,0.3);
             padding: 15px;
             border-radius: 10px;
-            border-left: 3px solid var(--accent-pink);
-            text-align: left;
             margin-top: 10px;
-            line-height: 1.5;
+            font-style: italic;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .impostor-title {
-            color: var(--danger);
-            font-family: 'Playfair Display', serif;
+            font-family: 'Dancing Script', cursive;
             font-size: 2.5rem;
-            font-weight: bold;
-            letter-spacing: 3px;
+            color: #ff4d6d;
+            text-shadow: 0 0 15px #ff4d6d;
             animation: pulse 2s infinite;
         }
-        @keyframes pulse { 50% { opacity: 0.6; } }
+        @keyframes pulse { 50% { opacity: 0.7; transform: scale(0.98); } }
 
-        /* ORDEN DE TURNOS */
-        .turn-list { margin-top: 20px; text-align: left; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; }
-        .turn-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); }
-        .turn-list li:first-child { color: var(--accent-glow); font-weight: bold; }
-        .turn-list li:first-child::after { content: " ✨ (Inicia)"; font-size: 0.8rem; opacity: 0.8; }
+        .turn-list { text-align: left; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
+        .turn-list li { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0; color: var(--text-sec); }
+        .turn-list li:first-child { color: var(--pink-light); font-weight: bold; }
 
         #roomIdDisplay { 
-            font-family: monospace; letter-spacing: 2px; color: var(--accent-glow); cursor: pointer;
-            background: rgba(0,0,0,0.4); padding: 10px; border-radius: 5px; display: inline-block;
+            font-family: monospace; font-size: 1.2rem; letter-spacing: 2px; color: var(--pink-light);
+            background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; cursor: pointer; display: inline-block;
         }
-        
-        .kick-btn {
-            width: auto; padding: 5px 10px; margin: 0; font-size: 0.7rem; 
-            background: transparent; border: 1px solid var(--danger); color: var(--danger);
-            box-shadow: none;
-        }
-        .kick-btn:hover { background: var(--danger); color: white; transform: none; }
+
+        .kick-btn { width: auto; padding: 4px 8px; font-size: 0.7rem; margin: 0; background: transparent; border: 1px solid #ff4d6d; color: #ff4d6d; box-shadow: none; }
+        .kick-btn:hover { background: #ff4d6d; color: white; }
 
     </style>
 </head>
@@ -203,130 +193,161 @@
     <div id="emoji-bg" class="bg-emojis"></div>
 
     <h1>The Impostor</h1>
-    <div style="font-size: 0.8rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">
-        ✦ Dark Coquette Edition ✦
-    </div>
-    
-    <div id="statusMsg" style="color: var(--accent-pink); font-size: 0.9rem; min-height: 20px;"></div>
+    <div class="tagline">✨ Ultimate Coquette Edition ✨</div>
+    <div id="statusMsg" style="color: var(--text-sec); font-size: 0.8rem; min-height: 20px;"></div>
 
     <div id="screen-menu" class="container">
-        <h2 style="font-family: 'Playfair Display'; color: var(--text-main);">Identifícate</h2>
-        <input type="text" id="myUsername" placeholder="Tu nombre..." maxlength="12">
-        <button onclick="createGame()">Crear Sala</button>
-        <div style="margin: 20px 0; color: var(--text-dim); font-size: 0.8rem;">— o únete a una existente —</div>
-        <input type="text" id="joinInput" placeholder="Código de la sala">
-        <button class="secondary" onclick="joinGame()">Unirse</button>
+        <h2 style="font-family:'Dancing Script'; color: var(--pink-light);">¿Quién eres hoy?</h2>
+        <input type="text" id="myUsername" placeholder="Tu nombre lindo..." maxlength="12">
+        <button onclick="createGame()">Crear Sala 🎀</button>
+        <div style="margin: 15px 0; font-size: 0.8rem; color: var(--text-sec);">— o únete a tus amigas —</div>
+        <input type="text" id="joinInput" placeholder="Código de sala">
+        <button class="secondary" onclick="joinGame()">Unirse ✨</button>
     </div>
 
     <div id="screen-lobby" class="container hidden">
-        <h2>Sala de Espera</h2>
-        <p style="color: var(--text-dim);">Toca el código para copiarlo:</p>
-        
+        <h2>Sala de Espera 🧸</h2>
+        <p style="color: var(--text-sec); font-size: 0.9rem;">Toca el código para copiar:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <div style="margin-top: 30px; text-align: left;">
-            <h3 style="color: var(--accent-glow); font-family: 'Playfair Display'; font-size: 1.5rem;">
-                Jugadores (<span id="playerCount">0</span>)
-            </h3>
+        <div style="margin-top: 20px; text-align: left;">
+            <h3 style="color: var(--pink-light); font-family: 'Dancing Script';">Jugadoras (<span id="playerCount">0</span>)</h3>
         </div>
         <ul id="lobbyList" class="player-list"></ul>
 
-        <div id="hostControls" class="hidden" style="margin-top: 30px;">
-            <div style="background: rgba(212, 122, 150, 0.1); padding: 15px; border-radius: 10px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 15px; text-align: left;">
-                ℹ️ <b>Modo Database:</b> Usando lista personalizada con cientos de palabras. Descargando descripciones en tiempo real.
+        <div id="hostControls" class="hidden" style="margin-top: 25px;">
+            <div style="background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: var(--text-sec); margin-bottom: 15px; text-align: left;">
+                📚 <b>Base de Datos:</b> Ultimate (Cine, Música, Coquette, Gamer, Deportes...)
             </div>
-            <button onclick="startGame()" id="btnStart">✦ Empezar Partida ✦</button>
+            <button onclick="startGame()" id="btnStart">💖 Empezar Partida 💖</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--accent-pink); animation: pulse 2s infinite;">Esperando a la anfitriona...</p>
+            <p style="color: var(--pink-pop); animation: pulse 1.5s infinite;">Esperando a la anfitriona... 🦢</p>
         </div>
     </div>
 
     <div id="screen-game" class="container hidden">
         <div class="role-card">
-            <p style="color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Tu Rol:</p>
-            <h3 id="roleDisplay" style="font-family: 'Playfair Display'; font-size: 2rem; margin: 5px 0;">...</h3>
+            <p style="color: var(--text-sec); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Tu Identidad Secreta:</p>
+            <h3 id="roleDisplay" style="font-family: 'Dancing Script'; font-size: 2.2rem; margin: 5px 0;">...</h3>
             
             <div id="wordContainer">
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
-                <p style="font-size:0.8rem; color: var(--text-dim);">LA PALABRA SECRETA ES:</p>
+                <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;">
+                <p style="font-size:0.8rem; color: var(--text-sec);">LA PALABRA ES:</p>
                 <div id="secretWordDisplay" class="secret-word">???</div>
-                
                 <div id="secretDescDisplay" class="description-box">Cargando definición...</div>
             </div>
             
             <div id="impostorMessage" class="hidden">
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
-                <div class="impostor-title">IMPOSTOR</div>
-                <p style="color: var(--text-dim);">No conoces la palabra.<br>Escucha, deduce y miente.</p>
+                <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;">
+                <div class="impostor-title">IMPOSTORA</div>
+                <p style="color: var(--text-main);">Shhh... 🤫<br>No sabes nada, solo actúa natural.</p>
             </div>
         </div>
 
-        <div style="margin-top: 25px;">
-            <p style="font-size: 1rem; color: var(--accent-glow); font-family: 'Playfair Display'; text-align: left;">Orden de Turnos:</p>
+        <div style="margin-top: 20px;">
+            <p style="text-align: left; color: var(--pink-light); font-weight: bold;">🩰 Orden de Turnos:</p>
             <ol id="turnOrderList" class="turn-list"></ol>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">Revelar & Terminar</button>
+            <button class="danger" onclick="revealGame()">💔 Terminar Ronda</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: var(--text-dim);">Partida en curso...</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: var(--text-sec); font-size: 0.8rem;">Jugando... ✨</p>
     </div>
 
     <div id="screen-result" class="container hidden">
-        <h2 style="font-family: 'Playfair Display'; color: var(--accent-glow);">Resultados</h2>
+        <h2 style="font-family: 'Dancing Script'; color: var(--pink-light);">Resultados</h2>
         
-        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
-            <p style="color: var(--text-dim); font-size: 0.9rem; margin:0;">La palabra era:</p>
-            <div id="finalWord" style="font-size: 2rem; color: var(--text-main); font-family: 'Playfair Display'; margin: 10px 0;"></div>
-            <p id="finalDesc" style="font-size: 0.9rem; color: var(--text-dim); font-style: italic;"></p>
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
+            <p style="color: var(--text-sec); font-size: 0.8rem;">La palabra era:</p>
+            <div id="finalWord" style="font-size: 2rem; color: var(--pink-pop); font-family: 'Dancing Script'; font-weight: bold;"></div>
+            <p id="finalDesc" style="font-size: 0.8rem; color: var(--text-sec); font-style: italic;"></p>
         </div>
 
-        <p style="color: var(--text-dim);">El Impostor era:</p>
-        <h3 id="finalImpostor" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--danger); margin: 5px 0;"></h3>
+        <p style="color: var(--text-sec);">La Impostora era:</p>
+        <h3 id="finalImpostor" style="font-family: 'Dancing Script'; font-size: 2.5rem; color: #ff4d6d; margin: 0;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">Volver al Lobby</button>
+            <button onclick="returnToLobby()">🔄 Volver al Lobby</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color: var(--text-dim);">Esperando al Host...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color: var(--text-sec);">Esperando al Host...</p>
     </div>
 
     <script>
-        // --- BASE DE DATOS MASIVA (Tu Array) ---
-        const PALABRAS_JUEGO = [
-            // SCIFI & FANTASY
-            "Darth Vader", "Luke Skywalker", "Yoda", "Princesa Leia", "Han Solo", "Chewbacca", "Obi-Wan Kenobi", "R2-D2", "C-3PO", "Stormtrooper", "Mandaloriano", "Baby Yoda", "Emperador Palpatine", "Kylo Ren", "Rey Skywalker", "Halcón Milenario", "Estrella de la Muerte", "Tatooine", "Sable de luz", "Jedi", "Sith", "Harry Potter", "Hermione Granger", "Ron Weasley", "Dumbledore", "Voldemort", "Snape", "Hagrid", "Draco Malfoy", "Hogwarts", "Varita mágica", "Frodo Bolsón", "Gandalf", "Aragorn", "Legolas", "Gollum", "Sauron", "El Anillo Único", "Mordor", "Jon Snow", "Daenerys Targaryen", "Trono de Hierro", "Dragón", "The Witcher", "Matrix", "Neo",
-            // CINE & CELEBS
-            "Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Leonardo DiCaprio", "Brad Pitt", "Tom Cruise", "Johnny Depp", "Robert De Niro", "Al Pacino", "Meryl Streep", "Angelina Jolie", "Scarlett Johansson", "Margot Robbie", "Ryan Gosling", "Zendaya", "Timothée Chalamet", "Ana de Armas", "Pedro Pascal", "Jenna Ortega", "Will Smith", "Tom Holland", "Robert Downey Jr.", "Chris Hemsworth", "Marilyn Monroe", "Audrey Hepburn", "Elvis Presley", "Avatar", "Titanic", "El Padrino", "Pulp Fiction", "Barbie", "Oppenheimer", "Jurassic Park", "Indiana Jones", "Terminator", "El Rey León", "Toy Story", "Shrek", "Frozen", "Mickey Mouse", "Los Vengadores", "Thanos", "Iron Man", "Spiderman", "Batman", "Joker", "Superman", "Wonder Woman", "Stranger Things", "Breaking Bad", "El Juego del Calamar", "La Casa de Papel",
-            // GAMING
-            "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Minecraft", "Fortnite", "League of Legends", "Valorant", "Call of Duty", "FIFA", "Messi", "Cristiano Ronaldo", "Mbappé", "GTA V", "The Last of Us", "God of War", "Kratos", "Zelda", "Link", "Pokémon", "Pikachu", "Charizard", "Among Us", "Impostor", "Animal Crossing", "Clash Royale", "Sims", "PlayStation", "Xbox", "Gamer", "Streamer", "Twitch",
-            // MUSICA
-            "Taylor Swift", "Beyoncé", "Rihanna", "Lady Gaga", "Ariana Grande", "Billie Eilish", "Dua Lipa", "Harry Styles", "Justin Bieber", "Shakira", "Rosalía", "Bad Bunny", "Karol G", "Michael Jackson", "Freddie Mercury", "Queen", "The Beatles", "Eminem", "Drake", "The Weeknd", "BTS", "Blackpink",
-            // MODA & ESTILO
-            "Maquillaje", "Lipstick", "Chanel", "Gucci", "Prada", "Louis Vuitton", "Nike", "Adidas", "Zara", "Vestido", "Tacones", "Bolso", "Joyas", "Diamante", "Coquette", "Vintage", "Aesthetic", "Instagram", "TikTok", "Influencer", "Modelo",
-            // LUGARES
-            "Nueva York", "Estatua de la Libertad", "París", "Torre Eiffel", "Londres", "Big Ben", "Tokio", "Roma", "Coliseo", "Madrid", "Barcelona", "Sagrada Familia", "Egipto", "Pirámides", "Brasil", "Río de Janeiro", "México", "Hollywood", "Disney World", "Playa", "Aeropuerto", "Avión", "Hospital", "Escuela", "Supermercado", "Centro Comercial", "Cine", "Gimnasio", "Estadio", "Discoteca", "Castillo",
-            // COMIDA
-            "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Pasta", "Paella", "McDonalds", "Starbucks", "Café", "Coca-Cola", "Cerveza", "Vino", "Helado", "Chocolate", "Fruta", "Plátano", "Fresa", "Sandía", "Queso", "Pan",
-            // ANIMALES
-            "Perro", "Gato", "León", "Tigre", "Elefante", "Jirafa", "Mono", "Caballo", "Pájaro", "Águila", "Delfín", "Ballena", "Tiburón", "Serpiente", "Araña", "Dinosaurio", "T-Rex", "Dragón", "Unicornio",
-            // OBJETOS
-            "Móvil", "iPhone", "Portátil", "Televisión", "Cámara", "Reloj", "Gafas", "Dinero", "Tarjeta de Crédito", "Coche", "Moto", "Libro", "Cama", "Sofá", "Mesa", "Espejo",
-            // PROFESIONES
-            "Médico", "Policía", "Bombero", "Profesor", "Abogado", "Juez", "Científico", "Astronauta", "Piloto", "Cocinero", "Actor", "Cantante", "Futbolista", "Presidente", "Rey",
-            // OTROS
-            "Amor", "Muerte", "Vida", "Tiempo", "Dinero", "Fama", "Guerra", "Paz", "Navidad", "Halloween", "Verano", "Invierno", "Internet", "Wifi", "Google", "ChatGPT", "Robot", "Inteligencia Artificial"
+        // --- BASE DE DATOS MASIVA (ULTIMATE) ---
+        const cineYSeries = [
+             "Star Wars", "Darth Vader", "Yoda", "Luke Skywalker", "Princesa Leia", "Han Solo", "Chewbacca", "R2-D2", "C-3PO", "Mandaloriano", "Grogu", "Sable de Luz", "Estrella de la Muerte", "Halcón Milenario", "Tatooine", "Ewok", "Jedi", "Sith", "Kylo Ren", "Rey", "Stormtrooper", "Imperio", "Rebelión",
+            "Harry Potter", "Hogwarts", "Hermione Granger", "Ron Weasley", "Dumbledore", "Voldemort", "Snape", "Hagrid", "Dobby", "Varita", "Snitch Dorada", "Quidditch", "Andén 9 ¾", "Gryffindor", "Slytherin", "Patronus", "Horrocrux", "Elfo Doméstico", "Muggle", "Callejón Diagon",
+            "El Señor de los Anillos", "Frodo", "Gandalf", "Aragorn", "Legolas", "Gimli", "Gollum", "Sauron", "Anillo Único", "Mordor", "La Comarca", "Hobbit", "Monte del Destino", "Tierra Media", "Rivendel", "Nazgul", "Orco", "Elfo",
+            "Marvel", "UCM", "Avengers", "Iron Man", "Capitán América", "Thor", "Hulk", "Viuda Negra", "Spider-Man", "Thanos", "Guantelete del Infinito", "Gema del Infinito", "Loki", "Wanda Maximoff", "Bruja Escarlata", "Doctor Strange", "Guardianes de la Galaxia", "Groot", "Rocket", "Wakanda", "Black Panther", "Deadpool", "Wolverine", "X-Men", "Magneto",
+            "DC Comics", "Batman", "Joker", "Superman", "Wonder Woman", "Flash", "Aquaman", "Harley Quinn", "Gotham", "Batmovil", "Kryptonita", "Liga de la Justicia", "Robin", "Catwoman", "Enigma", "Pingüino",
+            "Dune", "Paul Atreides", "Chani", "Lisan al Gaib", "Arrakis", "Gusano de Arena", "La Especia", "Harkonnen", "Fremen", "Bene Gesserit", "Ornithopter",
+            "Juego de Tronos", "Jon Snow", "Daenerys", "Tyrion", "Cersei", "Arya", "Sansa", "Dragón", "Trono de Hierro", "Invernalia", "Caminante Blanco", "Dracarys", "La Casa del Dragón", "Rhaenyra",
+            "Titanic", "Iceberg", "Jack y Rose", "Avatar", "Pandora", "Na'vi", "Barbie", "Ken", "Mojo Dojo Casa House", "Oppenheimer", "Bomba Atómica", "Jurassic Park", "T-Rex", "Velociraptor", "Ámbar", "Volver al Futuro", "Delorean", "McFly", "Condensador de Fluzo", "Pulp Fiction", "Vincent Vega", "Mia Wallace", "El Padrino", "Corleone", "Cabeza de Caballo", "Matrix", "Neo", "Pastilla Roja", "Stranger Things", "Eleven", "Demogorgon", "Upside Down", "Friends", "Central Perk", "Sofá", "Breaking Bad", "Heisenberg", "Meta Azul", "Los Pollos Hermanos", "Caravana", "Squid Game", "Luz Verde Luz Roja", "La Casa de Papel", "Máscara de Dalí", "Bella Ciao", "The Office", "Dunder Mifflin", "Grapadora en gelatina", "Wednesday", "Dedos", "Bridgerton", "Lady Whistledown", "Gossip Girl", "XOXO", "Euphoria", "Brilli Brilli", "The Bear", "Yes Chef", "Succession", "Waystar Royco", "Black Mirror", "Tecnología", "Rick y Morty", "Pistola de portales", "Pickle Rick", "Los Simpson", "Donut", "Cerveza Duff", "Springfield", "Crepúsculo", "Edward Cullen", "Bella Swan", "Vampiro brillante", "Hombre Lobo", "Team Edward", "Team Jacob", "Mean Girls", "Burn Book", "Las Divinas", "High School Musical",
+            "Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Martin Scorsese", "Wes Anderson", "Simetría", "Tim Burton", "Gótico", "Greta Gerwig", "Sofia Coppola", "Aesthetic", "Alfred Hitchcock", "Suspense", "Stanley Kubrick", "Hayao Miyazaki", "Studio Ghibli", "Totoro", "Pedro Almodóvar", "Guillermo del Toro", "A24", "Cine Indie", "Blumhouse", "Terror", "Disney", "Pixar", "Castillo", "Warner Bros", "Universal", "Netflix", "HBO", "Prime Video",
+            "Leonardo DiCaprio", "Brad Pitt", "Tom Cruise", "Johnny Depp", "Meryl Streep", "Angelina Jolie", "Jennifer Lawrence", "Emma Stone", "Ryan Gosling", "Margot Robbie", "Zendaya", "Timothée Chalamet", "Florence Pugh", "Anya Taylor-Joy", "Ana de Armas", "Pedro Pascal", "Jenna Ortega", "Millie Bobby Brown", "Henry Cavill", "Robert Pattinson", "Cillian Murphy", "Marilyn Monroe", "Audrey Hepburn", "Elvis Presley", "James Dean",
+            "Oscar", "Alfombra Roja", "Palomitas", "Claqueta", "Director", "Guion", "Croma", "Efectos Especiales", "CGI", "Cameo", "Spoiler", "Plot Twist", "Tráiler", "Premiere", "Butaca", "Proyector", "Pantalla Imax"
         ];
+        const videojuegos = [
+            "Super Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Toad", "Reino Champiñón", "Estrella", "Tubería", "Mario Kart", "Caparazón Azul", "Senda Arcoíris", 
+            "Zelda", "Link", "Ganondorf", "Trifuerza", "Espada Maestra", "Hyrule", "Epona", "Ocarina", "Breath of the Wild", "Tears of the Kingdom",
+            "Pokémon", "Pikachu", "Charizard", "Eevee", "Pokéball", "Entrenador", "Gimnasio", "Pokedex", "Team Rocket", "Legendario", "Shiny",
+            "Minecraft", "Steve", "Alex", "Creeper", "Enderman", "Diamante", "Pico", "Mesa de Crafteo", "Nether", "Obsidiana", "Aldeano",
+            "Roblox", "Obby", "Adopt Me", "Oof", "Fortnite", "Pase de Batalla", "Baile", "Autobús de Batalla", "Construcción", "Skin", "Pavo",
+            "League of Legends", "LoL", "Grieta del Invocador", "Teemo", "Yasuo", "Ahri", "Jinx", "Arcane", "Faker", "Pentakill", "Barón",
+            "Valorant", "Jett", "Sage", "Spike", "Defuse", "Headshot", "Counter Strike", "Rush B", "Call of Duty", "Warzone", "Gulag", "Campero", "Nuketown",
+            "Los Sims", "Plumbob", "Simlish", "Ñiqui Ñiqui", "Motherlode", "Piscina sin escalera", "Animal Crossing", "Tom Nook", "Bayas", "Canela", "Nabo",
+            "GTA V", "Los Santos", "Trevor", "Coches", "Atraco", "5 Estrellas", "Red Dead Redemption", "Arthur Morgan", "Caballo", "Vaquero", "Far West",
+            "The Last of Us", "Ellie", "Joel", "Chasqueador", "Hongo", "Cordyceps", "God of War", "Kratos", "Atreus", "Hacha Leviatán", "Espadas del Caos",
+            "Elden Ring", "Dark Souls", "Malenia", "Hoguera", "You Died", "Git Gud", "FromSoftware", "Hollow Knight", "Stardew Valley", "Granja",
+            "Cyberpunk 2077", "Night City", "Keanu Reeves", "Implante", "Bug", "Resident Evil", "Umbrella", "Zombis", "Leon S. Kennedy", "Nemesis", "Silent Hill", "Niebla",
+            "Final Fantasy", "Cloud", "Sephiroth", "Chocobo", "Cristal", "Street Fighter", "Hadouken", "Chun-Li", "Ryu", "Mortal Kombat", "Fatality", "Scorpion", "Sub-Zero",
+            "Sonic", "Anillos", "Tails", "Eggman", "Erizo Azul", "Pac-Man", "Fantasma", "Cereza", "Tetris", "Pieza L", "Línea", "Candy Crush", "Color Bomb", "Among Us", "Impostor", "Tripulante", "Ventilación", "Sus", "Reportar",
+            "Nintendo", "Switch", "PlayStation", "PS5", "Mando", "DualSense", "Xbox", "Game Pass", "PC Master Race", "Steam", "Teclado Mecánico", "RGB", "Mouse", "Auriculares", "Silla Gamer", "Streamer", "Twitch", "Chat", "Donación", "Banear", "Lag", "Ping", "FPS", "Glitch", "Bug", "Speedrun", "Noob", "Pro", "Tryhard", "GG", "WP", "AFK", "Respawn", "Loot", "Farmear", "Boss", "Nivel", "XP", "Mana", "HP", "Hitbox", "DLC", "Early Access", "Beta", "Game Over", "Insert Coin"
+        ];
+        const deportes = [
+            "Málaga CF", "La Rosaleda", "Boquerón", "Costa del Sol", "Blanquiazul", "Frente Bokerón", "Isco", "Santi Cazorla", "Dely Valdés", "Weligton", "Toulalan", "Van Nistelrooy", "Pellegrini", "Champions League del Málaga", "Duda", "Juanito", "Kameni", "Antonio Banderas", "El Cautivo", "Caminito del Rey", "Espeto",
+            "Lionel Messi", "Leo Messi", "Cristiano Ronaldo", "CR7", "Siuuu", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Neymar", "Mbappé", "Haaland", "Vinicius", "Bellingham", "Lamine Yamal", "Pedri", "Gavi", "Lewandowski", "Sergio Ramos", "Iniesta", "Xavi", "Casillas", "Piqué", "Beckham",
+            "Alexia Putellas", "Aitana Bonmatí", "Jenni Hermoso", "Salma Paralluelo", "Megan Rapinoe", "Alex Morgan", "Marta Vieira", "Sam Kerr", "Balón de Oro", "Mundial", "Copa del Mundo",
+            "Real Madrid", "FC Barcelona", "Barça", "Atlético de Madrid", "Manchester City", "Manchester United", "Liverpool", "Arsenal", "PSG", "Bayern Munich", "Juventus", "Milan", "Boca Juniors", "River Plate",
+            "Gol", "Penalti", "Fuera de Juego", "VAR", "Córner", "Portero", "Árbitro", "Tarjeta Roja", "Tarjeta Amarilla", "Prórroga", "Tanda de Penaltis", "Chilena", "Regate", "Hat-trick", "Estadio", "Grada", "Hinchada", "Bufanda",
+            "Michael Jordan", "Air Jordan", "Chicago Bulls", "LeBron James", "The King", "Lakers", "Kobe Bryant", "Black Mamba", "Shaquille O'Neal", "Shaq", "Stephen Curry", "Chef Curry", "Warriors", "Triple", "Magic Johnson", "Larry Bird", "Dennis Rodman", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Nikola Jokic", "Wembanyama", "Kevin Durant", "James Harden", "Kyrie Irving",
+            "Canasta", "Mate", "Dunk", "Alley-oop", "Tapón", "Rebote", "Tiro Libre", "Bocina", "Playoffs", "Anillo NBA", "Draft", "All-Star",
+            "Tenis", "Rafa Nadal", "Roger Federer", "Novak Djokovic", "Carlos Alcaraz", "Serena Williams", "Sharapova", "Wimbledon", "Roland Garros", "Raqueta", "Punto de Set",
+            "Fórmula 1", "Fernando Alonso", "Nano", "33", "Lewis Hamilton", "Max Verstappen", "Ferrari", "Red Bull", "Mercedes", "Aston Martin", "Pit Stop", "Semaforo", "Bandera a Cuadros", "Safety Car", "MotoGP", "Marc Márquez", "Valentino Rossi",
+            "Juegos Olímpicos", "Medalla de Oro", "Usain Bolt", "Simone Biles", "Michael Phelps", "Atletismo", "Natación", "Gimnasia", "Boxeo", "Mike Tyson", "Muhammad Ali", "Canelo", "McGregor", "UFC", "Ring", "KO", "Golf", "Tiger Woods", "Hoyo en uno", "Rugby", "Touchdown", "Super Bowl"
+        ];
+        const musica = [
+            "Taylor Swift", "Swiftie", "Eras Tour", "Cardigan", "All Too Well", "Travis Kelce", "Lana Del Rey", "Summertime Sadness", "Vinyl", "Coquette Music", "Born to Die", "Beyoncé", "Queen B", "Renaissance", "Single Ladies", "Rihanna", "Umbrella", "Fenty", "Super Bowl", "Lady Gaga", "Bad Romance", "A Star is Born", "Ariana Grande", "Coleta Alta", "Thank u next", "Billie Eilish", "Pelo Verde", "Bad Guy", "Dua Lipa", "Levitating", "Olivia Rodrigo", "Drivers License", "Miley Cyrus", "Hannah Montana", "Flowers", "Selena Gomez", "Katy Perry", "Britney Spears", "Free Britney", "Madonna", "Shakira", "Loba", "Karol G", "La Bichota", "Rosalía", "Motomami", "Tra Trá", "Aitana", "Lola Índigo",
+            "Michael Jackson", "Rey del Pop", "Moonwalk", "Thriller", "Freddie Mercury", "Queen", "Bohemian Rhapsody", "Bigote", "The Beatles", "Abbey Road", "John Lennon", "Paul McCartney", "Elvis Presley", "Rey del Rock", "Tupé", "David Bowie", "Ziggy Stardust", "Prince", "Purple Rain", "Nirvana", "Kurt Cobain", "Grunge", "Rolling Stones", "Mick Jagger", "Lengua", "AC/DC", "Metallica", "Guns N Roses", "Slash", "Pink Floyd", "Elton John", "Piano", "Amy Winehouse", "Rehab", "Adele", "Whitney Houston",
+            "Eminem", "Rap God", "Kanye West", "Yeezy", "Drake", "Kendrick Lamar", "Travis Scott", "Bad Bunny", "Conejo Malo", "Un Verano Sin Ti", "J Balvin", "Colores", "Daddy Yankee", "Gasolina", "Reggaeton", "Feid", "Ferxxo", "Verde", "Maluma", "Bizarrap", "Sesión 53", "Quevedo", "C. Tangana", "El Madrileño", "Rauw Alejandro", "Duki",
+            "BTS", "Army", "Jungkook", "Dynamite", "Blackpink", "Lisa", "Jennie", "K-Pop", "Idol", "Lightstick",
+            "Micrófono", "Guitarra Eléctrica", "Batería", "Bajo", "Violín", "Piano de Cola", "Saxofón", "Trompeta", "DJ", "Mesa de Mezclas", "Vinilo", "Cassette", "CD", "Spotify", "Playlist", "Auriculares", "Altavoz", "Concierto", "Festival", "Coachella", "Grammy", "Videoclip", "Autotune", "Playback", "Gira Mundial", "Backstage", "Fan", "Groupie"
+        ];
+        const estiloDeVida = [
+            "Lazo", "Moño Rosa", "Perlas", "Encaje", "Volantes", "Vestido de Flores", "Corset", "Bailarinas", "Tacones", "Lipstick", "Gloss", "Rímel", "Eyeliner", "Colorete", "Skincare", "Mascarilla", "Perfume", "Chanel", "Nº5", "Dior", "Gucci", "Prada", "Louis Vuitton", "Bolso de lujo", "Versace", "Balenciaga", "Zara", "Shein", "H&M", "Nike", "Adidas", "Vogue", "Met Gala", "Pasarela", "Modelo", "Supermodelo", "Influencer", "Aesthetic", "Vintage", "Retro", "Y2K", "Old Money", "Dark Academia", "Cottagecore", "Pinterest", "Instagram", "TikTok", "Selfie", "Filtro",
+            "París", "Torre Eiffel", "Louvre", "Croissant", "Nueva York", "Estatua de la Libertad", "Times Square", "Central Park", "Taxi Amarillo", "Londres", "Big Ben", "Cabina Roja", "Tokio", "Cruce de Shibuya", "Monte Fuji", "Sushi", "Roma", "Coliseo", "Pizza", "Venecia", "Góndola", "Egipto", "Pirámides", "Desierto", "Dubái", "Rascacielos", "Burj Khalifa", "Los Ángeles", "Hollywood", "Cartel de Hollywood", "Las Vegas", "Casino", "Hawái", "Playa", "Volcán", "Río de Janeiro", "Cristo Redentor", "Carnaval", "Moscú", "Plaza Roja", "Sídney", "Ópera", "Canguro", "Muralla China", "Taj Mahal", "Polo Norte", "Iglú", "Espacio", "Luna", "Marte",
+            "Móvil", "iPhone", "Cargador", "Batería", "Wifi", "Portátil", "Teclado", "Ratón", "Tele", "Mando", "Netflix", "Sofá", "Manta", "Cojín", "Cama", "Almohada", "Despertador", "Espejo", "Cepillo", "Secador", "Plancha", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Taza", "Café", "Vaso", "Botella", "Cuchillo", "Tenedor", "Plato", "Mesa", "Silla", "Lámpara", "Bombilla", "Vela", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma", "Tijeras", "Llaves", "Cartera", "Dinero", "Tarjeta", "Moneda", "Gafas de Sol", "Paraguas", "Maleta", "Mochila", "Reloj", "Anillo", "Collar", "Pendientes", "Coche", "Moto", "Bici", "Patinete", "Autobús", "Metro", "Avión", "Tren", "Barco",
+            "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Ramen", "Tacos", "Burrito", "Nachos", "Pasta", "Espaguetis", "Lasaña", "Arroz", "Paella", "Pollo Frito", "Nuggets", "Helado", "Chocolate", "Tarta", "Donut", "Cookie", "Macaron", "Croissant", "Tortita", "Gofre", "Fruta", "Fresa", "Plátano", "Manzana", "Sandía", "Aguacate", "Huevo", "Bacon", "Queso", "Pan", "Leche", "Café", "Matcha", "Boba Tea", "Coca-Cola", "Agua", "Cerveza", "Vino", "Champán", "Cóctel"
+        ];
+        const conceptosYMas = [
+            "Médico", "Enfermera", "Cirujano", "Policía", "Ladrón", "Detective", "Espía", "Juez", "Abogado", "Bombero", "Astronauta", "Científico", "Profesor", "Alumno", "Director", "Actor", "Cantante", "Pintor", "Escritor", "Cocinero", "Chef", "Camarero", "Piloto", "Azafata", "Mecánico", "Fontanero", "Electricista", "Carpintero", "Jardinero", "Agricultor", "Peluquero", "Maquillador", "Presidente", "Rey", "Reina", "Príncipe", "Princesa", "Soldado", "General", "Hacker", "Youtuber", "Streamer", "Influencer", "Millonario", "Vagabundo", "Fantasma", "Vampiro", "Zombi", "Alien", "Bruja", "Mago", "Payaso", "Mimo", "Robot",
+            "Amor", "Corazón", "Odio", "Felicidad", "Sonrisa", "Tristeza", "Lágrima", "Miedo", "Grito", "Sorpresa", "Ira", "Fuego", "Vergüenza", "Celos", "Envidia", "Esperanza", "Fe", "Paz", "Paloma", "Guerra", "Tanque", "Libertad", "Cadenas", "Justicia", "Balanza", "Verdad", "Mentira", "Pinocho", "Secreto", "Sueño", "Pesadilla", "Recuerdo", "Olvido", "Tiempo", "Reloj de Arena", "Pasado", "Futuro", "Eternidad", "Vida", "Muerte", "Esqueleto", "Suerte", "Trébol", "Destino", "Casualidad", "Caos", "Orden", "Ley", "Crimen", "Castigo", "Cárcel", "Premio", "Trofeo", "Victoria", "Derrota", "Fiesta", "Cumpleaños", "Navidad", "Halloween", "Boda", "Divorcio",
+            "Ornitorrinco", "Caleidoscopio", "Laberinto", "Jeroglífico", "Momia", "Sarcófago", "Guillotina", "Verdugo", "Manicomio", "Camisa de Fuerza", "Búnker", "Trinchera", "Kamikaze", "Samurái", "Katana", "Ninja", "Vikingo", "Hacha", "Pirata", "Tesoro", "Mapa", "Brújula", "Catalejo", "Garfio", "Pata de Palo", "Loro", "Espantapájaros", "Marioneta", "Ventrílocuo", "Muñeco", "Vudú", "Ouija", "Espíritu", "Exorcismo", "Agua Bendita", "Apocalipsis", "Pandemia", "Mascarilla", "Vacuna", "Microchip", "Iluminati", "Triángulo", "Ovni", "Area 51", "Abducción", "Dinosaurio", "Meteorito", "Fósil", "Dragón", "Unicornio", "Sirena", "Tritón", "Kraken", "Monstruo del Lago Ness", "Yeti", "Bigfoot"
+        ];
+        
+        const todasLasPalabras = [...cineYSeries, ...videojuegos, ...deportes, ...musica, ...estiloDeVida, ...conceptosYMas];
 
-        // --- GENERADOR DE FONDO ---
-        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "🖤", "🥀", "🕯️", "🕷️", "🍷"];
+        // --- FONDO ANIMADO ---
+        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "💖", "🍓", "🕯️", "💌"];
         const bgContainer = document.getElementById('emoji-bg');
         for(let i=0; i<15; i++) {
             const el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'bg-emoji';
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            el.style.animationDuration = (Math.random() * 20 + 20) + 's';
             el.style.animationDelay = Math.random() * 10 + 's';
             bgContainer.appendChild(el);
         }
@@ -346,16 +367,13 @@
         }
         function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
 
-        // --- CEREBRO: SELECCIÓN + BÚSQUEDA DE DESCRIPCIÓN ---
         async function getWordAndDescription() {
-            // 1. Seleccionar palabra de TU lista
-            const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
+            const rawWord = todasLasPalabras[Math.floor(Math.random() * todasLasPalabras.length)];
             
-            // 2. Buscar descripción en Wikipedia para enriquecer la experiencia
-            // Usamos "opensearch" para obtener un resumen rápido o "query extracts"
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=300&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            // Buscar descripción en Wikipedia para enriquecer la experiencia
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=280&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "Concepto popularmente conocido."; // Fallback por defecto
+            let description = "Un concepto icónico y popular."; // Fallback
 
             try {
                 const res = await fetch(url);
@@ -365,12 +383,14 @@
                 
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
-                    if (extract && extract.length > 10) {
-                        description = extract.split('.')[0] + "."; // Primera frase
+                    if (extract && extract.length > 5) {
+                        // Limpiamos un poco el texto
+                        description = extract.split('.')[0] + ".";
+                        if(description.length > 200) description = description.substring(0, 200) + "...";
                     }
                 }
             } catch (e) {
-                console.log("Wiki fetch failed, using default description.");
+                console.log("Wiki fetch failed, using fallback.");
             }
 
             return { title: rawWord, desc: description };
@@ -386,9 +406,9 @@
 
         // --- PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Dark Angel";
+            myName = document.getElementById('myUsername').value.trim() || "Baby Doll";
             isHost = true;
-            updateStatus("Invocando sala...");
+            updateStatus("Abriendo salita...");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -411,9 +431,9 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Lost Soul";
+            myName = document.getElementById('myUsername').value.trim() || "Angel";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("Código necesario 🥀");
+            if (!roomId) return alert("¡Falta el código! 🦢");
             
             isHost = false;
             updateStatus("Conectando...");
@@ -422,12 +442,12 @@
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("Conectado");
+                    updateStatus("Conectada");
                     conn.send({ type: 'JOIN', name: myName, id: id });
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("Desconectado."); location.reload(); });
+                conn.on('close', () => { alert("Desconectada."); location.reload(); });
             });
         }
 
@@ -463,16 +483,14 @@
         }
 
         async function startGame() {
-            if (players.length < 3 && !confirm("Menos de 3 jugadores. ¿Continuar?")) return;
+            if (players.length < 3 && !confirm("¿Jugar con menos de 3? Será difícil.")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "Seleccionando destino...";
+            btn.innerText = "✨ Eligiendo destino ✨";
             btn.disabled = true;
 
-            // 1. Obtener palabra y descripción
             const wordData = await getWordAndDescription();
             
-            // 2. Lógica juego
             const impostor = players[Math.floor(Math.random() * players.length)];
             let turnOrder = [...players];
             turnOrder = shuffleArray(turnOrder).map(p => p.name);
@@ -489,7 +507,7 @@
             connections.forEach(c => c.send(msg));
             setupGame(wordData, impostor.id, turnOrder);
 
-            btn.innerText = "✦ Empezar Partida ✦";
+            btn.innerText = "💖 Empezar Partida 💖";
             btn.disabled = false;
         }
 
@@ -499,13 +517,13 @@
             
             const roleTxt = document.getElementById('roleDisplay');
             if (amIImpostor) {
-                roleTxt.innerText = "IMPOSTOR 🥀";
-                roleTxt.style.color = "var(--danger)";
+                roleTxt.innerText = "💔 IMPOSTORA";
+                roleTxt.style.color = "#ff4d6d";
                 document.getElementById('wordContainer').classList.add('hidden');
                 document.getElementById('impostorMessage').classList.remove('hidden');
             } else {
-                roleTxt.innerText = "CIUDADANO 🦢";
-                roleTxt.style.color = "var(--accent-glow)";
+                roleTxt.innerText = "💖 CIUDADANA";
+                roleTxt.style.color = "var(--pink-pop)";
                 document.getElementById('wordContainer').classList.remove('hidden');
                 document.getElementById('impostorMessage').classList.add('hidden');
                 
@@ -557,15 +575,6 @@
             showScreen('lobby');
         }
 
-        function kickPlayer(id) {
-            if(!confirm("¿Expulsar jugador?")) return;
-            const conn = connections.find(c => c.peer === id);
-            if (conn) conn.close();
-            players = players.filter(p => p.id !== id);
-            connections = connections.filter(c => c.peer !== id);
-            broadcastLobby();
-        }
-
         function updateLobbyUI() {
             const list = document.getElementById('lobbyList');
             list.innerHTML = '';
@@ -574,11 +583,20 @@
                 const li = document.createElement('li');
                 let html = `<span>${p.name} ${p.isHost ? '👑' : ''}</span>`;
                 if(isHost && p.id !== peer.id) {
-                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">Kick</button>`;
+                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">Bye</button>`;
                 }
                 li.innerHTML = html;
                 list.appendChild(li);
             });
+        }
+        
+        function kickPlayer(id) {
+            if(!confirm("¿Expulsar?")) return;
+            const conn = connections.find(c => c.peer === id);
+            if (conn) conn.close();
+            players = players.filter(p => p.id !== id);
+            connections = connections.filter(c => c.peer !== id);
+            broadcastLobby();
         }
 
         function copyRoomCode() {
@@ -586,8 +604,8 @@
             const text = el.innerText;
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
-            el.style.color = "var(--text-main)";
-            setTimeout(() => el.style.color = "var(--accent-glow)", 300);
+            el.style.color = "white";
+            setTimeout(() => el.style.color = "var(--pink-light)", 300);
         }
     </script>
 </body>
