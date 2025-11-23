@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Impostor Malaguista TACTICAL</title>
+    <title>Impostor Malaguista PRO</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Teko:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* PALETA MÁLAGA CF */
             --mcf-sky: #6CABDD;
             --mcf-dark: #0a2c5c;
             --mcf-gold: #D4AF37;
@@ -31,7 +30,7 @@
             overflow-x: hidden; background-color: #001433;
         }
 
-        /* FONDO PRO */
+        /* FONDO ANIMADO */
         .bg-layer-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
@@ -60,13 +59,19 @@
         .shield { width: 90px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 20px rgba(255,255,255,0.6)); animation: breathe 4s ease-in-out infinite; }
         @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         h1 { font-family: 'Teko', sans-serif; font-size: 3.5rem; margin: 0; line-height: 0.85; color: var(--white); text-shadow: 0 5px 15px rgba(0,0,0,0.3); letter-spacing: 1px; }
-        .badge-pro { background: var(--mcf-gold); color: var(--mcf-dark); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-top: 10px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        
+        .badge-pro { 
+            background: var(--mcf-gold); color: var(--mcf-dark); 
+            padding: 5px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 900; 
+            letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-top: 10px; 
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); 
+        }
 
         /* CONTENEDOR PRINCIPAL */
         .main-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 100%; max-width: 1000px; /* Más ancho para el campo */
+            width: 100%; max-width: 1000px;
             border-radius: 25px; padding: 30px;
             box-shadow: var(--shadow-soft);
             text-align: center; position: relative; z-index: 10;
@@ -82,12 +87,11 @@
             border-radius: 10px;
             position: relative;
             width: 100%;
-            height: 650px; /* Altura fija para simular campo vertical */
+            height: 650px; 
             margin: 20px 0;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        /* Líneas del campo */
         .pitch-line-center { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
         .pitch-circle { 
             position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; 
@@ -108,7 +112,7 @@
             transform: translate(-50%, -50%);
             width: 80px;
             display: flex; flex-direction: column; align-items: center;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .kit-shirt {
             font-size: 2.5rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
@@ -117,8 +121,8 @@
         .pitch-player:hover .kit-shirt { transform: scale(1.2); }
         
         .player-tag {
-            background: rgba(255,255,255,0.9); color: var(--mcf-dark);
-            padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;
+            background: rgba(255,255,255,0.95); color: var(--mcf-dark);
+            padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
             white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             max-width: 120px; overflow: hidden; text-overflow: ellipsis;
         }
@@ -127,9 +131,7 @@
             font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; margin-top: 2px; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
         }
-        
-        /* Placeholder vacío */
-        .pitch-placeholder { opacity: 0.4; filter: grayscale(100%); }
+        .host-mark { color: var(--mcf-sky); margin-left: 3px; }
 
         /* UI ELEMENTS */
         input {
@@ -232,12 +234,12 @@
     <header>
         <img src="https://upload.wikimedia.org/wikipedia/it/8/80/Malaga_CF.png" alt="Málaga CF" class="shield">
         <h1>IMPOSTOR<br>MALAGUISTA</h1>
-        <div class="badge-pro">TACTICAL EDITION ⚽</div>
+        <div class="badge-pro">⚽ LA BOMBONERA EDITION ⚽</div>
     </header>
 
     <div id="screen-menu" class="main-card">
         <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO ✍️</h2>
-        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
+        <input type="text" id="myUsername" placeholder="Tu Nombre de Jugador" maxlength="12">
         <button onclick="createGame()">CREAR VESTUARIO 🆕</button>
         <div style="margin: 20px 0; font-weight: 800; color: #94a3b8; font-size: 0.9rem;">— O —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
@@ -304,7 +306,7 @@
     </div>
 
     <script>
-        // --- EMOJIS FLOTANTES (YA MOVIÉNDOSE) ---
+        // --- EMOJIS FLOTANTES ---
         const emojiContainer = document.getElementById('emojiContainer');
         const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇", "🥅", "🎽"];
         
@@ -317,30 +319,30 @@
             el.style.fontSize = (Math.random() * 2.5 + 1.5) + 'rem';
             el.style.opacity = (Math.random() * 0.5 + 0.3);
             el.style.animationDuration = (Math.random() * 25 + 15) + 's';
-            el.style.animationDelay = (Math.random() * -40) + 's'; // Ya empezados
+            el.style.animationDelay = (Math.random() * -40) + 's'; 
             emojiContainer.appendChild(el);
         }
 
         // --- FORMACIÓN TÁCTICA (1-4-3-3) ---
-        // Coordenadas (Top %, Left %)
         const FORMATION = [
             { name: "PORTERO", x: 50, y: 90 },
-            { name: "CENTRAL", x: 35, y: 75 },
-            { name: "CENTRAL", x: 65, y: 75 },
+            { name: "CENTRAL DCHO", x: 65, y: 75 },
+            { name: "CENTRAL IZQ", x: 35, y: 75 },
             { name: "LAT. DCHO", x: 90, y: 65 },
             { name: "LAT. IZQ", x: 10, y: 65 },
             { name: "PIVOTE", x: 50, y: 55 },
-            { name: "INTERIOR", x: 30, y: 45 },
-            { name: "INTERIOR", x: 70, y: 45 },
+            { name: "INTERIOR DCHO", x: 70, y: 45 },
+            { name: "INTERIOR IZQ", x: 30, y: 45 },
             { name: "EXT. DCHO", x: 85, y: 20 },
             { name: "EXT. IZQ", x: 15, y: 20 },
-            { name: "DELANTERO", x: 50, y: 10 },
-            // Suplentes (se amontonan en la banda si hay más de 11)
-            { name: "SUPLENTE", x: 95, y: 50 }, 
-            { name: "SUPLENTE", x: 5, y: 50 },
-            { name: "SUPLENTE", x: 95, y: 40 },
-            { name: "SUPLENTE", x: 5, y: 40 }
+            { name: "DELANTERO CENTRO", x: 50, y: 10 },
+            // Banquillo
+            { name: "SUPLENTE", x: 92, y: 90 }, { name: "SUPLENTE", x: 8, y: 90 },
+            { name: "SUPLENTE", x: 92, y: 50 }, { name: "SUPLENTE", x: 8, y: 50 }
         ];
+
+        // --- VAR GLOBAL ---
+        let currentWordData = null;
 
         // --- SISTEMA DE MODALES ---
         function showModal(message, type = 'info', onConfirm = null) {
@@ -363,14 +365,12 @@
                 btnYes.innerText = "SÍ";
                 btnYes.style.flex = "1";
                 btnYes.onclick = () => { closeModal(); if(onConfirm) onConfirm(); };
-                
                 const btnNo = document.createElement('button');
                 btnNo.innerText = "NO";
                 btnNo.className = "secondary";
                 btnNo.style.flex = "1";
                 btnNo.style.marginTop = "0";
                 btnNo.onclick = closeModal;
-                
                 btnGroup.appendChild(btnNo);
                 btnGroup.appendChild(btnYes);
             } else {
@@ -382,12 +382,7 @@
             modal.classList.add('active');
         }
 
-        function closeModal() {
-            document.getElementById('customModal').classList.remove('active');
-        }
-
-        // --- VAR GLOBAL (Cliente) ---
-        let currentWordData = null;
+        function closeModal() { document.getElementById('customModal').classList.remove('active'); }
 
         // --- DATABASE ---
         const PALABRAS_JUEGO = [
@@ -413,11 +408,9 @@
 
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            // Query optimizada: 3 frases
             const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
             let description = null;
-
             try {
                 const res = await fetch(url);
                 const data = await res.json();
@@ -426,14 +419,9 @@
                 
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
-                    if (extract && extract.length > 10) {
-                        description = extract;
-                    }
+                    if (extract && extract.length > 5) { description = extract; }
                 }
-            } catch (e) {
-                console.log("Wiki Error", e);
-            }
-
+            } catch (e) { console.log("Wiki Error", e); }
             return { title: rawWord, desc: description };
         }
 
@@ -443,6 +431,25 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
             return array;
+        }
+
+        // ASIGNAR POSICIÓN ALEATORIA LIBRE
+        function getRandomFreePosition(currentPlayers) {
+            // Índices usados
+            const usedIndices = currentPlayers.map(p => p.posIndex);
+            // Índices disponibles (0 a FORMATION.length - 1)
+            const availableIndices = [];
+            for(let i=0; i<FORMATION.length; i++) {
+                if(!usedIndices.includes(i)) availableIndices.push(i);
+            }
+            
+            if(availableIndices.length > 0) {
+                const randomIndex = Math.floor(Math.random() * availableIndices.length);
+                return availableIndices[randomIndex];
+            } else {
+                // Si no hay hueco (más de 15), usar el último (banquillo compartido)
+                return FORMATION.length - 1;
+            }
         }
 
         // --- PEERJS ---
@@ -455,7 +462,9 @@
             peer.on('open', (id) => {
                 closeModal();
                 document.getElementById('roomIdDisplay').innerText = id;
-                players = [{ id: id, name: myName, isHost: true }];
+                // Host asigna su posición aleatoria
+                const posIndex = getRandomFreePosition([]);
+                players = [{ id: id, name: myName, isHost: true, posIndex: posIndex }];
                 updateLobbyUI();
                 showScreen('lobby');
                 document.getElementById('hostControls').classList.remove('hidden');
@@ -496,7 +505,9 @@
             if (data.type === 'JOIN') {
                 if (!players.find(p => p.id === data.id)) {
                     connections.push(connSource);
-                    players.push({ id: data.id, name: data.name });
+                    // ASIGNAR POSICIÓN ALEATORIA AL NUEVO
+                    const newPosIndex = getRandomFreePosition(players);
+                    players.push({ id: data.id, name: data.name, posIndex: newPosIndex });
                     broadcastLobby();
                 }
             }
@@ -511,7 +522,6 @@
                 document.getElementById('clientWaiting').classList.remove('hidden');
             }
             if (data.type === 'START') {
-                // GUARDAR VAR GLOBALMENTE
                 currentWordData = data.wordData;
                 setupGame(data.wordData, data.impostor, data.order);
             }
@@ -520,7 +530,8 @@
         }
 
         function broadcastLobby() {
-            const safePlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost }));
+            // Enviar lista limpia con posiciones
+            const safePlayers = players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost, posIndex: p.posIndex }));
             const msg = { type: 'LOBBY', players: safePlayers };
             if (!isHost) return;
             updateLobbyUI();
@@ -533,14 +544,12 @@
             btn.disabled = true;
 
             const wordData = await getWordAndDescription();
-            
             const impostor = players[Math.floor(Math.random() * players.length)];
             let turnOrder = [...players];
             turnOrder = shuffleArray(turnOrder).map(p => p.name);
 
             gameState = { wordData: wordData, impostorName: impostor.name };
-            // Guardar también en Host
-            currentWordData = wordData;
+            currentWordData = wordData; // Guardar en host también
             
             const msg = { 
                 type: 'START', 
@@ -559,7 +568,6 @@
         function setupGame(wordData, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
-            
             const container = document.getElementById('roleContent');
             container.innerHTML = ''; 
 
@@ -575,11 +583,7 @@
                 } else {
                     btnHtml = `<p style="color:#888; font-size:0.9rem; margin-top:15px; font-style:italic;">Sin señal de VAR.</p>`;
                 }
-
-                container.innerHTML = `
-                    <div class="word-display">${wordData.title}</div>
-                    ${btnHtml}
-                `;
+                container.innerHTML = `<div class="word-display">${wordData.title}</div>${btnHtml}`;
             }
 
             // ALINEACIÓN CON EMOJIS
@@ -589,12 +593,9 @@
             orderList.forEach((name, index) => {
                 const row = document.createElement('div');
                 row.className = 'lineup-row';
-                
                 let badge = '';
                 if(index === 0) badge = '<span class="turn-badge">SACANDO</span>';
-                
                 const randEmoji = turnEmojis[Math.floor(Math.random() * turnEmojis.length)];
-
                 row.innerHTML = `
                     <div class="dorsal-circle">${index + 1}</div>
                     <div class="player-turn-name"><span class="turn-emoji">${randEmoji}</span> ${name}</div>
@@ -612,7 +613,6 @@
             }
         }
 
-        // FUNCIÓN DEL BOTÓN VAR
         function openVarModal() {
             if (currentWordData && currentWordData.desc) {
                 showModal(currentWordData.desc, 'var');
@@ -648,6 +648,7 @@
 
         function updateLobbyUI() {
             const pitch = document.getElementById('pitchContainer');
+            // Reset pitch but keep lines
             pitch.innerHTML = `
                 <div class="pitch-area-top"></div>
                 <div class="pitch-circle"></div>
@@ -657,19 +658,20 @@
             
             document.getElementById('playerCount').innerText = players.length;
 
-            // RENDERIZAR JUGADORES EN EL CAMPO
-            players.forEach((p, index) => {
-                // Si hay más de 15, se quedan en el último spot (banquillo infinito)
-                const pos = FORMATION[index] || { name: "BANQUILLO", x: 50, y: 50 };
+            // RENDERIZAR JUGADORES
+            players.forEach((p) => {
+                // Usar la posición guardada o fallback
+                const posIndex = (p.posIndex !== undefined) ? p.posIndex : (FORMATION.length -1);
+                const posData = FORMATION[posIndex] || FORMATION[FORMATION.length - 1];
                 
                 const playerDiv = document.createElement('div');
                 playerDiv.className = 'pitch-player';
-                playerDiv.style.left = pos.x + '%';
-                playerDiv.style.top = pos.y + '%';
+                playerDiv.style.left = posData.x + '%';
+                playerDiv.style.top = posData.y + '%';
                 
-                let hostLabel = p.isHost ? '(CAPI)' : '';
+                let capiLabel = p.isHost ? '<span class="host-mark">(CAPI)</span>' : '';
                 
-                // Kick function on click if host
+                // Kick action
                 if(isHost && !p.isHost) {
                     playerDiv.onclick = () => kickPlayer(p.id);
                     playerDiv.style.cursor = "pointer";
@@ -677,27 +679,11 @@
 
                 playerDiv.innerHTML = `
                     <div class="kit-shirt">👕</div>
-                    <div class="player-tag">${p.name} ${hostLabel}</div>
-                    <div class="position-tag">${pos.name}</div>
+                    <div class="player-tag">${p.name}</div>
+                    <div class="position-tag">${posData.name} ${capiLabel}</div>
                 `;
                 pitch.appendChild(playerDiv);
             });
-
-            // PLACEHOLDERS PARA COMPLETAR EL 11 (OPCIONAL, PERO QUEDA BIEN)
-            if (players.length < 11) {
-                for (let i = players.length; i < 11; i++) {
-                    const pos = FORMATION[i];
-                    const ghost = document.createElement('div');
-                    ghost.className = 'pitch-player pitch-placeholder';
-                    ghost.style.left = pos.x + '%';
-                    ghost.style.top = pos.y + '%';
-                    ghost.innerHTML = `
-                        <div class="kit-shirt">👻</div>
-                        <div class="position-tag">${pos.name}</div>
-                    `;
-                    pitch.appendChild(ghost);
-                }
-            }
         }
         
         function kickPlayer(id) {
