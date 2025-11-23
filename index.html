@@ -20,9 +20,10 @@
       --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.6);
     }
 
-    /* CURSOR GLOBAL */
-    body, button, input, .pitch-player, .shield, #roomIdDisplay {
-       cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png'), auto;
+    /* --- CURSOR GLOBAL FORZADO --- */
+    /* Se aplica a TODO (*) con !important para que nada lo sobrescriba */
+    * { 
+      cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png'), auto !important;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -119,7 +120,7 @@
       width: 80px;
       display: flex; flex-direction: column; align-items: center;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
+      cursor: pointer; /* Puntero de mano, que será el escudo */
     }
     .pitch-player:hover { transform: translate(-50%, -60%) scale(1.1); z-index: 5; }
     
@@ -141,21 +142,38 @@
     .kit-shirt.ghost-medium { width: 65px; } 
     .kit-shirt.ghost-large { width: 85px; } 
 
+    /* --- ETIQUETA NOMBRE JUGADOR (ARREGLADA) --- */
     .player-tag {
       background: rgba(255,255,255,0.95); 
       color: var(--mcf-dark); 
       padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
-      white-space: nowrap; margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      max-width: 120px; overflow: hidden; text-overflow: ellipsis;
-      position: relative;
+      margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 140px; /* Un poco más ancho */
+      
+      /* FLEXBOX PARA QUE NOMBRE Y BOTÓN CONVIVAN BIEN */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
     }
     
-    .mini-kick-btn {
-      font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; 
-      background: var(--danger); color: white; border: none; margin-left: 3px; cursor: pointer;
+    /* Nombre del jugador dentro de la etiqueta */
+    .player-name-span {
+      display: inline-block;
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .player-tag.me { color: var(--danger); border: 1px solid var(--danger); }
+    
+    .mini-kick-btn {
+      font-size: 0.6rem; padding: 1px 3px; border-radius: 2px; 
+      background: var(--danger); color: white; border: none; cursor: pointer;
+      flex-shrink: 0; /* Evita que el botón se aplaste */
+      line-height: 1;
+    }
 
     .position-tag {
       background: var(--mcf-dark); color: var(--mcf-gold);
@@ -403,7 +421,7 @@
       { name: "SUPLENTE", x: 92, y: 50 }, { name: "SUPLENTE", x: 8, y: 50 }
     ];
 
-    // --- DATOS DE LEYENDAS (CON FALLBACK Y WIKIQUERY) ---
+    // --- DATOS DE LEYENDAS (CON FALLBACK Y WIKIQUERY CORREGIDA) ---
     const LEGENDS_DATA = {
       0: { 
         name: "Willy Caballero", 
@@ -540,15 +558,15 @@
 
     // --- ABRIR MODAL DE LEYENDA ---
     async function openLegendModal(index) {
-      if (!LEGENDS_DATA[index]) return;
+      if (!LEGENDS_DATA[index]) return; // Solo para las posiciones titulares mapeadas
 
       const legend = LEGENDS_DATA[index];
       const modalImg = `./${legend.file}-modal.png`;
       
-      // 1. Mostrar modal con loading y foto
+      // 1. Mostrar modal con loading
       showModal("Cargando historia...", "info", null, modalImg);
 
-      // 2. Intentar Wikipedia
+      // 2. Buscar descripción en Wikipedia
       const searchQuery = legend.wikiQuery || legend.name;
       const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
       
@@ -557,17 +575,19 @@
         const data = await res.json();
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
+        let desc = "";
         
-        // Si hay extracto válido, lo usamos
+        // Check if valid extract exists
         if (pageId !== "-1" && pages[pageId].extract && pages[pageId].extract.length > 20) {
-          document.getElementById('modalMessage').innerText = pages[pageId].extract;
+          desc = pages[pageId].extract;
         } else {
-          // SI FALLA O ES CORTO -> USA FALLBACK MANUAL
-          throw new Error("Wiki data not good");
+          throw new Error("Wiki data weak");
         }
+        
+        document.getElementById('modalMessage').innerText = desc;
 
       } catch (e) {
-        // 3. Fallback Manual
+        // 3. Fallback Manual si falla la API o es corta
         console.log("Usando descripción manual para " + legend.name);
         document.getElementById('modalMessage').innerText = legend.fallback;
       }
@@ -870,13 +890,13 @@
         
         let capiLabel = p.isHost ? '<span class="host-mark">(CAPI)</span>' : '';
         
-        // ON CLICK OPEN LEGEND MODAL (Valid for everyone to check position info)
+        // ON CLICK OPEN LEGEND MODAL
         playerDiv.onclick = () => openLegendModal(posIndex);
 
         // CLASE ESPECIAL SI SOY YO
         const isMeClass = (p.id === peer.id) ? 'me' : '';
         
-        // MINI KICK BUTTON (Only for host, on other players)
+        // MINI KICK BUTTON
         let btnKick = '';
         if(isHost && !p.isHost) {
           btnKick = `<button class="mini-kick-btn" onclick="event.stopPropagation(); kickPlayer('${p.id}')">🟥</button>`;
@@ -884,7 +904,10 @@
 
         playerDiv.innerHTML = `
           <img src="https://www.hummel.es/on/demandware.static/-/Sites-hummel-master-catalog/default/dw0f81d5f8/images/packshot/216444-7707_2.png" class="kit-shirt" alt="Camiseta">
-          <div class="player-tag ${isMeClass}">${p.name}${btnKick}</div>
+          <div class="player-tag ${isMeClass}">
+            <span class="player-name-span">${p.name}</span>
+            ${btnKick}
+          </div>
           <div class="position-tag">${posData.name} ${capiLabel}</div>
         `;
         pitch.appendChild(playerDiv);
@@ -899,7 +922,7 @@
           ghostDiv.className = 'pitch-player pitch-ghost';
           ghostDiv.style.left = ghostPos.x + '%';
           ghostDiv.style.top = ghostPos.y + '%';
-          ghostDiv.onclick = () => openLegendModal(i); // Click en fantasma abre modal
+          ghostDiv.onclick = () => openLegendModal(i); 
           
           // Obtener imagen de leyenda
           const legendImg = LEGENDS_DATA[i] ? `./${LEGENDS_DATA[i].file}.png` : './isco.png';
