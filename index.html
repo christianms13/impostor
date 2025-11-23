@@ -3,282 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 Impostor: Pink Edition Ultimate</title>
+    <title>Impostor Malaguista 💙🤍</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Teko:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* PALETA COQUETTE PRO */
-            --bg-gradient: linear-gradient(135deg, #2b111b 0%, #4a192c 100%);
-            --card-glass: rgba(255, 255, 255, 0.08);
-            --border-glass: rgba(255, 192, 203, 0.3);
-            --neon-pink: #ff69b4;
-            --soft-pink: #ffb7c5;
-            --deep-rose: #d63384;
-            --text-white: #fff0f5;
-            --text-muted: #e6ccd6;
-            --shadow-glow: 0 0 20px rgba(255, 105, 180, 0.4);
+            /* PALETA MÁLAGA CF */
+            --mcf-blue-light: #6CABDD; /* Azul Cielo Camiseta */
+            --mcf-blue-dark: #004488;  /* Azul Oscuro */
+            --mcf-gold: #D4AF37;       /* Dorado Escudo */
+            --white: #ffffff;
+            --bg-overlay: rgba(0, 20, 40, 0.85);
+            --card-glass: rgba(255, 255, 255, 0.95);
+            --danger: #e74c3c;
         }
 
-        * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.2s ease; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-white);
+            font-family: 'Montserrat', sans-serif;
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text y="18" font-size="18">🎀</text></svg>'), auto;
+            min-height: 100vh;
+            color: #333;
+            /* FONDO DE LA ROSALEDA */
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        /* FONDO ANIMADO */
-        .bg-particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1;
-        }
-        .particle {
-            position: absolute; border-radius: 50%;
-            background: radial-gradient(circle, var(--neon-pink), transparent);
-            opacity: 0.3; animation: floatUp linear infinite;
-        }
-        .bg-emoji {
-            position: absolute; font-size: 2rem; opacity: 0.2;
-            animation: floatEmoji linear infinite; filter: blur(1px);
+        /* CAPA OSCURA SOBRE EL FONDO */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-overlay); z-index: -1;
         }
 
-        @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
-        @keyframes floatEmoji { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+        /* CABECERA CON ESCUDO */
+        header {
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;
+            text-align: center;
+        }
+        .shield {
+            width: 80px; height: auto; margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+            transition: transform 0.3s;
+        }
+        .shield:hover { transform: scale(1.1); }
 
-        /* TÍTULO PRINCIPAL */
         h1 {
-            font-family: 'Dancing Script', cursive; font-size: 4.5rem;
-            background: linear-gradient(to right, #ff9a9e, #fecfef, #ff9a9e);
+            font-family: 'Teko', sans-serif; font-size: 4rem; text-transform: uppercase;
+            margin: 0; line-height: 0.9;
+            background: linear-gradient(to bottom, var(--white), var(--mcf-blue-light));
             -webkit-background-clip: text; color: transparent;
-            margin: 10px 0; filter: drop-shadow(0 0 10px rgba(255,105,180,0.6));
-            animation: shimmer 3s infinite linear;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        .subtitle { color: var(--mcf-blue-light); font-size: 1rem; letter-spacing: 2px; font-weight: 600; text-transform: uppercase;}
 
-        /* CONTENEDOR DE CRISTAL (GLASSMORPHISM) */
-        .glass-panel {
+        /* CONTENEDOR PRINCIPAL AMPLIO */
+        .main-card {
             background: var(--card-glass);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            border-radius: 30px;
-            padding: 3rem;
-            width: 100%; max-width: 600px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
-            text-align: center; position: relative; overflow: hidden;
-            margin-top: 20px;
+            width: 100%; max-width: 900px; /* MÁS AMPLIO */
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            text-align: center;
+            position: relative;
+            border-top: 5px solid var(--mcf-blue-light);
+            border-bottom: 5px solid var(--mcf-blue-dark);
         }
 
-        /* DECORACIÓN BRILLANTE */
-        .glass-panel::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,192,203,0.1) 0%, transparent 60%);
-            animation: rotateBg 10s linear infinite; pointer-events: none;
-        }
-        @keyframes rotateBg { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* INPUTS */
+        /* INPUTS ESTILO CAMISETA */
         input {
             width: 100%; padding: 18px; margin: 15px 0;
-            background: rgba(0,0,0,0.4); border: 2px solid var(--border-glass);
-            border-radius: 20px; color: var(--text-white); font-size: 1.1rem;
-            text-align: center; font-family: 'Quicksand'; outline: none;
+            background: #f0f4f8; border: 2px solid #dde6ed;
+            border-radius: 12px; color: var(--mcf-blue-dark);
+            font-family: 'Montserrat'; font-weight: 600; font-size: 1.1rem;
+            text-align: center; outline: none;
         }
-        input:focus {
-            border-color: var(--neon-pink); background: rgba(0,0,0,0.6);
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3); transform: scale(1.02);
-        }
+        input:focus { border-color: var(--mcf-blue-light); background: white; box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.2); }
 
         /* BOTONES PRO */
         button {
-            width: 100%; padding: 18px; margin-top: 20px;
-            background: linear-gradient(45deg, #ff00cc, #333399); /* Placeholder gradient, overwritten below */
-            background: linear-gradient(135deg, var(--deep-rose) 0%, var(--neon-pink) 100%);
-            border: none; border-radius: 20px; color: white;
-            font-weight: 700; font-size: 1.2rem; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.4);
-            position: relative; overflow: hidden; letter-spacing: 1px;
+            width: 100%; padding: 20px; margin-top: 15px;
+            background: linear-gradient(135deg, var(--mcf-blue-light) 0%, var(--mcf-blue-dark) 100%);
+            color: white; border: none; border-radius: 12px;
+            font-family: 'Teko', sans-serif; font-size: 1.8rem; letter-spacing: 1px;
+            cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0, 68, 136, 0.3);
+            position: relative; overflow: hidden;
         }
-        button::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(214, 51, 132, 0.6); }
-        button:hover::after { left: 100%; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 68, 136, 0.4); }
+        button:active { transform: translateY(1px); }
 
         button.secondary {
-            background: transparent; border: 2px solid var(--soft-pink);
-            color: var(--soft-pink); box-shadow: none;
+            background: transparent; border: 3px solid var(--mcf-blue-dark); color: var(--mcf-blue-dark);
+            box-shadow: none;
         }
-        button.secondary:hover { background: rgba(255,183,197,0.1); color: white; border-color: white; }
+        button.secondary:hover { background: var(--mcf-blue-dark); color: white; }
 
-        button.danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-
-        /* UTILIDADES */
-        .hidden { display: none !important; opacity: 0; }
+        button.danger { background: var(--danger); }
         
-        /* LISTAS */
-        .player-list li {
-            background: rgba(255,255,255,0.05); margin: 10px 0; padding: 15px;
-            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
-            border-left: 4px solid var(--neon-pink);
-            backdrop-filter: blur(5px);
+        .hidden { display: none !important; }
+
+        /* LISTA DE JUGADORES (ALINEACIÓN) */
+        .player-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        .player-card-mini {
+            background: white; border: 1px solid #eee; padding: 15px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; color: var(--mcf-blue-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
+        .host-badge { background: var(--mcf-gold); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-left: 5px; }
 
         /* TARJETA DE ROL */
-        .role-container {
-            border: 2px dashed var(--border-glass); padding: 30px; border-radius: 25px;
-            background: rgba(0,0,0,0.2); position: relative;
+        .role-section {
+            background: #f8f9fa; border-radius: 15px; padding: 30px;
+            border: 1px solid #eee; margin-bottom: 30px;
         }
+
+        .role-title { font-size: 1rem; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         
+        /* PALABRA SECRETA */
         .secret-word {
-            font-family: 'Dancing Script', cursive; font-size: 3.5rem;
-            color: var(--soft-pink); text-shadow: 0 0 20px var(--deep-rose);
-            margin: 20px 0; line-height: 1;
+            font-family: 'Teko', sans-serif; font-size: 4rem; color: var(--mcf-blue-dark);
+            margin: 10px 0; line-height: 1; text-transform: uppercase;
+        }
+        .impostor-text {
+            font-family: 'Teko', sans-serif; font-size: 4rem; color: var(--danger);
+            margin: 10px 0; line-height: 1; text-transform: uppercase; animation: pulse 1.5s infinite;
         }
 
-        .desc-box {
-            font-size: 1rem; color: var(--text-muted); background: rgba(0,0,0,0.3);
-            padding: 20px; border-radius: 15px; font-style: italic;
-            border: 1px solid rgba(255,255,255,0.05);
+        /* DESCRIPCIÓN COLAPSIBLE */
+        .desc-container {
+            background: white; padding: 20px; border-radius: 10px; border-left: 4px solid var(--mcf-blue-light);
+            text-align: left; margin-top: 10px;
         }
+        .desc-text {
+            font-size: 1rem; color: #555; line-height: 1.6;
+            max-height: 60px; overflow: hidden; transition: max-height 0.5s ease-out;
+            position: relative;
+        }
+        .desc-text.expanded { max-height: 500px; } /* Altura suficiente para texto largo */
+        
+        .read-more-btn {
+            background: none; color: var(--mcf-blue-light); border: none; font-size: 0.9rem;
+            padding: 5px 0; margin-top: 5px; cursor: pointer; font-weight: bold; width: auto; box-shadow: none; text-align: left;
+        }
+        .read-more-btn:hover { text-decoration: underline; transform: none; background: none; box-shadow: none; }
 
-        .impostor-alert {
-            font-size: 3rem; color: #ff416c; font-family: 'Dancing Script';
-            text-shadow: 0 0 30px #ff416c; animation: heartbeat 1.5s infinite;
+        /* ALINEACIÓN (TURNOS) */
+        .lineup-list {
+            list-style: none; padding: 0; text-align: left;
+            background: var(--mcf-blue-dark); color: white; border-radius: 10px; overflow: hidden;
         }
-        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.1); } 30% { transform: scale(1); } }
+        .lineup-item {
+            padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center;
+        }
+        .lineup-item:last-child { border-bottom: none; }
+        .dorsal {
+            font-family: 'Teko'; font-size: 1.5rem; width: 40px; text-align: center;
+            background: rgba(255,255,255,0.2); border-radius: 5px; margin-right: 15px;
+        }
+        .player-name-turn { font-weight: 600; font-size: 1.1rem; }
+        .turn-indicator { margin-left: auto; font-size: 0.8rem; color: var(--mcf-gold); text-transform: uppercase; font-weight: bold; }
 
         /* COPY CODE */
         #roomIdDisplay {
-            font-family: monospace; font-size: 1.5rem; color: var(--neon-pink);
-            background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px;
-            cursor: pointer; display: inline-block; border: 1px dashed var(--neon-pink);
+            font-family: monospace; font-size: 1.5rem; font-weight: bold; color: var(--mcf-blue-dark);
+            background: #eef2f5; padding: 15px; border-radius: 10px; border: 2px dashed #ccc;
+            cursor: pointer; display: inline-block; margin-top: 10px;
         }
-        #roomIdDisplay:hover { background: var(--neon-pink); color: white; }
+        #roomIdDisplay:hover { border-color: var(--mcf-blue-light); background: white; }
 
-        .kick-btn { width: auto; margin:0; padding: 5px 12px; font-size: 0.8rem; background: transparent; border: 1px solid #ff416c; color: #ff416c; box-shadow: none; }
-        .kick-btn:hover { background: #ff416c; color: white; }
+        .kick-btn { width: auto; padding: 5px 10px; margin: 0; font-size: 0.8rem; background: #e74c3c; box-shadow: none; font-family: 'Montserrat'; }
+
+        /* EMOJIS DECORATIVOS */
+        .floating-emoji { position: fixed; z-index: 0; opacity: 0.1; animation: float 10s infinite ease-in-out; pointer-events: none; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
 
     </style>
 </head>
 <body>
 
-    <div id="particles" class="bg-particles"></div>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/M%C3%A1laga_CF.svg/1200px-M%C3%A1laga_CF.svg.png" alt="Escudo Málaga CF" class="shield">
+        <h1>IMPOSTOR<br><span style="font-size: 2.5rem; color: white;">MALAGUISTA</span></h1>
+        <div class="subtitle">⚽💙 LA BOMBONERA EDITION 💙⚽</div>
+    </header>
 
-    <h1>The Impostor</h1>
-    <div style="font-size: 0.9rem; letter-spacing: 3px; color: var(--soft-pink); text-transform: uppercase; margin-bottom: 20px;">
-        ✨ Pink Pro Edition ✨
+    <div id="statusMsg" style="color: white; margin-bottom: 10px; font-weight: bold; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px;"></div>
+
+    <div id="screen-menu" class="main-card">
+        <h2>FICHAJE NUEVO ✍️</h2>
+        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
+        <button onclick="createGame()">CREAR VESTUARIO</button>
+        <div style="margin: 20px 0; font-weight: bold; color: #888;">— O ÚNETE AL EQUIPO —</div>
+        <input type="text" id="joinInput" placeholder="Código del Partido">
+        <button class="secondary" onclick="joinGame()">UNIRSE AL EQUIPO</button>
     </div>
-    <div id="statusMsg" style="color: var(--text-muted); height: 20px; font-size: 0.9rem;"></div>
 
-    <div id="screen-menu" class="glass-panel">
-        <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; color: var(--soft-pink);">Login 💖</h2>
-        <input type="text" id="myUsername" placeholder="Tu nombre..." maxlength="12">
-        <button onclick="createGame()">Crear Sala 🎀</button>
-        <div style="margin: 20px 0; color: var(--text-muted); font-size: 0.9rem;">— o únete a tus besties —</div>
-        <input type="text" id="joinInput" placeholder="Código de sala">
-        <button class="secondary" onclick="joinGame()">Unirse ✨</button>
-    </div>
-
-    <div id="screen-lobby" class="glass-panel hidden">
-        <h2 style="font-family:'Dancing Script'; font-size: 2.5rem;">Lobby 🧸</h2>
-        <p style="color: var(--text-muted);">Toca para copiar el código:</p>
+    <div id="screen-lobby" class="main-card hidden">
+        <h2>VESTUARIO 🏟️</h2>
+        <p>Comparte el código con la plantilla:</p>
         <div id="roomIdDisplay" onclick="copyRoomCode()">Cargando...</div>
 
-        <h3 style="margin-top: 30px; text-align: left; color: var(--soft-pink);">Jugadoras (<span id="playerCount">0</span>)</h3>
-        <ul id="lobbyList" class="player-list" style="padding:0; list-style:none;"></ul>
+        <h3 style="text-align: left; margin-top: 30px; color: var(--mcf-blue-dark);">CONVOCADOS (<span id="playerCount">0</span>)</h3>
+        <ul id="lobbyList" class="player-list"></ul>
 
         <div id="hostControls" class="hidden" style="margin-top: 30px;">
-            <button onclick="startGame()" id="btnStart">💖 Empezar Partida 💖</button>
+            <button onclick="startGame()" id="btnStart">⚽ ¡PITIDO INICIAL! ⚽</button>
         </div>
         <div id="clientWaiting" class="hidden">
-            <p style="color: var(--neon-pink); font-weight: bold; margin-top: 20px;">Esperando a la Host... 💅</p>
+            <p style="color: var(--mcf-blue-light); font-weight: bold; margin-top: 20px; font-size: 1.2rem;">CALENTANDO EN LA BANDA... 🏃‍♂️</p>
         </div>
     </div>
 
-    <div id="screen-game" class="glass-panel hidden">
-        <div class="role-container">
-            <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Tu Identidad Secreta</p>
-            <h3 id="roleDisplay" style="font-family: 'Dancing Script'; font-size: 2.5rem; margin: 10px 0; color: white;">...</h3>
-            
-            <div id="wordContainer">
-                <hr style="border: 0; border-top: 1px dashed var(--border-glass); margin: 20px 0;">
-                <p style="font-size:0.9rem; color: var(--text-muted);">LA PALABRA ES:</p>
-                <div id="secretWordDisplay" class="secret-word">???</div>
-                <div id="secretDescDisplay" class="desc-box">Cargando definición...</div>
-            </div>
-            
-            <div id="impostorMessage" class="hidden">
-                <hr style="border: 0; border-top: 1px dashed var(--border-glass); margin: 20px 0;">
-                <div class="impostor-alert">IMPOSTORA</div>
-                <p style="color: var(--text-white); font-size: 1.1rem;">Shhh... 🤫<br>Miente como nunca.</p>
-            </div>
+    <div id="screen-game" class="main-card hidden">
+        <div class="role-section">
+            <div class="role-title">TU POSICIÓN EN EL CAMPO</div>
+            <div id="roleContent"></div>
         </div>
 
-        <div style="margin-top: 25px; text-align: left;">
-            <p style="color: var(--neon-pink); font-weight: bold;">🩰 Orden de Turnos:</p>
-            <ol id="turnOrderList" style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; color: var(--text-muted);"></ol>
+        <div style="text-align: left;">
+            <h3 style="color: var(--mcf-blue-dark); font-family: 'Teko'; font-size: 2rem; margin-bottom: 10px;">📋 ALINEACIÓN (TURNOS)</h3>
+            <ul id="turnOrderList" class="lineup-list"></ul>
         </div>
         
         <div id="hostGameControls" class="hidden" style="margin-top: 20px;">
-            <button class="danger" onclick="revealGame()">💔 Terminar Ronda</button>
+            <button class="danger" onclick="revealGame()">🛑 PITIDO FINAL (REVELAR)</button>
         </div>
-        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: var(--text-muted);">Jugando... ✨</p>
+        <p id="waitingReveal" class="hidden" style="margin-top:20px; color: #888;">PARTIDO EN JUEGO... ⚽</p>
     </div>
 
-    <div id="screen-result" class="glass-panel hidden">
-        <h2 style="font-family: 'Dancing Script'; font-size: 3rem; color: var(--soft-pink);">Resultados</h2>
+    <div id="screen-result" class="main-card hidden">
+        <h2 style="font-family: 'Teko'; font-size: 3rem; color: var(--mcf-blue-dark);">MARCADOR FINAL</h2>
         
-        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 25px;">
-            <p style="color: var(--text-muted); font-size: 0.9rem;">La palabra era:</p>
-            <div id="finalWord" style="font-size: 2.5rem; color: var(--neon-pink); font-family: 'Dancing Script'; font-weight: bold;"></div>
-            <p id="finalDesc" style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;"></p>
+        <div style="background: #f0f4f8; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #ddd;">
+            <p style="color: #666; margin: 0; font-size: 0.9rem;">LA PALABRA ERA:</p>
+            <div id="finalWord" style="font-size: 2.5rem; color: var(--mcf-blue-dark); font-family: 'Teko'; font-weight: bold;"></div>
+            <p id="finalDesc" style="font-size: 0.9rem; color: #555; font-style: italic;"></p>
         </div>
 
-        <p style="color: var(--text-muted);">La Impostora era:</p>
-        <h3 id="finalImpostor" style="font-family: 'Dancing Script'; font-size: 3rem; color: #ff416c; margin: 0;"></h3>
+        <p style="color: #666;">EL IMPOSTOR ERA:</p>
+        <h3 id="finalImpostor" style="font-family: 'Teko'; font-size: 3rem; color: var(--danger); margin: 0;"></h3>
         
         <div id="hostRestartControls" class="hidden">
-            <button onclick="returnToLobby()">🔄 Volver al Lobby</button>
+            <button onclick="returnToLobby()">🔄 VOLVER AL VESTUARIO</button>
         </div>
-        <p id="clientRestartWaiting" class="hidden" style="color: var(--text-muted); margin-top:20px;">Esperando al Host...</p>
+        <p id="clientRestartWaiting" class="hidden" style="color: #888; margin-top:20px;">ESPERANDO AL MÍSTER...</p>
     </div>
 
     <script>
-        // --- GENERACIÓN DE PARTÍCULAS Y EMOJIS ---
-        const particleContainer = document.getElementById('particles');
-        const emojis = ["🎀", "🦢", "🩰", "💄", "🧁", "🧸", "💖", "🍓", "🕯️", "💌", "💅", "✨"];
-        
-        // Emojis flotantes
-        for(let i=0; i<15; i++) {
-            const el = document.createElement('div');
+        // --- EMOJIS FLOTANTES ---
+        const emojis = ["⚽", "🐟", "💙", "🤍", "🏟️", "🌊"];
+        for(let i=0; i<10; i++) {
+            let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            el.className = 'bg-emoji';
+            el.className = 'floating-emoji';
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 20 + 20) + 's';
-            el.style.animationDelay = Math.random() * 10 + 's';
-            particleContainer.appendChild(el);
-        }
-        // Partículas (polvo de hadas)
-        for(let i=0; i<30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 5 + 2 + 'px';
-            p.style.width = size; p.style.height = size;
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 10 + 5) + 's';
-            p.style.animationDelay = Math.random() * 5 + 's';
-            particleContainer.appendChild(p);
+            el.style.top = Math.random() * 100 + 'vh';
+            el.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+            el.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            document.body.appendChild(el);
         }
 
-        // --- DATABASE DE JUEGO (TU LISTA) ---
+        // --- BASE DE DATOS (Copiada del prompt anterior) ---
         const PALABRAS_JUEGO = [
             "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pájaro", "Águila", "Búho", "Pingüino", "Pato", "Gallina", "Gallo", "Vaca", "Cerdo", "Oveja", "Caballo", "Burro", "Cabra", "León", "Tigre", "Leopardo", "Pantera", "Elefante", "Jirafa", "Rinoceronte", "Hipopótamo", "Cebra", "Oso", "Oso Panda", "Oso Polar", "Koala", "Canguro", "Mono", "Gorila", "Chimpancé", "Lobo", "Zorro", "Ciervo", "Ardilla", "Ratón", "Rata", "Murciélago", "Ballena", "Delfín", "Tiburón", "Pulpo", "Cangrejo", "Tortuga", "Cocodrilo", "Serpiente", "Cobra", "Rana", "Sapo", "Camaleón", "Iguana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Mariposa", "Abeja", "Hormiga", "Araña", "Mosquito", "Mosca", "Cucaracha", "Escorpión", "Caracol", "Medusa", "Estrella de Mar", "Pez Payaso", "Salmón", "Flamenco", "Cisne", "Pavo Real", "Capibara", "Nutria", "Erizo",
             "Móvil", "iPhone", "Cargador", "Auriculares", "Ordenador", "Portátil", "Tablet", "Teclado", "Ratón", "Pantalla", "Televisión", "Mando a distancia", "Cámara", "Reloj", "Despertador", "Lámpara", "Bombilla", "Linterna", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Llavero", "Gafas", "Gafas de Sol", "Paraguas", "Mesa", "Silla", "Sofá", "Sillón", "Cama", "Almohada", "Manta", "Sábana", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel Higiénico", "Escoba", "Fregona", "Cubo", "Basura", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Servilleta", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Goma de borrar", "Tijeras", "Pegamento", "Regla", "Papel", "Carta", "Sobre", "Sello", "Periódico", "Revista", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de Crédito", "Anillo", "Collar", "Pendientes", "Pulsera", "Reloj de pulsera",
@@ -294,7 +284,7 @@
             "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Estudiante", "Cocinero", "Camarero", "Peluquero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Princesa", "Príncipe", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Hada", "Sirena", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Frío", "Calor", "Lluvia", "Nieve", "Viento", "Tormenta", "Arcoiris", "Fuego", "Humo", "Luz", "Oscuridad", "Sombra", "Sueño", "Pesadilla", "Dinero", "Trabajo", "Fiesta", "Vacaciones", "Regalo", "Sorpresa"
         ];
 
-        // --- LÓGICA DE JUEGO & CONEXIÓN ---
+        // --- LÓGICA DE JUEGO ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -306,17 +296,14 @@
         function showScreen(name) {
             screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
             document.getElementById(`screen-${name}`).classList.remove('hidden');
-            setTimeout(() => document.getElementById(`screen-${name}`).style.opacity = '1', 10);
         }
         function updateStatus(msg) { document.getElementById('statusMsg').innerText = msg; }
 
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=400&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            // Buscar descripción en Wikipedia
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=280&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
-            
-            let description = "Un concepto muy conocido."; // Fallback
+            let description = "Concepto popular. ¡Investiga y disimula!"; 
 
             try {
                 const res = await fetch(url);
@@ -327,8 +314,7 @@
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
                     if (extract && extract.length > 5) {
-                        description = extract.split('.')[0] + ".";
-                        if(description.length > 200) description = description.substring(0, 200) + "...";
+                        description = extract;
                     }
                 }
             } catch (e) {
@@ -348,9 +334,9 @@
 
         // --- PEERJS ---
         function createGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Diva";
+            myName = document.getElementById('myUsername').value.trim() || "Jugador Nº12";
             isHost = true;
-            updateStatus("Abriendo portal mágico...");
+            updateStatus("Abriendo puertas del estadio...");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
@@ -373,23 +359,23 @@
         }
 
         function joinGame() {
-            myName = document.getElementById('myUsername').value.trim() || "Princess";
+            myName = document.getElementById('myUsername').value.trim() || "Aficionado";
             const roomId = document.getElementById('joinInput').value.trim();
-            if (!roomId) return alert("¡Necesitas el código, amiga! 🦢");
+            if (!roomId) return alert("¡Falta el código del partido!");
             
             isHost = false;
-            updateStatus("Conectando...");
+            updateStatus("Entrando al campo...");
             peer = new Peer(null, { debug: 1 });
             
             peer.on('open', (id) => {
                 const conn = peer.connect(roomId);
                 conn.on('open', () => {
-                    updateStatus("Conectada");
+                    updateStatus("En el vestuario");
                     conn.send({ type: 'JOIN', name: myName, id: id });
                     connections = [conn]; 
                 });
                 conn.on('data', (d) => handleDataClient(d));
-                conn.on('close', () => { alert("Ups, se cerró la sala."); location.reload(); });
+                conn.on('close', () => { alert("El entrenador cerró la sesión."); location.reload(); });
             });
         }
 
@@ -425,10 +411,10 @@
         }
 
         async function startGame() {
-            if (players.length < 3 && !confirm("¿Menos de 3 jugadoras? ¡Será difícil!")) return;
+            if (players.length < 3 && !confirm("¿Menos de 3 jugadores? Va a ser un rondo aburrido.")) return;
             
             const btn = document.getElementById('btnStart');
-            btn.innerText = "✨ Escaneando el universo... ✨";
+            btn.innerText = "⏳ SORTEANDO CAMPO...";
             btn.disabled = true;
 
             const wordData = await getWordAndDescription();
@@ -449,39 +435,48 @@
             connections.forEach(c => c.send(msg));
             setupGame(wordData, impostor.id, turnOrder);
 
-            btn.innerText = "💖 Empezar Partida 💖";
+            btn.innerText = "⚽ ¡PITIDO INICIAL! ⚽";
             btn.disabled = false;
         }
 
+        // --- FUNCIÓN DEL JUEGO ARREGLADA ---
         function setupGame(wordData, impostorId, orderList) {
             showScreen('game');
             const amIImpostor = (peer.id === impostorId);
             
-            const roleTxt = document.getElementById('roleDisplay');
+            const container = document.getElementById('roleContent');
+            container.innerHTML = ''; // Limpiar contenido previo
+
             if (amIImpostor) {
-                roleTxt.innerText = "💔 IMPOSTORA";
-                roleTxt.style.color = "#ff4d6d";
-                roleTxt.style.textShadow = "0 0 15px #ff4d6d";
-                document.getElementById('wordContainer').classList.add('hidden');
-                document.getElementById('impostorMessage').classList.remove('hidden');
+                container.innerHTML = `
+                    <div class="impostor-text">IMPOSTOR</div>
+                    <p style="color: #666; font-size: 1.1rem;">Nadie sabe que eres tú. Finge saber la palabra.</p>
+                `;
             } else {
-                roleTxt.innerText = "💖 CIUDADANA";
-                roleTxt.style.color = "#ffb7c5";
-                roleTxt.style.textShadow = "0 0 15px #ffb7c5";
-                document.getElementById('wordContainer').classList.remove('hidden');
-                document.getElementById('impostorMessage').classList.add('hidden');
-                
-                document.getElementById('secretWordDisplay').innerText = wordData.title;
-                document.getElementById('secretDescDisplay').innerText = wordData.desc;
+                container.innerHTML = `
+                    <div class="secret-word">${wordData.title}</div>
+                    <div class="desc-container">
+                        <div class="desc-text" id="descText">${wordData.desc}</div>
+                        <button class="read-more-btn" onclick="toggleDesc()">⬇ VER INFO COMPLETA</button>
+                    </div>
+                `;
             }
 
+            // ALINEACIÓN (Turnos arreglados)
             const ul = document.getElementById('turnOrderList');
             ul.innerHTML = '';
             orderList.forEach((name, index) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span><span style='opacity:0.6'>${index + 1}.</span> ${name}</span>`;
-                li.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
-                li.style.padding = "5px 0";
+                li.className = 'lineup-item';
+                
+                let extraHtml = '';
+                if(index === 0) extraHtml = '<span class="turn-indicator">EMPIEZA ⚽</span>';
+
+                li.innerHTML = `
+                    <div class="dorsal">${index + 1}</div>
+                    <div class="player-name-turn">${name}</div>
+                    ${extraHtml}
+                `;
                 ul.appendChild(li);
             });
 
@@ -491,6 +486,17 @@
             } else {
                 document.getElementById('hostGameControls').classList.add('hidden');
                 document.getElementById('waitingReveal').classList.remove('hidden');
+            }
+        }
+
+        function toggleDesc() {
+            const el = document.getElementById('descText');
+            el.classList.toggle('expanded');
+            const btn = document.querySelector('.read-more-btn');
+            if (el.classList.contains('expanded')) {
+                btn.innerText = "⬆ OCULTAR";
+            } else {
+                btn.innerText = "⬇ VER INFO COMPLETA";
             }
         }
 
@@ -527,17 +533,20 @@
             document.getElementById('playerCount').innerText = players.length;
             players.forEach(p => {
                 const li = document.createElement('li');
-                let html = `<span>${p.name} ${p.isHost ? '👑' : ''}</span>`;
+                li.className = 'player-card-mini';
+                
+                let btnKick = '';
                 if(isHost && p.id !== peer.id) {
-                    html += `<button class="kick-btn" onclick="kickPlayer('${p.id}')">Bye</button>`;
+                    btnKick = `<button class="kick-btn" onclick="kickPlayer('${p.id}')">EXPULSAR</button>`;
                 }
-                li.innerHTML = html;
+                
+                li.innerHTML = `<span>${p.name} ${p.isHost ? '<span class="host-badge">CAPI</span>' : ''}</span> ${btnKick}`;
                 list.appendChild(li);
             });
         }
         
         function kickPlayer(id) {
-            if(!confirm("¿Sacar de la sala?")) return;
+            if(!confirm("¿Sacar a este jugador del equipo?")) return;
             const conn = connections.find(c => c.peer === id);
             if (conn) conn.close();
             players = players.filter(p => p.id !== id);
@@ -550,12 +559,12 @@
             const text = el.innerText;
             if(text === "Cargando...") return;
             navigator.clipboard.writeText(text);
-            el.style.borderColor = "#fff";
-            el.style.color = "#fff";
+            el.style.backgroundColor = "#d1f2eb";
+            el.innerText = "¡CÓDIGO COPIADO!";
             setTimeout(() => {
-                el.style.borderColor = "var(--neon-pink)";
-                el.style.color = "var(--neon-pink)";
-            }, 300);
+                el.style.backgroundColor = "#eef2f5";
+                el.innerText = text;
+            }, 1000);
         }
     </script>
 </body>
