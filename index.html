@@ -20,10 +20,9 @@
       --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.6);
     }
 
-    /* --- CURSOR GLOBAL FORZADO --- */
-    /* Se aplica a TODO (*) con !important para que nada lo sobrescriba */
-    * { 
-      cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png'), auto !important;
+    /* CURSOR GLOBAL */
+    body, button, input, .pitch-player, .shield, #roomIdDisplay {
+       cursor: url('https://upload.wikimedia.org/wikipedia/it/thumb/8/80/Malaga_CF.png/32px-Malaga_CF.png'), auto;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -120,9 +119,10 @@
       width: 80px;
       display: flex; flex-direction: column; align-items: center;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer; /* Puntero de mano, que será el escudo */
+      cursor: pointer;
+      /* Importante para posicionar el botón X relativo al jugador */
+      position: absolute; 
     }
-    .pitch-player:hover { transform: translate(-50%, -60%) scale(1.1); z-index: 5; }
     
     /* CAMISETAS */
     .kit-shirt {
@@ -130,10 +130,11 @@
       filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
       transition: transform 0.2s;
       margin-bottom: 2px;
+      position: relative; /* Para z-index */
     }
     .pitch-player:not(.pitch-ghost):hover .kit-shirt { transform: scale(1.2); }
     
-    /* ESTILOS FANTASMA (LEYENDAS) */
+    /* FANTASMAS (LEYENDAS) */
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
     }
@@ -142,38 +143,37 @@
     .kit-shirt.ghost-medium { width: 65px; } 
     .kit-shirt.ghost-large { width: 85px; } 
 
-    /* --- ETIQUETA NOMBRE JUGADOR (ARREGLADA) --- */
+    /* BOTÓN KICK FLOTANTE (NUEVO ESTILO) */
+    .kick-btn-floating {
+      position: absolute;
+      top: -10px; /* Encima de la camiseta */
+      right: 10px; /* A la derecha */
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 20; /* Por encima de todo */
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+      transition: transform 0.2s;
+    }
+    .kick-btn-floating:hover { transform: scale(1.2); }
+
+    /* ETIQUETA NOMBRE LIMPIA */
     .player-tag {
       background: rgba(255,255,255,0.95); 
       color: var(--mcf-dark); 
       padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 800;
       margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      max-width: 140px; /* Un poco más ancho */
       
-      /* FLEXBOX PARA QUE NOMBRE Y BOTÓN CONVIVAN BIEN */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-    }
-    
-    /* Nombre del jugador dentro de la etiqueta */
-    .player-name-span {
-      display: inline-block;
+      /* Control de desbordamiento de texto */
+      max-width: 110px;
       white-space: nowrap; 
       overflow: hidden; 
       text-overflow: ellipsis;
-      max-width: 100%;
+      display: block; /* Bloque para que funcione el ellipsis */
     }
-
-    .player-tag.me { color: var(--danger); border: 1px solid var(--danger); }
     
-    .mini-kick-btn {
-      font-size: 0.6rem; padding: 1px 3px; border-radius: 2px; 
-      background: var(--danger); color: white; border: none; cursor: pointer;
-      flex-shrink: 0; /* Evita que el botón se aplaste */
-      line-height: 1;
-    }
+    .player-tag.me { color: var(--danger); border: 1px solid var(--danger); }
 
     .position-tag {
       background: var(--mcf-dark); color: var(--mcf-gold);
@@ -890,16 +890,16 @@
         
         let capiLabel = p.isHost ? '<span class="host-mark">(CAPI)</span>' : '';
         
-        // ON CLICK OPEN LEGEND MODAL
+        // ON CLICK OPEN LEGEND MODAL (Valid for everyone to check position info)
         playerDiv.onclick = () => openLegendModal(posIndex);
 
         // CLASE ESPECIAL SI SOY YO
         const isMeClass = (p.id === peer.id) ? 'me' : '';
         
-        // MINI KICK BUTTON
+        // MINI KICK BUTTON (Only for host, on other players)
         let btnKick = '';
         if(isHost && !p.isHost) {
-          btnKick = `<button class="mini-kick-btn" onclick="event.stopPropagation(); kickPlayer('${p.id}')">🟥</button>`;
+          btnKick = `<button class="mini-kick-btn" onclick="event.stopPropagation(); kickPlayer('${p.id}')">❌</button>`;
         }
 
         playerDiv.innerHTML = `
@@ -922,7 +922,7 @@
           ghostDiv.className = 'pitch-player pitch-ghost';
           ghostDiv.style.left = ghostPos.x + '%';
           ghostDiv.style.top = ghostPos.y + '%';
-          ghostDiv.onclick = () => openLegendModal(i); 
+          ghostDiv.onclick = () => openLegendModal(i); // Click en fantasma abre modal
           
           // Obtener imagen de leyenda
           const legendImg = LEGENDS_DATA[i] ? `./${LEGENDS_DATA[i].file}.png` : './isco.png';
