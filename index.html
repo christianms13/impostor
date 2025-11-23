@@ -136,6 +136,7 @@
     .pitch-ghost .kit-shirt { 
       filter: grayscale(100%) opacity(0.5) drop-shadow(0 0 2px white);
     }
+    /* TALLAS DE FANTASMAS */
     .kit-shirt.ghost-normal { width: 45px; } 
     .kit-shirt.ghost-medium { width: 65px; } 
     .kit-shirt.ghost-large { width: 85px; } 
@@ -163,6 +164,7 @@
     }
     .host-mark { color: var(--mcf-sky); margin-left: 3px; }
 
+    /* FANTASMA Z-INDEX */
     .pitch-ghost { z-index: 0; }
 
     /* UI ELEMENTS */
@@ -246,14 +248,12 @@
     .modal-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: auto;}
 
     /* --- IMAGEN MODAL DE LEYENDA PRO --- */
-    /* Contenedor para el efecto "foco" */
     .modal-img-spotlight {
       position: relative;
       display: inline-block;
       margin: 0 auto 20px auto;
-      /* Fondo radial que simula un foco de luz */
       background: radial-gradient(circle, rgba(108, 171, 221, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
-      border-radius: 50%; /* Foco redondo */
+      border-radius: 50%; 
       padding: 10px;
     }
 
@@ -263,9 +263,7 @@
       height: auto;
       display: block;
       position: relative;
-      /* Sombra que sigue el contorno del jugador (requiere PNG transparente) */
       filter: drop-shadow(0 10px 15px rgba(0, 20, 60, 0.5));
-      /* Animación de entrada */
       animation: fadeInUp 0.5s ease-out forwards;
       transform: translateY(20px);
       opacity: 0;
@@ -405,19 +403,74 @@
       { name: "SUPLENTE", x: 92, y: 50 }, { name: "SUPLENTE", x: 8, y: 50 }
     ];
 
-    // --- DATOS DE LEYENDAS ---
+    // --- DATOS DE LEYENDAS (CON FALLBACK Y WIKIQUERY) ---
     const LEGENDS_DATA = {
-      0: { name: "Willy Caballero", file: "caballero", wikiQuery: "Willy Caballero" },
-      1: { name: "Martín Demichelis", file: "demichelis", wikiQuery: "Martín Demichelis" },
-      2: { name: "Joris Mathijsen", file: "mathijsen", wikiQuery: "Joris Mathijsen" },
-      3: { name: "Jesús Gámez", file: "jesus-gamez", wikiQuery: "Jesús Gámez" },
-      4: { name: "Nacho Monreal", file: "monreal", wikiQuery: "Nacho Monreal" },
-      5: { name: "Jérémy Toulalan", file: "toulalan", wikiQuery: "Jérémy Toulalan" },
-      6: { name: "Santi Cazorla", file: "cazorla", wikiQuery: "Santi Cazorla" },
-      7: { name: "Isco Alarcón", file: "isco", wikiQuery: "Isco" }, // Isco directo
-      8: { name: "Joaquín Sánchez", file: "joaquin", wikiQuery: "Joaquín Sánchez (futbolista)" }, // Desambiguación
-      9: { name: "Sebastián Fernández", file: "seba", wikiQuery: "Sebastián Fernández (futbolista)" }, // Desambiguación
-      10: { name: "Salomón Rondón", file: "rondon", wikiQuery: "Salomón Rondón" }
+      0: { 
+        name: "Willy Caballero", 
+        file: "caballero", 
+        wikiQuery: "Willy Caballero",
+        fallback: "Portero argentino legendario del Málaga. Famoso por sus paradas imposibles y su seguridad bajo palos en la época dorada de Champions."
+      },
+      1: { 
+        name: "Martín Demichelis", 
+        file: "demichelis", 
+        wikiQuery: "Martín Demichelis",
+        fallback: "El 'Mariscal' de la defensa. Defensa central argentino con gran jerarquía, liderazgo y salida de balón. Clave en la defensa de Champions."
+      },
+      2: { 
+        name: "Joris Mathijsen", 
+        file: "mathijsen", 
+        wikiQuery: "Joris Mathijsen",
+        fallback: "Defensa central holandés, subcampeón del mundo. Aportó experiencia internacional y solidez a la zaga malaguista."
+      },
+      3: { 
+        name: "Jesús Gámez", 
+        file: "jesus-gamez", 
+        wikiQuery: "Jesús Gámez",
+        fallback: "Eterno capitán y lateral derecho de la cantera. Un ejemplo de compromiso y regularidad durante años en la banda derecha."
+      },
+      4: { 
+        name: "Nacho Monreal", 
+        file: "monreal", 
+        wikiQuery: "Nacho Monreal",
+        fallback: "Lateral izquierdo navarro de gran calidad técnica y recorrido. Sus subidas por banda y centros eran vitales para el equipo."
+      },
+      5: { 
+        name: "Jérémy Toulalan", 
+        file: "toulalan", 
+        wikiQuery: "Jérémy Toulalan",
+        fallback: "El ancla del equipo. Centrocampista francés incansable, recuperaba balones y daba equilibrio. Se ganó el cariño de la grada por su entrega."
+      },
+      6: { 
+        name: "Santi Cazorla", 
+        file: "cazorla", 
+        wikiQuery: "Santi Cazorla",
+        fallback: "Mago asturiano. Su visión de juego, regate y goles de falta directa enamoraron a La Rosaleda. Uno de los jugadores con más clase de la historia."
+      },
+      7: { 
+        name: "Isco Alarcón", 
+        file: "isco", 
+        wikiQuery: "Isco", 
+        fallback: "El Golden Boy malagueño. Talento puro, regate y magia. Lideró al equipo hasta los cuartos de Champions con actuaciones inolvidables."
+      },
+      8: { 
+        name: "Joaquín Sánchez", 
+        file: "joaquin", 
+        wikiQuery: "Joaquín Sánchez (futbolista)", 
+        fallback: "La finta y el sprint. Extremo derecho legendario que aportó alegría, desborde y goles decisivos, incluido el que metió al Málaga en cuartos de Champions."
+      },
+      9: { 
+        name: "Sebastián Fernández", 
+        file: "seba", 
+        wikiQuery: "Sebastián Fernández (futbolista)", 
+        fallback: "Delantero uruguayo conocido como 'Papelito'. Rápido, trabajador y oportunista. Su movilidad abría huecos para los compañeros."
+      },
+      10: { 
+        name: "Salomón Rondón", 
+        file: "rondon", 
+        wikiQuery: "Salomón Rondón",
+        fallback: "El Gladiador venezolano. Delantero potente, gran rematador de cabeza y referencia en ataque. Goles clave para la clasificación histórica."
+      }
     };
 
     // --- VAR GLOBAL ---
@@ -487,15 +540,15 @@
 
     // --- ABRIR MODAL DE LEYENDA ---
     async function openLegendModal(index) {
-      if (!LEGENDS_DATA[index]) return; // Solo para las posiciones titulares mapeadas
+      if (!LEGENDS_DATA[index]) return;
 
       const legend = LEGENDS_DATA[index];
       const modalImg = `./${legend.file}-modal.png`;
       
-      // 1. Mostrar modal con loading
-      showModal("Ojeando al jugador...", "info", null, modalImg);
+      // 1. Mostrar modal con loading y foto
+      showModal("Cargando historia...", "info", null, modalImg);
 
-      // 2. Buscar descripción en Wikipedia usando la query especifica
+      // 2. Intentar Wikipedia
       const searchQuery = legend.wikiQuery || legend.name;
       const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=3&exintro&explaintext&titles=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
       
@@ -504,17 +557,19 @@
         const data = await res.json();
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
-        let desc = "Jugador histórico del Málaga CF.";
         
-        if (pageId !== "-1" && pages[pageId].extract) {
-          desc = pages[pageId].extract;
+        // Si hay extracto válido, lo usamos
+        if (pageId !== "-1" && pages[pageId].extract && pages[pageId].extract.length > 20) {
+          document.getElementById('modalMessage').innerText = pages[pageId].extract;
+        } else {
+          // SI FALLA O ES CORTO -> USA FALLBACK MANUAL
+          throw new Error("Wiki data not good");
         }
-        
-        // 3. Actualizar texto del modal ya abierto
-        document.getElementById('modalMessage').innerText = desc;
 
       } catch (e) {
-        document.getElementById('modalMessage').innerText = "No se pudo cargar la biografía.";
+        // 3. Fallback Manual
+        console.log("Usando descripción manual para " + legend.name);
+        document.getElementById('modalMessage').innerText = legend.fallback;
       }
     }
 
