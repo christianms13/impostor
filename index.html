@@ -9,14 +9,13 @@
     
     <style>
         :root {
-            /* PALETA MÁLAGA CF MODERNA */
             --mcf-sky: #6CABDD;
             --mcf-dark: #0a2c5c;
             --mcf-gold: #D4AF37;
             --white: #ffffff;
             --danger: #ff4757;
             --glass-bg: rgba(255, 255, 255, 0.94);
-            --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.5);
+            --shadow-soft: 0 15px 50px rgba(0, 20, 60, 0.6);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -31,41 +30,50 @@
             background-color: #001433;
         }
 
-        /* --- FONDO PRO --- */
+        /* --- FONDO ANIMADO PRO --- */
         .bg-layer-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg/1200px-Estadio_La_Rosaleda_M%C3%A1laga_CF.jpg') no-repeat center center fixed;
             background-size: cover;
-            z-index: -5; filter: grayscale(20%) contrast(110%);
-        }
-        .bg-layer-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(10, 44, 92, 0.9), rgba(108, 171, 221, 0.8));
-            z-index: -4;
+            z-index: -5; 
+            filter: grayscale(20%) contrast(110%);
+            animation: subtleZoom 60s infinite alternate; /* Zoom lento "vivo" */
         }
         
-        /* EMOJIS FLOTANTES */
+        .bg-layer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10, 44, 92, 0.85), rgba(108, 171, 221, 0.75));
+            z-index: -4;
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite; /* Movimiento de colores */
+        }
+
+        @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* --- EMOJIS AMBIENTALES (SISTEMA NUEVO) --- */
         .emoji-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
         .floating-emoji {
-            position: absolute; bottom: -10vh; font-size: 2rem;
-            animation: floatUp linear infinite; z-index: 0;
+            position: absolute;
+            animation: floatAround linear infinite;
+            z-index: 0;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
         }
 
         /* --- CABECERA --- */
         header { text-align: center; margin-bottom: 30px; z-index: 10; position: relative; }
         .shield {
             width: 110px; height: auto; margin-bottom: 10px;
-            filter: drop-shadow(0 0 25px rgba(255,255,255,0.5));
+            filter: drop-shadow(0 0 25px rgba(255,255,255,0.6));
             animation: breathe 4s ease-in-out infinite;
         }
         @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
@@ -85,15 +93,16 @@
         /* --- CONTENEDOR PRINCIPAL --- */
         .main-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             width: 100%; max-width: 900px;
             border-radius: 30px; padding: 40px;
             box-shadow: var(--shadow-soft);
             text-align: center; position: relative; z-index: 10;
             transition: transform 0.3s ease, opacity 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.6);
         }
 
-        /* --- ELEMENTOS UI --- */
+        /* --- UI ELEMENTS --- */
         input {
             width: 100%; padding: 20px; margin: 15px 0;
             background: #f1f5f9; border: 2px solid #cbd5e1;
@@ -101,7 +110,7 @@
             font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem;
             text-align: center; outline: none; transition: all 0.3s;
         }
-        input:focus { border-color: var(--mcf-sky); background: var(--white); box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.2); }
+        input:focus { border-color: var(--mcf-sky); background: var(--white); box-shadow: 0 0 0 4px rgba(108, 171, 221, 0.3); }
 
         button {
             width: 100%; padding: 22px; margin-top: 15px;
@@ -133,14 +142,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
             transition: transform 0.2s; position: relative;
         }
-        .player-card:hover { transform: translateY(-2px); border-color: var(--mcf-sky); }
         .player-name { font-weight: 700; color: var(--mcf-dark); font-size: 1rem; margin-bottom: 5px; }
         .host-tag { font-size: 0.7rem; background: var(--mcf-gold); color: white; padding: 2px 8px; border-radius: 10px; font-weight: 800; margin-bottom: 5px;}
-        
-        .kick-btn-mini {
-            font-size: 0.7rem; background: #ffeaa7; color: #d63031; 
-            padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none; margin-top: 0;
-        }
+        .kick-btn-mini { font-size: 0.7rem; background: #ffeaa7; color: #d63031; padding: 5px 10px; height: auto; width: auto; box-shadow: none; border: none; margin-top: 0; }
 
         /* --- JUEGO --- */
         .role-container {
@@ -152,15 +156,16 @@
         .word-display { font-family: 'Teko'; font-size: 4rem; color: var(--mcf-dark); line-height: 1; margin-bottom: 15px; }
         .impostor-display { font-family: 'Teko'; font-size: 4.5rem; color: var(--danger); line-height: 1; animation: pulse 2s infinite; }
 
-        /* DESCRIPCIÓN */
+        /* DESCRIPCIÓN CORTITA */
         .desc-wrapper { position: relative; text-align: left; background: var(--white); padding: 20px; border-radius: 15px; border-left: 5px solid var(--mcf-sky); }
         .desc-content { 
-            font-size: 1.05rem; line-height: 1.6; color: #475569; 
-            max-height: 80px; overflow: hidden; transition: max-height 0.5s ease; 
+            font-size: 1.1rem; line-height: 1.5; color: #334155; 
+            max-height: 60px; overflow: hidden; transition: max-height 0.4s ease; font-weight: 500;
         }
-        .desc-content.open { max-height: 600px; }
+        .desc-content.open { max-height: 400px; }
+        
         .desc-fade {
-            position: absolute; bottom: 40px; left: 0; width: 100%; height: 40px;
+            position: absolute; bottom: 40px; left: 0; width: 100%; height: 30px;
             background: linear-gradient(transparent, var(--white)); pointer-events: none;
             transition: opacity 0.3s;
         }
@@ -169,8 +174,7 @@
         .toggle-btn {
             background: none; border: none; color: var(--mcf-sky); font-weight: 800;
             padding: 10px 0 0 0; width: 100%; text-align: center; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: none; margin: 0;
-            font-size: 0.9rem;
+            display: block; box-shadow: none; margin: 0; font-size: 0.85rem;
         }
         .toggle-btn:hover { background: none; text-decoration: underline; transform: none; }
 
@@ -186,8 +190,11 @@
             display: flex; align-items: center; justify-content: center;
             font-family: 'Teko'; font-size: 1.5rem; margin-right: 15px; color: var(--mcf-sky);
         }
-        .player-turn-name { font-size: 1.1rem; font-weight: 600; }
+        .player-turn-name { font-size: 1.1rem; font-weight: 600; text-align: left; }
         .turn-badge { margin-left: auto; background: var(--mcf-gold); color: var(--mcf-dark); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; font-weight: 900; }
+        
+        /* Emoji extra en lista de turnos */
+        .turn-emoji { margin-right: 10px; font-size: 1.2rem; }
 
         /* --- COPY CODE BUTTON --- */
         #roomIdDisplay {
@@ -198,10 +205,10 @@
         }
         #roomIdDisplay:active { transform: scale(0.98); }
 
-        /* --- MODAL (Solo para errores/info, no copy) --- */
+        /* --- MODAL PERSONALIZADO --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 20, 40, 0.8); backdrop-filter: blur(5px);
+            background: rgba(0, 20, 40, 0.85); backdrop-filter: blur(8px);
             z-index: 1000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
@@ -243,7 +250,7 @@
 
     <div id="screen-menu" class="main-card">
         <h2 style="font-family:'Teko'; font-size: 2.5rem; margin:0 0 10px 0;">FICHAJE NUEVO ✍️</h2>
-        <input type="text" id="myUsername" placeholder="Nombre del Jugador" maxlength="12">
+        <input type="text" id="myUsername" placeholder="Tu Nombre de Jugador" maxlength="12">
         <button onclick="createGame()">CREAR VESTUARIO 🆕</button>
         <div style="margin: 20px 0; font-weight: 800; color: #94a3b8; font-size: 0.9rem;">— O —</div>
         <input type="text" id="joinInput" placeholder="Código del Partido">
@@ -304,19 +311,31 @@
     </div>
 
     <script>
-        // --- EMOJIS FLOTANTES (MÁS VARIADOS Y VISIBLES) ---
+        // --- EMOJIS FLOTANTES "VIVOS" ---
         const emojiContainer = document.getElementById('emojiContainer');
         const emojis = ["⚽", "💙", "🤍", "🐟", "🌊", "🏟️", "👟", "🥘", "🌞", "🌴", "🏆", "🥇"];
         
-        for(let i=0; i<60; i++) {
+        // Generar emojis en posiciones aleatorias
+        for(let i=0; i<50; i++) {
             let el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'floating-emoji';
+            
+            // Posición inicial aleatoria en toda la pantalla
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = (Math.random() * 2.5 + 1) + 'rem';
-            el.style.opacity = (Math.random() * 0.5 + 0.3); // 0.3 a 0.8 opacidad
-            el.style.animationDuration = (Math.random() * 25 + 15) + 's';
-            el.style.animationDelay = Math.random() * 20 + 's';
+            el.style.top = Math.random() * 100 + 'vh';
+            
+            // Tamaño variado
+            el.style.fontSize = (Math.random() * 2.5 + 1.5) + 'rem';
+            // Opacidad visible
+            el.style.opacity = (Math.random() * 0.5 + 0.3);
+            
+            // Animación
+            // duration: 20-40s (muy lento y relajante)
+            el.style.animationDuration = (Math.random() * 20 + 20) + 's';
+            // delay negativo: para que ya estén moviéndose al cargar
+            el.style.animationDelay = (Math.random() * -40) + 's';
+            
             emojiContainer.appendChild(el);
         }
 
@@ -368,7 +387,7 @@
           "Michael Jordan", "LeBron James", "Kobe Bryant", "Shaquille O'Neal", "Stephen Curry", "Magic Johnson", "Larry Bird", "Pau Gasol", "Marc Gasol", "Luka Doncic", "Giannis Antetokounmpo", "Kevin Durant", "James Harden", "Nikola Jokic", "Victor Wembanyama", "Dennis Rodman", "Scottie Pippen", "Kyrie Irving", "Allen Iverson", "Dirk Nowitzki", "Tim Duncan", "Yao Ming", "Steve Nash", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Málaga CF", "La Rosaleda", "Isco", "Santi Cazorla", "Dely Valdés", "Ruud van Nistelrooy", "Jeremy Toulalan", "Willy Caballero", "Kameni", "Duda", "Weligton", "Julio Baptista", "Joaquín Sánchez", "Salomón Rondón", "Camacho", "Sandro Ramírez", "Eliseu", "Manuel Pellegrini", "Basti", "Lionel Messi", "Cristiano Ronaldo", "Diego Maradona", "Pelé", "Johan Cruyff", "Zinedine Zidane", "Ronaldo Nazario", "Ronaldinho", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos", "Iker Casillas", "Gerard Piqué", "Carles Puyol", "Lamine Yamal", "Jude Bellingham", "Kylian Mbappé", "Erling Haaland", "Vinicius Jr", "Neymar", "Luis Suárez", "Luka Modric", "Toni Kroos", "David Beckham", "Antoine Griezmann", "Thibaut Courtois", "Oliver y Benji", "Balón de Oro", "Mundial de Fútbol", "Champions League", "Árbitro", "VAR", "Penalti", "Tarjeta Roja", "Gol", "Portería", "Darth Vader", "Luke Skywalker", "Princesa Leia", "Yoda", "Han Solo", "Chewbacca", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Dumbledore", "Hogwarts", "Frodo Bolsón", "Gandalf", "Gollum", "Sauron", "El Anillo Único", "Spiderman", "Batman", "Joker", "Superman", "Iron Man", "Capitán América", "Thor", "Hulk", "Thanos", "Wonder Woman", "Deadpool", "Wolverine", "Mickey Mouse", "Bob Esponja", "Homer Simpson", "Shrek", "Burro", "Fiona", "Buzz Lightyear", "Woody", "Elsa", "Olaf", "Barbie", "Ken", "Jack Sparrow", "Jon Snow", "Daenerys Targaryen", "Walter White", "Eleven", "Miércoles Addams", "El Profesor", "Super Mario", "Luigi", "Princesa Peach", "Bowser", "Yoshi", "Toad", "Pikachu", "Charizard", "Pokéball", "Ash Ketchum", "Sonic", "Link", "Zelda", "Steve", "Creeper", "Kratos", "Master Chief", "Among Us", "Impostor", "Tripulante", "Fortnite", "Minecraft", "Roblox", "League of Legends", "FIFA", "GTA", "Call of Duty", "Tetris", "Pac-Man", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Will Smith", "Johnny Depp", "Angelina Jolie", "Jennifer Lawrence", "Marilyn Monroe", "Elvis Presley", "Michael Jackson", "Freddie Mercury", "Madonna", "Shakira", "Beyoncé", "Rihanna", "Taylor Swift", "Lady Gaga", "Rosalía", "Bad Bunny", "Eminem", "Perro", "Gato", "Hamster", "Conejo", "Loro", "Pez", "Tortuga", "Vaca", "Cerdo", "Oveja", "Caballo", "Gallina", "Gallo", "Pato", "León", "Tigre", "Elefante", "Jirafa", "Oso", "Panda", "Mono", "Gorila", "Lobo", "Zorro", "Águila", "Búho", "Pingüino", "Delfín", "Ballena", "Tiburón", "Pulpo", "Cocodrilo", "Serpiente", "Rana", "Dinosaurio", "T-Rex", "Dragón", "Unicornio", "Móvil", "iPhone", "Ordenador", "Portátil", "Televisión", "Mando", "Cámara", "Reloj", "Lámpara", "Bombilla", "Vela", "Mechero", "Caja", "Maleta", "Mochila", "Bolso", "Cartera", "Llaves", "Gafas", "Gafas de sol", "Paraguas", "Mesa", "Silla", "Sofá", "Cama", "Almohada", "Manta", "Espejo", "Peine", "Cepillo de dientes", "Pasta de dientes", "Jabón", "Champú", "Toalla", "Papel higiénico", "Escoba", "Fregona", "Lavadora", "Nevera", "Microondas", "Horno", "Sartén", "Olla", "Plato", "Vaso", "Taza", "Cuchillo", "Tenedor", "Cuchara", "Botella", "Libro", "Cuaderno", "Bolígrafo", "Lápiz", "Tijeras", "Pegamento", "Mapa", "Bandera", "Moneda", "Billete", "Tarjeta de crédito", "Anillo", "Collar", "Pizza", "Hamburguesa", "Patatas Fritas", "Sushi", "Tacos", "Burrito", "Pasta", "Arroz", "Huevo", "Pan", "Queso", "Chocolate", "Helado", "Tarta", "Fruta", "Manzana", "Plátano", "Naranja", "Fresa", "Sandía", "Leche", "Café", "Cerveza", "Vino", "Coca-Cola", "Agua", "Coche", "Moto", "Bicicleta", "Autobús", "Tren", "Metro", "Avión", "Barco", "Helicóptero", "Cohete", "Médico", "Enfermera", "Policía", "Bombero", "Profesor", "Cocinero", "Camarero", "Astronauta", "Piloto", "Soldado", "Rey", "Reina", "Pirata", "Ninja", "Vampiro", "Zombi", "Fantasma", "Bruja", "Robot", "Alien", "Amor", "Odio", "Miedo", "Alegría", "Tristeza", "Suerte", "Tiempo", "Vida", "Muerte", "Boda", "Cumpleaños", "Navidad", "Halloween", "Verano", "Invierno", "Sol", "Luna", "Lluvia", "Nieve", "Fuego", "Playa", "Montaña", "Ciudad", "Bosque", "Desierto", "Isla", "Hospital", "Escuela", "Supermercado", "Cine", "Restaurante", "Aeropuerto", "Parque", "Estadio", "Casa", "Castillo", "España", "Madrid", "Barcelona", "Málaga", "París", "Torre Eiffel", "Londres", "Nueva York", "Estatua de la Libertad", "Roma", "Coliseo", "Egipto", "Pirámides", "China", "Muralla China", "Japón", "Espacio"
         ];
 
-        // --- LÓGICA DE JUEGO ---
+        // --- LÓGICA DE JUEGO & CONEXIÓN ---
         let peer = null;
         let connections = [];
         let isHost = false;
@@ -385,12 +404,13 @@
             setTimeout(() => { el.style.opacity = 1; el.style.transform = "translateY(0)"; }, 50);
         }
 
+        // WIKIPEDIA API (DEFINICIONES CORTAS)
         async function getWordAndDescription() {
             const rawWord = PALABRAS_JUEGO[Math.floor(Math.random() * PALABRAS_JUEGO.length)];
-            // Query expandida para descripciones más largas
-            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&exchars=800&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
+            // Pedimos 2 oraciones para que sea tipo diccionario
+            const url = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=2&exintro&explaintext&titles=${encodeURIComponent(rawWord)}&format=json&origin=*`;
             
-            let description = "No se encontró información detallada. ¡Confía en tu instinto!"; 
+            let description = "Definición no disponible. ¡Usa tu conocimiento!"; 
 
             try {
                 const res = await fetch(url);
@@ -400,12 +420,12 @@
                 
                 if (pageId !== "-1") {
                     const extract = pages[pageId].extract;
-                    if (extract && extract.length > 10) {
+                    if (extract && extract.length > 5) {
                         description = extract;
                     }
                 }
             } catch (e) {
-                console.log("Wiki Error", e);
+                console.log("Wiki fetch error:", e);
             }
 
             return { title: rawWord, desc: description };
@@ -498,6 +518,7 @@
         }
 
         async function startGame() {
+            // Eliminada restricción de jugadores
             const btn = document.getElementById('btnStart');
             btn.innerText = "⏳ SORTEANDO CAMPO...";
             btn.disabled = true;
@@ -547,6 +568,9 @@
                 `;
             }
 
+            // Emojis aleatorios para turnos
+            const turnEmojis = ["🥅", "👟", "🧤", "🏆", "🥇", "⚽", "🏟️", "🟨"];
+            
             const listContainer = document.getElementById('turnOrderList');
             listContainer.innerHTML = '';
             orderList.forEach((name, index) => {
@@ -555,10 +579,13 @@
                 
                 let badge = '';
                 if(index === 0) badge = '<span class="turn-badge">EMPIEZA</span>';
+                
+                // Emoji random
+                const randEmoji = turnEmojis[Math.floor(Math.random() * turnEmojis.length)];
 
                 row.innerHTML = `
                     <div class="dorsal-circle">${index + 1}</div>
-                    <div class="player-turn-name">${name}</div>
+                    <div class="player-turn-name"><span class="turn-emoji">${randEmoji}</span> ${name}</div>
                     ${badge}
                 `;
                 listContainer.appendChild(row);
@@ -652,18 +679,15 @@
             
             // Feedback visual simple (sin modal)
             const originalText = text;
-            const originalColor = el.style.backgroundColor;
-            const originalBorder = el.style.borderColor;
-            
             el.innerText = "¡COPIADO! ✅";
             el.style.backgroundColor = "#d1f2eb";
             el.style.borderColor = "#2ed573";
             
             setTimeout(() => {
                 el.innerText = originalText;
-                el.style.backgroundColor = originalColor;
-                el.style.borderColor = originalBorder;
-            }, 1200);
+                el.style.backgroundColor = "#eef2f6";
+                el.style.borderColor = "#94a3b8";
+            }, 1000);
         }
     </script>
 </body>
